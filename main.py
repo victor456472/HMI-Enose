@@ -74,6 +74,9 @@ class Application(QMainWindow):
             'METANO_s2[PPM]':[],
         })
 
+        #gestion de recursos
+        self.rawdata_counter=0
+
         self.read_ports()
     
     def read_ports(self):
@@ -123,7 +126,24 @@ class Application(QMainWindow):
             self.df=self.df.append(new_row, ignore_index=True)
             print(self.df)
         elif(fin==1):
-            self.df.to_csv('datos_recolectados/rawdata.csv')
+            #df2=pd.read_csv('indices/indices.csv')
+            #print(df2.shape)
+            file_names=os.listdir('datos_recolectados')
+
+            if file_names: #si el directorio esta lleno
+                same_name_file=True
+                i=0
+                while same_name_file:
+                    for name in file_names:
+                        if(name==f'rawdata{i}.csv'):
+                            i=i+1
+                        else:
+                            same_name_file=False
+                self.df.to_csv(f'datos_recolectados/rawdata{i}.csv')
+                    
+            else: #si el directorio esta vacio
+                self.df.to_csv('datos_recolectados/rawdata0.csv')
+
             self.df = pd.DataFrame({
                 'ALCOHOL_s1[PPM]':[],
                 'MONOXIDO DE CARBONO_S1[PPM]':[],
