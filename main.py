@@ -84,12 +84,12 @@ class Application(QMainWindow):
         if not self.serial.canReadLine(): return
         rx = self.serial.readLine()
         x=str(rx, 'utf-8').strip()
-        x=float(x)
+        #x=float(x)
         print(x)
-        self.y = self.y[1:]
-        self.y.append(x)
-        self.plt.clear()
-        self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        #self.y = self.y[1:]
+        #self.y.append(x)
+        #self.plt.clear()
+        #self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
     
     def control_normalizar(self):
         self.showNormal()
