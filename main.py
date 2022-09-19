@@ -59,6 +59,20 @@ class Application(QMainWindow):
         self.plt = pg.PlotWidget(title='grafica')
         self.ui.grafica.addWidget(self.plt)
 
+        #dataframes
+        self.df = pd.DataFrame({
+            'ALCOHOL_s1[PPM]':[],
+            'MONOXIDO DE CARBONO_S1[PPM]':[],
+            'DIHIDROGENO_s1[PPM]':[],
+            'ACETONA_s1[PPM]':[],
+            'METANO_s1[PPM]':[],
+            'ALCOHOL_s2[PPM]':[],
+            'MONOXIDO DE CARBONO_S2[PPM]':[],
+            'DIHIDROGENO_s2[PPM]':[],
+            'ACETONA_s2[PPM]':[],
+            'METANO_s2[PPM]':[],
+        })
+
         self.read_ports()
     
     def read_ports(self):
@@ -86,11 +100,25 @@ class Application(QMainWindow):
         rx = self.serial.readLine()
         x=str(rx, 'utf-8').strip()
         x=x.split(',')
-        print(f'{x[0]} -- {x[1]} -- {x[2]} -- {x[3]} -- {x[4]} -- {x[5]} -- {x[6]} -- {x[7]} -- {x[8]} -- {x[9]}')
+        #print(f'{x[0]} -- {x[1]} -- {x[2]} -- {x[3]} -- {x[4]} -- {x[5]} -- {x[6]} -- {x[7]} -- {x[8]} -- {x[9]}')
         self.y = self.y[1:]
         self.y.append(float(x[0]))
         self.plt.clear()
         self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        new_row={
+            'ALCOHOL_s1[PPM]':float(x[0]),
+            'MONOXIDO DE CARBONO_S1[PPM]':float(x[1]),
+            'DIHIDROGENO_s1[PPM]':float(x[2]),
+            'ACETONA_s1[PPM]':float(x[3]),
+            'METANO_s1[PPM]':float(x[4]),
+            'ALCOHOL_s2[PPM]':float(x[5]),
+            'MONOXIDO DE CARBONO_S2[PPM]':float(x[6]),
+            'DIHIDROGENO_s2[PPM]':float(x[7]),
+            'ACETONA_s2[PPM]':float(x[8]),
+            'METANO_s2[PPM]':float(x[9]),
+        }
+        self.df=self.df.append(new_row, ignore_index=True)
+        print(self.df)
     
     def control_normalizar(self):
         self.showNormal()
