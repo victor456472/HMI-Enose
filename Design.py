@@ -265,6 +265,109 @@ class Ui_MainWindow(object):
         self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_6.setObjectName("frame_6")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_6)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_10.addItem(spacerItem1)
+        self.label_3 = QtWidgets.QLabel(self.frame_6)
+        self.label_3.setMinimumSize(QtCore.QSize(0, 30))
+        self.label_3.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_3.setStyleSheet("color: rgb(146,208,80);\n"
+"font:87 12pt \"cooper black\"")
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout_10.addWidget(self.label_3)
+        self.frame_11 = QtWidgets.QFrame(self.frame_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_11.sizePolicy().hasHeightForWidth())
+        self.frame_11.setSizePolicy(sizePolicy)
+        self.frame_11.setMaximumSize(QtCore.QSize(16777215, 60))
+        self.frame_11.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_11.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_11.setObjectName("frame_11")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_11)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        spacerItem2 = QtWidgets.QSpacerItem(100, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem2)
+        self.lineEdit_tamano = QtWidgets.QLineEdit(self.frame_11)
+        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(144, 30))
+        self.lineEdit_tamano.setMaximumSize(QtCore.QSize(144, 16777215))
+        self.lineEdit_tamano.setStyleSheet("QLineEdit{\n"
+"    background-color:rgb(17,17,17);\n"
+"    border: 3px solid #92d050;\n"
+"    border-radius:5px;\n"
+"    min-width:6em;\n"
+"    color:rgb(255,208,80);\n"
+"    font:87 15pt \"cooper black\";\n"
+"}\n"
+"\n"
+"146,208,80")
+        self.lineEdit_tamano.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_tamano.setObjectName("lineEdit_tamano")
+        self.horizontalLayout_5.addWidget(self.lineEdit_tamano)
+        self.label_5 = QtWidgets.QLabel(self.frame_11)
+        self.label_5.setMinimumSize(QtCore.QSize(30, 30))
+        self.label_5.setMaximumSize(QtCore.QSize(40, 16777215))
+        self.label_5.setStyleSheet("color: rgb(146,208,80);\n"
+"font:87 12pt \"cooper black\"")
+        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_5.setObjectName("label_5")
+        self.horizontalLayout_5.addWidget(self.label_5)
+        spacerItem3 = QtWidgets.QSpacerItem(100, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem3)
+        self.verticalLayout_10.addWidget(self.frame_11)
+        self.label_4 = QtWidgets.QLabel(self.frame_6)
+        self.label_4.setMinimumSize(QtCore.QSize(0, 30))
+        self.label_4.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_4.setStyleSheet("color: rgb(146,208,80);\n"
+"font:87 12pt \"cooper black\"")
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_10.addWidget(self.label_4)
+        self.frame_12 = QtWidgets.QFrame(self.frame_6)
+        self.frame_12.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_12.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_12.setObjectName("frame_12")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_12)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem4)
+        self.comboBox_baudrate_2 = QtWidgets.QComboBox(self.frame_12)
+        self.comboBox_baudrate_2.setMinimumSize(QtCore.QSize(174, 0))
+        self.comboBox_baudrate_2.setMaximumSize(QtCore.QSize(174, 16777215))
+        self.comboBox_baudrate_2.setStyleSheet("QComboBox{\n"
+"    border: 3px solid #111111;\n"
+"    border-radius:5px;\n"
+"    min-width:6em;\n"
+"    color:rgb(218,0,55);\n"
+"    font:87 10pt \"cooper black\";\n"
+"}\n"
+"\n"
+"QComboBox::drop-down{\n"
+"    subcontrol-origin:padding;\n"
+"    subcontrol-position:top right;\n"
+"    width: 15px;\n"
+"    border-left-width:3px;\n"
+"    border-left-color:#111111;\n"
+"    border-left-style:solid;\n"
+"    border-top-right-radius:4px;\n"
+"    border-bottom-right-radius:4px;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView{\n"
+"    background: #2c2c2c;\n"
+"    selection-background-color: #ff0037;\n"
+"    color:#111111;\n"
+"}")
+        self.comboBox_baudrate_2.setObjectName("comboBox_baudrate_2")
+        self.horizontalLayout_6.addWidget(self.comboBox_baudrate_2)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem5)
+        self.verticalLayout_10.addWidget(self.frame_12)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_10.addItem(spacerItem6)
         self.horizontalLayout_2.addWidget(self.frame_6)
         self.frame_4 = QtWidgets.QFrame(self.frame_2)
         self.frame_4.setMinimumSize(QtCore.QSize(0, 0))
@@ -273,9 +376,86 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_4)
+        self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
+        self.verticalLayout_5.setSpacing(9)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.frame_14 = QtWidgets.QFrame(self.frame_4)
+        self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_14.setObjectName("frame_14")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_14)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem7)
+        self.frame_13 = QtWidgets.QFrame(self.frame_14)
+        self.frame_13.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_13.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_13.setObjectName("frame_13")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_13)
+        self.verticalLayout_11.setObjectName("verticalLayout_11")
+        self.frame_9 = QtWidgets.QFrame(self.frame_13)
+        self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.frame_9)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_9.addItem(spacerItem8)
+        self.boton_generar_datos = QtWidgets.QPushButton(self.frame_9)
+        self.boton_generar_datos.setMinimumSize(QtCore.QSize(200, 30))
+        self.boton_generar_datos.setMaximumSize(QtCore.QSize(267, 16777215))
+        self.boton_generar_datos.setStyleSheet("QPushButton{\n"
+"    background-color:rgb(146,208,80);\n"
+"    font:87 12pt \"cooper black\";\n"
+"    color:rgb(17,17,17);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color:rgb(17,17,17);\n"
+"    font:87 12pt \"cooper black\";\n"
+"    color:rgb(146,208,80);\n"
+"}")
+        self.boton_generar_datos.setObjectName("boton_generar_datos")
+        self.verticalLayout_9.addWidget(self.boton_generar_datos)
+        self.verticalLayout_11.addWidget(self.frame_9)
+        self.frame_10 = QtWidgets.QFrame(self.frame_13)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
+        self.frame_10.setSizePolicy(sizePolicy)
+        self.frame_10.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_10.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_10.setObjectName("frame_10")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_10)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.boton_borrar_muestra = QtWidgets.QPushButton(self.frame_10)
+        self.boton_borrar_muestra.setMinimumSize(QtCore.QSize(140, 30))
+        self.boton_borrar_muestra.setMaximumSize(QtCore.QSize(267, 16777215))
+        self.boton_borrar_muestra.setStyleSheet("QPushButton{\n"
+"    background-color:rgb(146,208,80);\n"
+"    font:87 12pt \"cooper black\";\n"
+"    color:rgb(17,17,17);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color:rgb(17,17,17);\n"
+"    font:87 12pt \"cooper black\";\n"
+"    color:rgb(146,208,80);\n"
+"}")
+        self.boton_borrar_muestra.setObjectName("boton_borrar_muestra")
+        self.verticalLayout_8.addWidget(self.boton_borrar_muestra)
+        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_8.addItem(spacerItem9)
+        self.verticalLayout_11.addWidget(self.frame_10)
+        self.horizontalLayout_7.addWidget(self.frame_13)
+        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem10)
+        self.verticalLayout_5.addWidget(self.frame_14)
         self.horizontalLayout_2.addWidget(self.frame_4)
         self.horizontalLayout_2.setStretch(0, 3)
-        self.horizontalLayout_2.setStretch(1, 2)
+        self.horizontalLayout_2.setStretch(1, 3)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
         self.frame_5 = QtWidgets.QFrame(self.frame_2)
         self.frame_5.setStyleSheet("background-color:rgb(44,44,44);\n"
@@ -310,3 +490,8 @@ class Ui_MainWindow(object):
         self.boton_conectar.setText(_translate("MainWindow", "CONECTAR"))
         self.boton_actualizar.setText(_translate("MainWindow", "ACTUALIZAR"))
         self.boton_desconectar.setText(_translate("MainWindow", "DESCONECTAR"))
+        self.label_3.setText(_translate("MainWindow", "Tamaño"))
+        self.label_5.setText(_translate("MainWindow", "cm"))
+        self.label_4.setText(_translate("MainWindow", "Categoria"))
+        self.boton_generar_datos.setText(_translate("MainWindow", "Generar datos"))
+        self.boton_borrar_muestra.setText(_translate("MainWindow", "Borrar muestra"))
