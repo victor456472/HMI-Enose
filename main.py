@@ -5,6 +5,7 @@ from PyQt5.QtCore import QIODevice, QPoint
 from PyQt5 import QtCore, QtWidgets
 import pyqtgraph as pg
 import numpy as np
+import pandas as pd
 from Design import Ui_MainWindow
 
 class Application(QMainWindow):
@@ -84,12 +85,12 @@ class Application(QMainWindow):
         if not self.serial.canReadLine(): return
         rx = self.serial.readLine()
         x=str(rx, 'utf-8').strip()
-        #x=float(x)
-        print(x)
-        #self.y = self.y[1:]
-        #self.y.append(x)
-        #self.plt.clear()
-        #self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        x=x.split(',')
+        print(f'{x[0]} -- {x[1]} -- {x[2]} -- {x[3]} -- {x[4]} -- {x[5]} -- {x[6]} -- {x[7]} -- {x[8]} -- {x[9]}')
+        self.y = self.y[1:]
+        self.y.append(float(x[0]))
+        self.plt.clear()
+        self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
     
     def control_normalizar(self):
         self.showNormal()
