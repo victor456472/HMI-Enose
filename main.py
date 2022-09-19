@@ -157,7 +157,6 @@ class Application(QMainWindow):
                 'METANO_s2[PPM]':[],
             })
             
-    
     def control_normalizar(self):
         self.showNormal()
         self.ui.boton_normalizar.hide()
