@@ -334,10 +334,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem4)
-        self.comboBox_baudrate_2 = QtWidgets.QComboBox(self.frame_12)
-        self.comboBox_baudrate_2.setMinimumSize(QtCore.QSize(174, 0))
-        self.comboBox_baudrate_2.setMaximumSize(QtCore.QSize(174, 16777215))
-        self.comboBox_baudrate_2.setStyleSheet("QComboBox{\n"
+        self.comboBox_categoria = QtWidgets.QComboBox(self.frame_12)
+        self.comboBox_categoria.setMinimumSize(QtCore.QSize(96, 0))
+        self.comboBox_categoria.setMaximumSize(QtCore.QSize(174, 16777215))
+        self.comboBox_categoria.setStyleSheet("QComboBox{\n"
 "    border: 3px solid #111111;\n"
 "    border-radius:5px;\n"
 "    min-width:6em;\n"
@@ -361,8 +361,8 @@ class Ui_MainWindow(object):
 "    selection-background-color: #ff0037;\n"
 "    color:#111111;\n"
 "}")
-        self.comboBox_baudrate_2.setObjectName("comboBox_baudrate_2")
-        self.horizontalLayout_6.addWidget(self.comboBox_baudrate_2)
+        self.comboBox_categoria.setObjectName("comboBox_categoria")
+        self.horizontalLayout_6.addWidget(self.comboBox_categoria)
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem5)
         self.verticalLayout_10.addWidget(self.frame_12)

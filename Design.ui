@@ -727,10 +727,10 @@ font:87 12pt &quot;cooper black&quot;</string>
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QComboBox" name="comboBox_baudrate_2">
+                       <widget class="QComboBox" name="comboBox_categoria">
                         <property name="minimumSize">
                          <size>
-                          <width>174</width>
+                          <width>96</width>
                           <height>0</height>
                          </size>
                         </property>
