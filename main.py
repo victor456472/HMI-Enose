@@ -74,7 +74,8 @@ class Application(QMainWindow):
             'ACETONA_s2[PPM]':[],
             'METANO_s2[PPM]':[],
         })
-        self.df2 =pd.Dataframe({
+        self.df2 =pd.DataFrame({
+            'identifier':[],
             'prom_alcohol_s1[PPM]':[],
             'max_val_alcohol_s1[PPM]':[],
             'prom_alcohol_s2[PPM]':[],
@@ -86,13 +87,13 @@ class Application(QMainWindow):
             'razon_max_value_metano_alcohol_s1':[],
             'razon_max_value_metano_alcohol_s2':[],
             'tamaño[cm]':[],
-            'categoria':[],
+            'categoria':[]
         })
 
         #generar y borrar datos
         self.deshabilitar_generar_datos()
         self.deshabilitar_borrar_muestra()
-        self.ui.boton_generar_datos.clicked.connect(self.generar_datos)
+        self.ui.boton_generar_datos.clicked.connect(self.calcular_values_dataframe)
         self.ui.boton_borrar_muestra.clicked.connect(self.borrar_muestra)
 
         #gestion de recursos
@@ -101,7 +102,8 @@ class Application(QMainWindow):
         self.categorias=['1', '2', '3', '4', '5', '6', '7']
 
         #entrada manual de datos
-
+        self.ui.comboBox_categoria.addItems(self.categorias)
+        self.ui.comboBox_categoria.setCurrentText('1')
 
         self.read_ports()
     
@@ -218,25 +220,22 @@ class Application(QMainWindow):
             self.habilitar_generar_datos()
 
     
-    def generar_datos(self):
+    def generar_rawdata(self):
         file_names=os.listdir('datos_recolectados')
-        file_names2=os.listdir('dataframe')
-
         if file_names: #si el directorio esta lleno
             same_name_file=True
-            i=0
+            self.rawdata_counter=0
             while same_name_file:
                 for name in file_names:
-                    if(name==f'rawdata{i}.csv'):
-                        i=i+1
+                    if(name==f'rawdata{self.rawdata_counter}.csv'):
+                        self.rawdata_counter=self.rawdata_counter+1
                     else:
                         same_name_file=False
-            self.df.to_csv(f'datos_recolectados/rawdata{i}.csv')     
+            self.df.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
             self.df.to_csv('datos_recolectados/rawdata0.csv')
-
-        self.calcular_values_dataframe()
-
+    
+    def resetear_rawdata(self):
         self.df = pd.DataFrame({
             'ALCOHOL_s1[PPM]':[],
             'MONOXIDO DE CARBONO_S1[PPM]':[],
@@ -250,11 +249,79 @@ class Application(QMainWindow):
             'METANO_s2[PPM]':[],
         })
 
-        self.deshabilitar_generar_datos()
-        self.deshabilitar_borrar_muestra()
-    
+        
     def calcular_values_dataframe(self):
-        pass
+        categoria=self.ui.comboBox_categoria.currentText()
+        try:
+            tamano=float(self.ui.lineEdit_tamano.text().strip())
+            self.generar_rawdata()
+            self.generar_dataframe(tamano, categoria)
+            self.resetear_dataframe()
+            self.resetear_rawdata()
+            self.deshabilitar_generar_datos()
+            self.deshabilitar_borrar_muestra()
+        except:
+            mensaje=QMessageBox()
+            mensaje.setWindowTitle("Error")
+            mensaje.setIcon(QMessageBox.Warning)
+            mensaje.setText("ingresa todos los campos")
+            mensaje.exec_()
+
+    def generar_dataframe(self, size, cat):
+        promedio_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].mean()
+        max_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].max()
+        promedio_alcohol_s2=self.df['ALCOHOL_s2[PPM]'].mean()
+        max_alcohol_s2=self.df['ALCOHOL_s2[PPM]'].max()
+        promedio_metano_s1=self.df['METANO_s1[PPM]'].mean()
+        max_metano_s1=self.df['METANO_s1[PPM]'].max()
+        promedio_metano_s2=self.df['METANO_s2[PPM]'].mean()
+        max_metano_s2=self.df['METANO_s2[PPM]'].max()
+        razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
+        razon_max_metano_alcohol_s2=max_metano_s2/max_alcohol_s2
+        #print(f'{promedio_alcohol_s1} -- {max_alcohol_s1} -- {promedio_alcohol_s2} -- {max_alcohol_s2} -- {promedio_metano_s1} -- {max_metano_s1} -- {promedio_metano_s2} -- {max_metano_s2} -- {razon_max_metano_alcohol_s1} -- {razon_max_metano_alcohol_s2} -- {tamano} -- {categoria}')
+        file_names2=os.listdir('dataframe')
+        new_row2={
+            'identifier':self.rawdata_counter,
+            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,
+            'max_val_alcohol_s1[PPM]':max_alcohol_s1,
+            'prom_alcohol_s2[PPM]':promedio_alcohol_s2,
+            'max_val_alcohol_s2[PPM]':max_alcohol_s2,
+            'prom_metano_s1[PPM]':promedio_metano_s1,
+            'max_val_metano_s1[PPM]':max_metano_s2,
+            'prom_metano_s2[PPM]':promedio_metano_s2,
+            'max_val_metano_s2[PPM]':max_metano_s2,
+            'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
+            'razon_max_value_metano_alcohol_s2':razon_max_metano_alcohol_s2,
+            'tamaño[cm]':size,
+            'categoria':cat
+        }
+        print(self.df2)
+        if file_names2:
+            df3=pd.read_csv('dataframe/dataframe.csv')
+            print(df3)
+            df3=df3.append(new_row2, ignore_index=True)
+            df3.to_csv('dataframe/dataframe.csv', index=False)
+        else:
+            self.df2=self.df2.append(new_row2, ignore_index=True)
+            self.df2.to_csv('dataframe/dataframe.csv', index=False)
+    
+    def resetear_dataframe(self):
+        self.df2 =pd.DataFrame({
+            'identifier':[],
+            'prom_alcohol_s1[PPM]':[],
+            'max_val_alcohol_s1[PPM]':[],
+            'prom_alcohol_s2[PPM]':[],
+            'max_val_alcohol_s2[PPM]':[],
+            'prom_metano_s1[PPM]':[],
+            'max_val_metano_s1[PPM]':[],
+            'prom_metano_s2[PPM]':[],
+            'max_val_metano_s2[PPM]':[],
+            'razon_max_value_metano_alcohol_s1':[],
+            'razon_max_value_metano_alcohol_s2':[],
+            'tamaño[cm]':[],
+            'categoria':[]
+        })
+
 
     def borrar_muestra(self):
         self.df = pd.DataFrame({
