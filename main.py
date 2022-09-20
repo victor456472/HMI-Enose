@@ -47,7 +47,8 @@ class Application(QMainWindow):
         self.serial=QSerialPort()
         self.ui.boton_actualizar.clicked.connect(self.read_ports)
         self.ui.boton_conectar.clicked.connect(self.serial_connect)
-        self.ui.boton_desconectar.clicked.connect(lambda: self.serial.close())
+        self.ui.boton_desconectar.hide()
+        self.ui.boton_desconectar.clicked.connect(self.serial_disconnect)
 
         #lectura de datos
         self.serial.readyRead.connect(self.read_data)
@@ -74,6 +75,10 @@ class Application(QMainWindow):
             'METANO_s2[PPM]':[],
         })
 
+        #generar y datos
+        self.ui.boton_generar_datos.clicked.connect(self.generar_datos)
+        self.ui.boton_borrar_muestra.clicked.connect(self.borrar_muestra)
+
         #gestion de recursos
         self.rawdata_counter=0
 
@@ -98,6 +103,30 @@ class Application(QMainWindow):
         self.serial.setBaudRate(int(self.baud))
         self.serial.setPortName(self.port)
         self.serial.open(QIODevice.ReadWrite)
+        self.ui.boton_desconectar.show()
+        self.ui.boton_desconectar.setEnabled(True)
+        self.ui.boton_conectar.setStyleSheet("background-color:rgb(17,17,17);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(218,0,55);")
+        self.ui.boton_conectar.setText("CONECTADO")
+        self.ui.boton_conectar.setEnabled(False)
+    
+    def serial_disconnect(self):
+        self.ui.boton_desconectar.hide()
+        self.ui.boton_conectar.setEnabled(True)
+        self.ui.boton_conectar.setText("CONECTAR")
+        self.ui.boton_conectar.setStyleSheet("QPushButton{"
+                                             "background-color:rgb(146,208,80);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(17,17,17);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "background-color:rgb(17,17,17);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(146,208,80);"
+                                             "}")
+        self.ui.boton_desconectar.setEnabled(False)
+        self.serial.close()
 
     def read_data(self):
         if not self.serial.canReadLine(): return
@@ -126,36 +155,52 @@ class Application(QMainWindow):
             self.df=self.df.append(new_row, ignore_index=True)
             print(self.df)
         elif(fin==1):
-            #df2=pd.read_csv('indices/indices.csv')
-            #print(df2.shape)
-            file_names=os.listdir('datos_recolectados')
+            pass
 
-            if file_names: #si el directorio esta lleno
-                same_name_file=True
-                i=0
-                while same_name_file:
-                    for name in file_names:
-                        if(name==f'rawdata{i}.csv'):
-                            i=i+1
-                        else:
-                            same_name_file=False
-                self.df.to_csv(f'datos_recolectados/rawdata{i}.csv')
-                    
-            else: #si el directorio esta vacio
-                self.df.to_csv('datos_recolectados/rawdata0.csv')
+    
+    def generar_datos(self):
+        file_names=os.listdir('datos_recolectados')
 
-            self.df = pd.DataFrame({
-                'ALCOHOL_s1[PPM]':[],
-                'MONOXIDO DE CARBONO_S1[PPM]':[],
-                'DIHIDROGENO_s1[PPM]':[],
-                'ACETONA_s1[PPM]':[],
-                'METANO_s1[PPM]':[],
-                'ALCOHOL_s2[PPM]':[],
-                'MONOXIDO DE CARBONO_S2[PPM]':[],
-                'DIHIDROGENO_s2[PPM]':[],
-                'ACETONA_s2[PPM]':[],
-                'METANO_s2[PPM]':[],
-            })
+        if file_names: #si el directorio esta lleno
+            same_name_file=True
+            i=0
+            while same_name_file:
+                for name in file_names:
+                    if(name==f'rawdata{i}.csv'):
+                        i=i+1
+                    else:
+                        same_name_file=False
+            self.df.to_csv(f'datos_recolectados/rawdata{i}.csv')
+                
+        else: #si el directorio esta vacio
+            self.df.to_csv('datos_recolectados/rawdata0.csv')
+
+        self.df = pd.DataFrame({
+            'ALCOHOL_s1[PPM]':[],
+            'MONOXIDO DE CARBONO_S1[PPM]':[],
+            'DIHIDROGENO_s1[PPM]':[],
+            'ACETONA_s1[PPM]':[],
+            'METANO_s1[PPM]':[],
+            'ALCOHOL_s2[PPM]':[],
+            'MONOXIDO DE CARBONO_S2[PPM]':[],
+            'DIHIDROGENO_s2[PPM]':[],
+            'ACETONA_s2[PPM]':[],
+            'METANO_s2[PPM]':[],
+        })
+        
+    def borrar_muestra(self):
+        self.df = pd.DataFrame({
+            'ALCOHOL_s1[PPM]':[],
+            'MONOXIDO DE CARBONO_S1[PPM]':[],
+            'DIHIDROGENO_s1[PPM]':[],
+            'ACETONA_s1[PPM]':[],
+            'METANO_s1[PPM]':[],
+            'ALCOHOL_s2[PPM]':[],
+            'MONOXIDO DE CARBONO_S2[PPM]':[],
+            'DIHIDROGENO_s2[PPM]':[],
+            'ACETONA_s2[PPM]':[],
+            'METANO_s2[PPM]':[],
+        })
             
     def control_normalizar(self):
         self.showNormal()
