@@ -74,6 +74,20 @@ class Application(QMainWindow):
             'ACETONA_s2[PPM]':[],
             'METANO_s2[PPM]':[],
         })
+        self.df2 =pd.Dataframe({
+            'prom_alcohol_s1[PPM]':[],
+            'max_val_alcohol_s1[PPM]':[],
+            'prom_alcohol_s2[PPM]':[],
+            'max_val_alcohol_s2[PPM]':[],
+            'prom_metano_s1[PPM]':[],
+            'max_val_metano_s1[PPM]':[],
+            'prom_metano_s2[PPM]':[],
+            'max_val_metano_s2[PPM]':[],
+            'razon_max_value_metano_alcohol_s1':[],
+            'razon_max_value_metano_alcohol_s2':[],
+            'tamaño[cm]':[],
+            'categoria':[],
+        })
 
         #generar y borrar datos
         self.deshabilitar_generar_datos()
@@ -84,6 +98,10 @@ class Application(QMainWindow):
         #gestion de recursos
         self.rawdata_counter=0
         self.habilitar_data_save=False
+        self.categorias=['1', '2', '3', '4', '5', '6', '7']
+
+        #entrada manual de datos
+
 
         self.read_ports()
     
@@ -202,6 +220,7 @@ class Application(QMainWindow):
     
     def generar_datos(self):
         file_names=os.listdir('datos_recolectados')
+        file_names2=os.listdir('dataframe')
 
         if file_names: #si el directorio esta lleno
             same_name_file=True
@@ -212,10 +231,11 @@ class Application(QMainWindow):
                         i=i+1
                     else:
                         same_name_file=False
-            self.df.to_csv(f'datos_recolectados/rawdata{i}.csv')
-                
+            self.df.to_csv(f'datos_recolectados/rawdata{i}.csv')     
         else: #si el directorio esta vacio
             self.df.to_csv('datos_recolectados/rawdata0.csv')
+
+        self.calcular_values_dataframe()
 
         self.df = pd.DataFrame({
             'ALCOHOL_s1[PPM]':[],
@@ -233,6 +253,9 @@ class Application(QMainWindow):
         self.deshabilitar_generar_datos()
         self.deshabilitar_borrar_muestra()
     
+    def calcular_values_dataframe(self):
+        pass
+
     def borrar_muestra(self):
         self.df = pd.DataFrame({
             'ALCOHOL_s1[PPM]':[],
