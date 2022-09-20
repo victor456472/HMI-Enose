@@ -75,15 +75,56 @@ class Application(QMainWindow):
             'METANO_s2[PPM]':[],
         })
 
-        #generar y datos
+        #generar y borrar datos
+        self.deshabilitar_generar_datos()
+        self.deshabilitar_borrar_muestra()
         self.ui.boton_generar_datos.clicked.connect(self.generar_datos)
         self.ui.boton_borrar_muestra.clicked.connect(self.borrar_muestra)
 
         #gestion de recursos
         self.rawdata_counter=0
+        self.habilitar_data_save=False
 
         self.read_ports()
     
+    def deshabilitar_generar_datos(self):
+        self.ui.boton_generar_datos.setStyleSheet("background-color:rgb(17,17,17);"
+                                          "font:87 12pt 'cooper black';"
+                                          "color:rgb(44,44,44);")
+        self.ui.boton_generar_datos.setEnabled(False)
+
+    def deshabilitar_borrar_muestra(self):
+        self.ui.boton_borrar_muestra.setStyleSheet("background-color:rgb(17,17,17);"
+                                          "font:87 12pt 'cooper black';"
+                                          "color:rgb(44,44,44);")
+        self.ui.boton_borrar_muestra.setEnabled(False)
+
+    def habilitar_generar_datos(self):
+        self.ui.boton_generar_datos.setEnabled(True)
+        self.ui.boton_generar_datos.setStyleSheet("QPushButton{"
+                                             "background-color:rgb(146,208,80);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(17,17,17);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "background-color:rgb(17,17,17);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(146,208,80);"
+                                             "}")
+
+    def habilitar_borrar_muestra(self):
+        self.ui.boton_borrar_muestra.setEnabled(True)
+        self.ui.boton_borrar_muestra.setStyleSheet("QPushButton{"
+                                             "background-color:rgb(146,208,80);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(17,17,17);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "background-color:rgb(17,17,17);"
+                                             "font:87 12pt 'cooper black';"
+                                             "color:rgb(146,208,80);"
+                                             "}")
+
     def read_ports(self):
         self.baudrates = ['1200', '2400', '4800', '9600', '19200', '38400', '115200']
         portList = []
@@ -154,8 +195,9 @@ class Application(QMainWindow):
             }
             self.df=self.df.append(new_row, ignore_index=True)
             print(self.df)
+            self.habilitar_borrar_muestra()
         elif(fin==1):
-            pass
+            self.habilitar_generar_datos()
 
     
     def generar_datos(self):
@@ -187,7 +229,10 @@ class Application(QMainWindow):
             'ACETONA_s2[PPM]':[],
             'METANO_s2[PPM]':[],
         })
-        
+
+        self.deshabilitar_generar_datos()
+        self.deshabilitar_borrar_muestra()
+    
     def borrar_muestra(self):
         self.df = pd.DataFrame({
             'ALCOHOL_s1[PPM]':[],
@@ -201,6 +246,7 @@ class Application(QMainWindow):
             'ACETONA_s2[PPM]':[],
             'METANO_s2[PPM]':[],
         })
+        self.deshabilitar_borrar_muestra()
             
     def control_normalizar(self):
         self.showNormal()
