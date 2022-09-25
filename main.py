@@ -52,8 +52,8 @@ class Application(QMainWindow):
 
         #lectura de datos
         self.serial.readyRead.connect(self.read_data)
-        self.x = list(np.linspace(0,100,100))
-        self.y = list(np.linspace(0,0,100))
+        self.x = list(np.linspace(0,300,300))
+        self.y = list(np.linspace(0,0,300))
 
         #grafica
         pg.setConfigOption('background', '#2c2c2c')
@@ -100,6 +100,7 @@ class Application(QMainWindow):
         self.rawdata_counter=0
         self.habilitar_data_save=False
         self.categorias=['1', '2', '3', '4', '5', '6', '7']
+        self.borrar_generar_datos = False
 
         #entrada manual de datos
         self.ui.comboBox_categoria.addItems(self.categorias)
@@ -218,22 +219,27 @@ class Application(QMainWindow):
             self.habilitar_borrar_muestra()
         elif(fin==1):
             self.habilitar_generar_datos()
-
-    
+            self.borrar_generar_datos = True
+   
     def generar_rawdata(self):
         file_names=os.listdir('datos_recolectados')
+        print(f'archivos: {file_names}')
         if file_names: #si el directorio esta lleno
             same_name_file=True
             self.rawdata_counter=0
             while same_name_file:
                 for name in file_names:
+                    print(f'name:{name}')
+                    print(f'file: rawdata{self.rawdata_counter}.csv')
                     if(name==f'rawdata{self.rawdata_counter}.csv'):
                         self.rawdata_counter=self.rawdata_counter+1
+                        print(f'rawdata_counter: {self.rawdata_counter}')
                     else:
                         same_name_file=False
             self.df.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
             self.df.to_csv('datos_recolectados/rawdata0.csv')
+            #print(f'rawdata_counter: {self.rawdata_counter}')
     
     def resetear_rawdata(self):
         self.df = pd.DataFrame({
@@ -249,7 +255,6 @@ class Application(QMainWindow):
             'METANO_s2[PPM]':[],
         })
 
-        
     def calcular_values_dataframe(self):
         categoria=self.ui.comboBox_categoria.currentText()
         try:
@@ -258,6 +263,7 @@ class Application(QMainWindow):
             self.generar_dataframe(tamano, categoria)
             self.resetear_dataframe()
             self.resetear_rawdata()
+            self.limpiar_grafica()
             self.deshabilitar_generar_datos()
             self.deshabilitar_borrar_muestra()
         except:
@@ -298,9 +304,34 @@ class Application(QMainWindow):
         print(self.df2)
         if file_names2:
             df3=pd.read_csv('dataframe/dataframe.csv')
-            print(df3)
-            df3=df3.append(new_row2, ignore_index=True)
-            df3.to_csv('dataframe/dataframe.csv', index=False)
+            frame_index=0
+            for i in range(0,df3.shape[0]):
+                if self.rawdata_counter-1 == df3.iloc[i,0]:
+                    frame_index=i+1
+                else:
+                    pass
+            lista_name=os.listdir('datos_recolectados')
+            if df3.shape[0]+1 == len(lista_name):
+                print("añadiendo a dataframe")       
+                df3=df3.append(new_row2, ignore_index=True)
+                df3.to_csv('dataframe/dataframe.csv', index=False)
+                print(f'frame index: {frame_index}')
+            else:
+                print(f'frame index: {frame_index}')
+                print(f'size: {size}')
+                df3.loc[df3['identifier']==frame_index, 'prom_alcohol_s1[PPM]']=promedio_alcohol_s1
+                df3.loc[df3['identifier']==frame_index, 'max_val_alcohol_s1[PPM]']=max_alcohol_s1
+                df3.loc[df3['identifier']==frame_index, 'prom_alcohol_s2[PPM]']=promedio_alcohol_s2
+                df3.loc[df3['identifier']==frame_index, 'max_val_alcohol_s2[PPM]']=max_alcohol_s2
+                df3.loc[df3['identifier']==frame_index, 'prom_metano_s1[PPM]']=promedio_metano_s1
+                df3.loc[df3['identifier']==frame_index, 'max_val_metano_s1[PPM]']=max_metano_s2
+                df3.loc[df3['identifier']==frame_index, 'prom_metano_s2[PPM]']=promedio_metano_s2
+                df3.loc[df3['identifier']==frame_index, 'max_val_metano_s2[PPM]']=max_metano_s2
+                df3.loc[df3['identifier']==frame_index, 'razon_max_value_metano_alcohol_s1']=razon_max_metano_alcohol_s1
+                df3.loc[df3['identifier']==frame_index, 'razon_max_value_metano_alcohol_s2']=razon_max_metano_alcohol_s2
+                df3.loc[df3['identifier']==frame_index, 'tamaño[cm]']=size
+                df3.loc[df3['identifier']==frame_index, 'categoria']=cat
+                df3.to_csv('dataframe/dataframe.csv', index=False)
         else:
             self.df2=self.df2.append(new_row2, ignore_index=True)
             self.df2.to_csv('dataframe/dataframe.csv', index=False)
@@ -322,22 +353,47 @@ class Application(QMainWindow):
             'categoria':[]
         })
 
+    def limpiar_grafica(self):
+        self.x = list(np.linspace(0,300,300))
+        self.y = list(np.linspace(0,0,300))
+        self.plt.clear()
+        self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
 
     def borrar_muestra(self):
-        self.df = pd.DataFrame({
-            'ALCOHOL_s1[PPM]':[],
-            'MONOXIDO DE CARBONO_S1[PPM]':[],
-            'DIHIDROGENO_s1[PPM]':[],
-            'ACETONA_s1[PPM]':[],
-            'METANO_s1[PPM]':[],
-            'ALCOHOL_s2[PPM]':[],
-            'MONOXIDO DE CARBONO_S2[PPM]':[],
-            'DIHIDROGENO_s2[PPM]':[],
-            'ACETONA_s2[PPM]':[],
-            'METANO_s2[PPM]':[],
-        })
-        self.deshabilitar_borrar_muestra()
+        if self.borrar_generar_datos:
+            self.df = pd.DataFrame({
+                'ALCOHOL_s1[PPM]':[],
+                'MONOXIDO DE CARBONO_S1[PPM]':[],
+                'DIHIDROGENO_s1[PPM]':[],
+                'ACETONA_s1[PPM]':[],
+                'METANO_s1[PPM]':[],
+                'ALCOHOL_s2[PPM]':[],
+                'MONOXIDO DE CARBONO_S2[PPM]':[],
+                'DIHIDROGENO_s2[PPM]':[],
+                'ACETONA_s2[PPM]':[],
+                'METANO_s2[PPM]':[],
+            })
+            self.deshabilitar_borrar_muestra()
+            self.deshabilitar_generar_datos()
+            self.borrar_generar_datos = False
+            self.limpiar_grafica()
             
+        else:
+            self.df = pd.DataFrame({
+                'ALCOHOL_s1[PPM]':[],
+                'MONOXIDO DE CARBONO_S1[PPM]':[],
+                'DIHIDROGENO_s1[PPM]':[],
+                'ACETONA_s1[PPM]':[],
+                'METANO_s1[PPM]':[],
+                'ALCOHOL_s2[PPM]':[],
+                'MONOXIDO DE CARBONO_S2[PPM]':[],
+                'DIHIDROGENO_s2[PPM]':[],
+                'ACETONA_s2[PPM]':[],
+                'METANO_s2[PPM]':[],
+            })
+            self.deshabilitar_borrar_muestra()
+            self.limpiar_grafica()
+        
     def control_normalizar(self):
         self.showNormal()
         self.ui.boton_normalizar.hide()
