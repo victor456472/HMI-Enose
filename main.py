@@ -223,19 +223,37 @@ class Application(QMainWindow):
    
     def generar_rawdata(self):
         file_names=os.listdir('datos_recolectados')
-        print(f'archivos: {file_names}')
         if file_names: #si el directorio esta lleno
-            same_name_file=True
             self.rawdata_counter=0
-            while same_name_file:
-                for name in file_names:
-                    print(f'name:{name}')
-                    print(f'file: rawdata{self.rawdata_counter}.csv')
-                    if(name==f'rawdata{self.rawdata_counter}.csv'):
-                        self.rawdata_counter=self.rawdata_counter+1
-                        print(f'rawdata_counter: {self.rawdata_counter}')
+            counter=0
+            index_list=[]
+            for name in file_names:
+                flag0=True
+                #print(f'name: {name}')
+                while flag0:
+                    #print(f'name: rawdata{counter}.csv')
+                    if name == f'rawdata{counter}.csv':
+                        flag0=False
+                        #print(f'counter: {counter}')
+                        index_list.append(counter)
+                        counter=0
                     else:
-                        same_name_file=False
+                        counter=counter+1
+            aux_counter=0
+            index_list.sort()
+            flag1=True
+            while flag1:
+                try:
+                    if index_list[aux_counter] == aux_counter:
+                        aux_counter=aux_counter+1
+                    else:
+                        flag1=False
+                except:
+                    flag1=False
+            print(f'index list: {aux_counter}')
+            self.rawdata_counter=aux_counter
+            aux_counter=0
+            index_list=[]
             self.df.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
             self.df.to_csv('datos_recolectados/rawdata0.csv')
