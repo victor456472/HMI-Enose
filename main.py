@@ -250,7 +250,7 @@ class Application(QMainWindow):
                         flag1=False
                 except:
                     flag1=False
-            print(f'index list: {aux_counter}')
+            #print(f'index list: {aux_counter}')
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
@@ -319,7 +319,7 @@ class Application(QMainWindow):
             'tamaño[cm]':size,
             'categoria':cat
         }
-        print(self.df2)
+        #print(self.df2)
         if file_names2:
             df3=pd.read_csv('dataframe/dataframe.csv')
             frame_index=0
