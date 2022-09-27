@@ -311,7 +311,7 @@ class Application(QMainWindow):
             'prom_alcohol_s2[PPM]':promedio_alcohol_s2,
             'max_val_alcohol_s2[PPM]':max_alcohol_s2,
             'prom_metano_s1[PPM]':promedio_metano_s1,
-            'max_val_metano_s1[PPM]':max_metano_s2,
+            'max_val_metano_s1[PPM]':max_metano_s1,
             'prom_metano_s2[PPM]':promedio_metano_s2,
             'max_val_metano_s2[PPM]':max_metano_s2,
             'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
