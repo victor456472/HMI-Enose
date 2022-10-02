@@ -4,3 +4,4 @@ numpy
 pyserial
 PyQt5
 pyqtgraph
+scikit-learn

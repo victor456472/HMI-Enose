@@ -6,6 +6,10 @@ from PyQt5 import QtCore, QtWidgets
 import pyqtgraph as pg
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import confusion_matrix
 from Design import Ui_MainWindow
 import os
 
@@ -101,6 +105,12 @@ class Application(QMainWindow):
         self.habilitar_data_save=False
         self.categorias=['1', '2', '3', '4', '5', '6', '7']
         self.borrar_generar_datos = False
+        self.sc=StandardScaler()
+        self.MLP_classifier=MLPClassifier(hidden_layer_sizes=(150,100,50), 
+                                          max_iter=300,
+                                          activation = 'relu',
+                                          solver='adam',
+                                          random_state=1)
 
         #machine learning buttons and legends
         self.deshabilitar_clasificar()
@@ -223,7 +233,19 @@ class Application(QMainWindow):
                                              "color:rgb(218,0,55);")
         self.ui.boton_conectar.setText("CONECTADO")
         self.ui.boton_conectar.setEnabled(False)
+        self.entrenar_red()
     
+    def entrenar_red(self):
+        dt_frame=pd.read_csv('dataframe/dataframe.csv')
+        Y=dt_frame.categoria
+        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']]
+        X=pd.DataFrame()
+        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']]=self.sc.fit_transform(
+            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']])
+        print(X.head(5))
+        self.MLP_classifier.fit(X,Y)
+        print("red entrenada")
+
     def serial_disconnect(self):
         self.ui.boton_desconectar.hide()
         self.ui.boton_conectar.setEnabled(True)
@@ -484,8 +506,21 @@ class Application(QMainWindow):
     
     def clasificar(self):
         self.habilitar_entrenar()
-        self.imprimir_categoria(9)
-    
+        promedio_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].mean()
+        max_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].max()
+        max_metano_s1=self.df['METANO_s1[PPM]'].max()
+        razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
+        X_test=pd.DataFrame({
+            'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
+            'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
+        })
+        X_test[['prom_alcohol_s1[PPM]',
+                'razon_max_value_metano_alcohol_s1']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
+                                                                                'razon_max_value_metano_alcohol_s1']])
+        print(X_test)
+        Y_pred=self.MLP_classifier.predict(X_test)
+        self.imprimir_categoria(Y_pred[0])
+
     def entrenar(self):
         print("boton entrenar presionado")
 
