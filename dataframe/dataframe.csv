@@ -1,3 +1,6 @@
 identifier,prom_alcohol_s1[PPM],max_val_alcohol_s1[PPM],prom_alcohol_s2[PPM],max_val_alcohol_s2[PPM],prom_metano_s1[PPM],max_val_metano_s1[PPM],prom_metano_s2[PPM],max_val_metano_s2[PPM],razon_max_value_metano_alcohol_s1,razon_max_value_metano_alcohol_s2,tamaño[cm],categoria
 0.0,0.0,0.0,0.4090000000000001,2.31,0.0,0.0,0.0,0.0,,0.0,6.0,1
-1.0,0.0,0.0,0.42300000000000004,2.35,0.0,0.0,0.0,0.0,,0.0,6.0,1
+1.0,0.0,0.0,0.423,2.35,0.0,0.0,0.0,0.0,,0.0,6.0,1
+2.0,0.0,0.0,0.465,2.7,0.0,0.0,0.0,0.0,,0.0,7.0,1
+3.0,0.0,0.0,0.6080000000000001,4.17,0.0,0.0,0.0,0.0,,0.0,6.0,1
+4.0,0.0,0.0,0.596,4.11,0.0,0.0,0.0,0.0,,0.0,5.0,1

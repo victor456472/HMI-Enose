@@ -102,12 +102,63 @@ class Application(QMainWindow):
         self.categorias=['1', '2', '3', '4', '5', '6', '7']
         self.borrar_generar_datos = False
 
+        #machine learning buttons and legends
+        self.deshabilitar_clasificar()
+        self.deshabilitar_entrenar()
+        self.apagar_titulo_clasificar()
+        self.ui.boton_clasificar.clicked.connect(self.clasificar)
+        self.ui.boton_entrenar.clicked.connect(self.entrenar)
+
         #entrada manual de datos
         self.ui.comboBox_categoria.addItems(self.categorias)
         self.ui.comboBox_categoria.setCurrentText('1')
 
         self.read_ports()
     
+    def deshabilitar_clasificar(self):
+        self.ui.boton_clasificar.setStyleSheet("image:url(:/images/iconos/Imagen7.png);")
+        self.ui.boton_clasificar.setEnabled(False)
+    
+    def habilitar_clasificar(self):
+        self.ui.boton_clasificar.setStyleSheet("QPushButton{"
+                                             "image:url(:/images/iconos/Imagen6.png);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "image:url(:/images/iconos/Imagen8.png);"
+                                             "}")
+        self.ui.boton_clasificar.setEnabled(True)
+    
+    def deshabilitar_entrenar(self):
+        self.ui.boton_entrenar.setStyleSheet("image:url(:/images/iconos/Imagen11.png);")
+        self.ui.boton_entrenar.setEnabled(False)
+    
+    def habilitar_entrenar(self):
+        self.ui.boton_entrenar.setStyleSheet("QPushButton{"
+                                             "image:url(:/images/iconos/Imagen9.png);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "image:url(:/images/iconos/Imagen10.png);"
+                                             "}")
+        self.ui.boton_entrenar.setEnabled(True)
+
+    def apagar_titulo_clasificar(self):
+        self.ui.label_14.setStyleSheet("color:rgb(40,40,40);"
+                                       "font:87 12pt 'cooper black';")
+
+    def encender_titulo_clasificar(self):
+        self.ui.label_14.setStyleSheet("color:rgb(146,208,80);"
+                                       "font:87 12pt 'cooper black';")
+
+    def imprimir_categoria(self, categoria):
+        self.ui.label_categoria.setText(str(categoria))
+        self.ui.label_categoria.setStyleSheet("color:rgb(146,208,80);"
+                                              "font:87 20pt 'cooper black';")
+
+    def borrar_categoria(self):
+        self.ui.label_categoria.setText("??")
+        self.ui.label_categoria.setStyleSheet("color:rgb(17,17,17);"
+                                              "font:87 20pt 'cooper black';")
+
     def deshabilitar_generar_datos(self):
         self.ui.boton_generar_datos.setStyleSheet("background-color:rgb(17,17,17);"
                                           "font:87 12pt 'cooper black';"
@@ -219,6 +270,8 @@ class Application(QMainWindow):
             self.habilitar_borrar_muestra()
         elif(fin==1):
             self.habilitar_generar_datos()
+            self.habilitar_clasificar()
+            self.encender_titulo_clasificar()
             self.borrar_generar_datos = True
    
     def generar_rawdata(self):
@@ -284,6 +337,10 @@ class Application(QMainWindow):
             self.limpiar_grafica()
             self.deshabilitar_generar_datos()
             self.deshabilitar_borrar_muestra()
+            self.deshabilitar_clasificar()
+            self.deshabilitar_entrenar()
+            self.apagar_titulo_clasificar()
+            self.borrar_categoria()
         except:
             mensaje=QMessageBox()
             mensaje.setWindowTitle("Error")
@@ -393,6 +450,10 @@ class Application(QMainWindow):
             })
             self.deshabilitar_borrar_muestra()
             self.deshabilitar_generar_datos()
+            self.deshabilitar_clasificar()
+            self.deshabilitar_entrenar()
+            self.apagar_titulo_clasificar()
+            self.borrar_categoria()
             self.borrar_generar_datos = False
             self.limpiar_grafica()
             
@@ -410,13 +471,24 @@ class Application(QMainWindow):
                 'METANO_s2[PPM]':[],
             })
             self.deshabilitar_borrar_muestra()
+            self.deshabilitar_clasificar()
+            self.deshabilitar_entrenar()
+            self.apagar_titulo_clasificar()
+            self.borrar_categoria()
             self.limpiar_grafica()
-        
+
     def control_normalizar(self):
         self.showNormal()
         self.ui.boton_normalizar.hide()
         self.ui.boton_maximizar.show()
     
+    def clasificar(self):
+        self.habilitar_entrenar()
+        self.imprimir_categoria(9)
+    
+    def entrenar(self):
+        print("boton entrenar presionado")
+
     def control_maximizar(self):
         self.showMaximized()
         self.ui.boton_maximizar.hide()
