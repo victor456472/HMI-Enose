@@ -6,6 +6,10 @@ from PyQt5 import QtCore, QtWidgets
 import pyqtgraph as pg
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import confusion_matrix
 from Design import Ui_MainWindow
 import os
 
@@ -54,6 +58,15 @@ class Application(QMainWindow):
         self.serial.readyRead.connect(self.read_data)
         self.x = list(np.linspace(0,300,300))
         self.y = list(np.linspace(0,0,300))
+        self.y1 = list(np.linspace(0,0,300))
+        self.y2 = list(np.linspace(0,0,300))
+        self.y3 = list(np.linspace(0,0,300))
+        self.y4 = list(np.linspace(0,0,300))
+        self.y5 = list(np.linspace(0,0,300))
+        self.y6 = list(np.linspace(0,0,300))
+        self.y7 = list(np.linspace(0,0,300))
+        self.y8 = list(np.linspace(0,0,300))
+        self.y9 = list(np.linspace(0,0,300))
 
         #grafica
         pg.setConfigOption('background', '#2c2c2c')
@@ -101,6 +114,23 @@ class Application(QMainWindow):
         self.habilitar_data_save=False
         self.categorias=['1', '2', '3', '4', '5', '6', '7']
         self.borrar_generar_datos = False
+        self.sc=StandardScaler()
+        self.MLP_classifier=MLPClassifier(hidden_layer_sizes=(150,100,50), 
+                                          max_iter=300,
+                                          activation = 'relu',
+                                          solver='adam',
+                                          random_state=1)
+
+        #machine learning buttons and legends
+        self.deshabilitar_clasificar()
+        self.deshabilitar_entrenar()
+        self.apagar_titulo_clasificar()
+        self.ui.boton_clasificar.clicked.connect(self.clasificar)
+        self.ui.boton_entrenar.clicked.connect(self.entrenar)
+
+        #panel de monitoreo
+        self.ui.check_alcohol_s1.setChecked(True)
+        self.ui.check_alcohol_s1.setEnabled(True)
 
         #entrada manual de datos
         self.ui.comboBox_categoria.addItems(self.categorias)
@@ -108,6 +138,50 @@ class Application(QMainWindow):
 
         self.read_ports()
     
+    def deshabilitar_clasificar(self):
+        self.ui.boton_clasificar.setStyleSheet("image:url(:/images/iconos/Imagen7.png);")
+        self.ui.boton_clasificar.setEnabled(False)
+    
+    def habilitar_clasificar(self):
+        self.ui.boton_clasificar.setStyleSheet("QPushButton{"
+                                             "image:url(:/images/iconos/Imagen6.png);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "image:url(:/images/iconos/Imagen8.png);"
+                                             "}")
+        self.ui.boton_clasificar.setEnabled(True)
+    
+    def deshabilitar_entrenar(self):
+        self.ui.boton_entrenar.setStyleSheet("image:url(:/images/iconos/Imagen11.png);")
+        self.ui.boton_entrenar.setEnabled(False)
+    
+    def habilitar_entrenar(self):
+        self.ui.boton_entrenar.setStyleSheet("QPushButton{"
+                                             "image:url(:/images/iconos/Imagen9.png);"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "image:url(:/images/iconos/Imagen10.png);"
+                                             "}")
+        self.ui.boton_entrenar.setEnabled(True)
+
+    def apagar_titulo_clasificar(self):
+        self.ui.label_14.setStyleSheet("color:rgb(40,40,40);"
+                                       "font:87 12pt 'cooper black';")
+
+    def encender_titulo_clasificar(self):
+        self.ui.label_14.setStyleSheet("color:rgb(146,208,80);"
+                                       "font:87 12pt 'cooper black';")
+
+    def imprimir_categoria(self, categoria):
+        self.ui.label_categoria.setText(str(categoria))
+        self.ui.label_categoria.setStyleSheet("color:rgb(146,208,80);"
+                                              "font:87 20pt 'cooper black';")
+
+    def borrar_categoria(self):
+        self.ui.label_categoria.setText("??")
+        self.ui.label_categoria.setStyleSheet("color:rgb(17,17,17);"
+                                              "font:87 20pt 'cooper black';")
+
     def deshabilitar_generar_datos(self):
         self.ui.boton_generar_datos.setStyleSheet("background-color:rgb(17,17,17);"
                                           "font:87 12pt 'cooper black';"
@@ -172,7 +246,19 @@ class Application(QMainWindow):
                                              "color:rgb(218,0,55);")
         self.ui.boton_conectar.setText("CONECTADO")
         self.ui.boton_conectar.setEnabled(False)
+        self.entrenar_red()
     
+    def entrenar_red(self):
+        dt_frame=pd.read_csv('dataframe/dataframe.csv')
+        Y=dt_frame.categoria
+        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']]
+        X=pd.DataFrame()
+        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']]=self.sc.fit_transform(
+            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']])
+        print(X.head(5))
+        self.MLP_classifier.fit(X,Y)
+        print("red entrenada")
+
     def serial_disconnect(self):
         self.ui.boton_desconectar.hide()
         self.ui.boton_conectar.setEnabled(True)
@@ -191,6 +277,8 @@ class Application(QMainWindow):
         self.serial.close()
 
     def read_data(self):
+        offset=20 #32
+        offset2=3400 #2200+300
         if not self.serial.canReadLine(): return
         rx = self.serial.readLine()
         x=str(rx, 'utf-8').strip()
@@ -199,15 +287,52 @@ class Application(QMainWindow):
         #print(f'{x[0]} -- {x[1]} -- {x[2]} -- {x[3]} -- {x[4]} -- {x[5]} -- {x[6]} -- {x[7]} -- {x[8]} -- {x[9]} -- {x[10]}')
         if(fin==0):
             self.y = self.y[1:]
-            self.y.append(float(x[0]))
+            self.y1 = self.y1[1:]
+            self.y2 = self.y2[1:]
+            self.y3 = self.y3[1:]
+            self.y4 = self.y4[1:]
+            self.y5 = self.y5[1:]
+            self.y6 = self.y6[1:]
+            self.y7 = self.y7[1:]
+            self.y8 = self.y8[1:]
+            self.y9 = self.y9[1:]
+            self.y.append(float(x[0])-offset)
+            self.y1.append(float(x[1]))
+            self.y2.append(float(x[2]))
+            self.y3.append(float(x[3]))
+            self.y4.append(float(x[4])-offset2)
+            self.y5.append(float(x[5]))
+            self.y6.append(float(x[6]))
+            self.y7.append(float(x[7]))
+            self.y8.append(float(x[8]))
+            self.y9.append(float(x[9]))
             self.plt.clear()
-            self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+            if(self.ui.check_alcohol_s1.isChecked()):
+                self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+            if(self.ui.check_alcohol_s2.isChecked()):
+                self.plt.plot(self.x,self.y5,pen=pg.mkPen('#15dbe6', width=2))
+            if(self.ui.check_co_s1.isChecked()):
+                self.plt.plot(self.x,self.y1,pen=pg.mkPen('#eb5802', width=2))
+            if(self.ui.check_co_s2.isChecked()):
+                self.plt.plot(self.x,self.y6,pen=pg.mkPen('#dbf705', width=2))
+            if(self.ui.check_dihidrogeno_s1.isChecked()):
+                self.plt.plot(self.x,self.y2,pen=pg.mkPen('#04ff00', width=2))
+            if(self.ui.check_dihidrogeno_s2.isChecked()):
+                self.plt.plot(self.x,self.y7,pen=pg.mkPen('#8f2afa', width=2))
+            if(self.ui.check_acetona_s1.isChecked()):
+                self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
+            if(self.ui.check_acetona_s2.isChecked()):
+                self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+            if(self.ui.check_metano_s1.isChecked()):
+                self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
+            if(self.ui.check_metano_s2.isChecked()):
+                self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
             new_row={
-                'ALCOHOL_s1[PPM]':float(x[0]),
+                'ALCOHOL_s1[PPM]':float(x[0])-offset,
                 'MONOXIDO DE CARBONO_S1[PPM]':float(x[1]),
                 'DIHIDROGENO_s1[PPM]':float(x[2]),
                 'ACETONA_s1[PPM]':float(x[3]),
-                'METANO_s1[PPM]':float(x[4]),
+                'METANO_s1[PPM]':float(x[4])-offset2,
                 'ALCOHOL_s2[PPM]':float(x[5]),
                 'MONOXIDO DE CARBONO_S2[PPM]':float(x[6]),
                 'DIHIDROGENO_s2[PPM]':float(x[7]),
@@ -215,10 +340,12 @@ class Application(QMainWindow):
                 'METANO_s2[PPM]':float(x[9]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
-            print(self.df)
+            print(self.df['METANO_s1[PPM]']) #cambiando lectura
             self.habilitar_borrar_muestra()
         elif(fin==1):
             self.habilitar_generar_datos()
+            self.habilitar_clasificar()
+            self.encender_titulo_clasificar()
             self.borrar_generar_datos = True
    
     def generar_rawdata(self):
@@ -284,6 +411,10 @@ class Application(QMainWindow):
             self.limpiar_grafica()
             self.deshabilitar_generar_datos()
             self.deshabilitar_borrar_muestra()
+            self.deshabilitar_clasificar()
+            self.deshabilitar_entrenar()
+            self.apagar_titulo_clasificar()
+            self.borrar_categoria()
         except:
             mensaje=QMessageBox()
             mensaje.setWindowTitle("Error")
@@ -374,8 +505,36 @@ class Application(QMainWindow):
     def limpiar_grafica(self):
         self.x = list(np.linspace(0,300,300))
         self.y = list(np.linspace(0,0,300))
+        self.y1 = list(np.linspace(0,0,300))
+        self.y2 = list(np.linspace(0,0,300))
+        self.y3 = list(np.linspace(0,0,300))
+        self.y4 = list(np.linspace(0,0,300))
+        self.y5 = list(np.linspace(0,0,300))
+        self.y6 = list(np.linspace(0,0,300))
+        self.y7 = list(np.linspace(0,0,300))
+        self.y8 = list(np.linspace(0,0,300))
+        self.y9 = list(np.linspace(0,0,300))
         self.plt.clear()
-        self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        if(self.ui.check_alcohol_s1.isChecked()):
+            self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        if(self.ui.check_alcohol_s2.isChecked()):
+            self.plt.plot(self.x,self.y5,pen=pg.mkPen('#15dbe6', width=2))
+        if(self.ui.check_co_s1.isChecked()):
+            self.plt.plot(self.x,self.y1,pen=pg.mkPen('#eb5802', width=2))
+        if(self.ui.check_co_s2.isChecked()):
+            self.plt.plot(self.x,self.y6,pen=pg.mkPen('#dbf705', width=2))
+        if(self.ui.check_dihidrogeno_s1.isChecked()):
+            self.plt.plot(self.x,self.y2,pen=pg.mkPen('#04ff00', width=2))
+        if(self.ui.check_dihidrogeno_s2.isChecked()):
+            self.plt.plot(self.x,self.y7,pen=pg.mkPen('#8f2afa', width=2))
+        if(self.ui.check_acetona_s1.isChecked()):
+            self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
+        if(self.ui.check_acetona_s2.isChecked()):
+            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+        if(self.ui.check_metano_s1.isChecked()):
+            self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
+        if(self.ui.check_metano_s2.isChecked()):
+            self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
 
     def borrar_muestra(self):
         if self.borrar_generar_datos:
@@ -393,6 +552,10 @@ class Application(QMainWindow):
             })
             self.deshabilitar_borrar_muestra()
             self.deshabilitar_generar_datos()
+            self.deshabilitar_clasificar()
+            self.deshabilitar_entrenar()
+            self.apagar_titulo_clasificar()
+            self.borrar_categoria()
             self.borrar_generar_datos = False
             self.limpiar_grafica()
             
@@ -410,13 +573,38 @@ class Application(QMainWindow):
                 'METANO_s2[PPM]':[],
             })
             self.deshabilitar_borrar_muestra()
+            self.deshabilitar_clasificar()
+            self.deshabilitar_entrenar()
+            self.apagar_titulo_clasificar()
+            self.borrar_categoria()
             self.limpiar_grafica()
-        
+
     def control_normalizar(self):
         self.showNormal()
         self.ui.boton_normalizar.hide()
         self.ui.boton_maximizar.show()
     
+    def clasificar(self):
+        self.habilitar_entrenar()
+        df_clasificar=self.df.iloc[300:600,:]
+        promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
+        max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
+        max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
+        razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
+        X_test=pd.DataFrame({
+            'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
+            'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
+        })
+        X_test[['prom_alcohol_s1[PPM]',
+                'razon_max_value_metano_alcohol_s1']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
+                                                                                'razon_max_value_metano_alcohol_s1']])
+        print(X_test)
+        Y_pred=self.MLP_classifier.predict(X_test)
+        self.imprimir_categoria(Y_pred[0])
+
+    def entrenar(self):
+        print("boton entrenar presionado")
+
     def control_maximizar(self):
         self.showMaximized()
         self.ui.boton_maximizar.hide()
