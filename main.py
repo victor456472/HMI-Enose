@@ -58,6 +58,15 @@ class Application(QMainWindow):
         self.serial.readyRead.connect(self.read_data)
         self.x = list(np.linspace(0,300,300))
         self.y = list(np.linspace(0,0,300))
+        self.y1 = list(np.linspace(0,0,300))
+        self.y2 = list(np.linspace(0,0,300))
+        self.y3 = list(np.linspace(0,0,300))
+        self.y4 = list(np.linspace(0,0,300))
+        self.y5 = list(np.linspace(0,0,300))
+        self.y6 = list(np.linspace(0,0,300))
+        self.y7 = list(np.linspace(0,0,300))
+        self.y8 = list(np.linspace(0,0,300))
+        self.y9 = list(np.linspace(0,0,300))
 
         #grafica
         pg.setConfigOption('background', '#2c2c2c')
@@ -118,6 +127,10 @@ class Application(QMainWindow):
         self.apagar_titulo_clasificar()
         self.ui.boton_clasificar.clicked.connect(self.clasificar)
         self.ui.boton_entrenar.clicked.connect(self.entrenar)
+
+        #panel de monitoreo
+        self.ui.check_alcohol_s1.setChecked(True)
+        self.ui.check_alcohol_s1.setEnabled(True)
 
         #entrada manual de datos
         self.ui.comboBox_categoria.addItems(self.categorias)
@@ -264,6 +277,8 @@ class Application(QMainWindow):
         self.serial.close()
 
     def read_data(self):
+        offset=20 #32
+        offset2=3400 #2200+300
         if not self.serial.canReadLine(): return
         rx = self.serial.readLine()
         x=str(rx, 'utf-8').strip()
@@ -272,15 +287,52 @@ class Application(QMainWindow):
         #print(f'{x[0]} -- {x[1]} -- {x[2]} -- {x[3]} -- {x[4]} -- {x[5]} -- {x[6]} -- {x[7]} -- {x[8]} -- {x[9]} -- {x[10]}')
         if(fin==0):
             self.y = self.y[1:]
-            self.y.append(float(x[0]))
+            self.y1 = self.y1[1:]
+            self.y2 = self.y2[1:]
+            self.y3 = self.y3[1:]
+            self.y4 = self.y4[1:]
+            self.y5 = self.y5[1:]
+            self.y6 = self.y6[1:]
+            self.y7 = self.y7[1:]
+            self.y8 = self.y8[1:]
+            self.y9 = self.y9[1:]
+            self.y.append(float(x[0])-offset)
+            self.y1.append(float(x[1]))
+            self.y2.append(float(x[2]))
+            self.y3.append(float(x[3]))
+            self.y4.append(float(x[4])-offset2)
+            self.y5.append(float(x[5]))
+            self.y6.append(float(x[6]))
+            self.y7.append(float(x[7]))
+            self.y8.append(float(x[8]))
+            self.y9.append(float(x[9]))
             self.plt.clear()
-            self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+            if(self.ui.check_alcohol_s1.isChecked()):
+                self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+            if(self.ui.check_alcohol_s2.isChecked()):
+                self.plt.plot(self.x,self.y5,pen=pg.mkPen('#15dbe6', width=2))
+            if(self.ui.check_co_s1.isChecked()):
+                self.plt.plot(self.x,self.y1,pen=pg.mkPen('#eb5802', width=2))
+            if(self.ui.check_co_s2.isChecked()):
+                self.plt.plot(self.x,self.y6,pen=pg.mkPen('#dbf705', width=2))
+            if(self.ui.check_dihidrogeno_s1.isChecked()):
+                self.plt.plot(self.x,self.y2,pen=pg.mkPen('#04ff00', width=2))
+            if(self.ui.check_dihidrogeno_s2.isChecked()):
+                self.plt.plot(self.x,self.y7,pen=pg.mkPen('#8f2afa', width=2))
+            if(self.ui.check_acetona_s1.isChecked()):
+                self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
+            if(self.ui.check_acetona_s2.isChecked()):
+                self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+            if(self.ui.check_metano_s1.isChecked()):
+                self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
+            if(self.ui.check_metano_s2.isChecked()):
+                self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
             new_row={
-                'ALCOHOL_s1[PPM]':float(x[0]),
+                'ALCOHOL_s1[PPM]':float(x[0])-offset,
                 'MONOXIDO DE CARBONO_S1[PPM]':float(x[1]),
                 'DIHIDROGENO_s1[PPM]':float(x[2]),
                 'ACETONA_s1[PPM]':float(x[3]),
-                'METANO_s1[PPM]':float(x[4]),
+                'METANO_s1[PPM]':float(x[4])-offset2,
                 'ALCOHOL_s2[PPM]':float(x[5]),
                 'MONOXIDO DE CARBONO_S2[PPM]':float(x[6]),
                 'DIHIDROGENO_s2[PPM]':float(x[7]),
@@ -288,7 +340,7 @@ class Application(QMainWindow):
                 'METANO_s2[PPM]':float(x[9]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
-            print(self.df)
+            print(self.df['METANO_s1[PPM]']) #cambiando lectura
             self.habilitar_borrar_muestra()
         elif(fin==1):
             self.habilitar_generar_datos()
@@ -453,8 +505,36 @@ class Application(QMainWindow):
     def limpiar_grafica(self):
         self.x = list(np.linspace(0,300,300))
         self.y = list(np.linspace(0,0,300))
+        self.y1 = list(np.linspace(0,0,300))
+        self.y2 = list(np.linspace(0,0,300))
+        self.y3 = list(np.linspace(0,0,300))
+        self.y4 = list(np.linspace(0,0,300))
+        self.y5 = list(np.linspace(0,0,300))
+        self.y6 = list(np.linspace(0,0,300))
+        self.y7 = list(np.linspace(0,0,300))
+        self.y8 = list(np.linspace(0,0,300))
+        self.y9 = list(np.linspace(0,0,300))
         self.plt.clear()
-        self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        if(self.ui.check_alcohol_s1.isChecked()):
+            self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        if(self.ui.check_alcohol_s2.isChecked()):
+            self.plt.plot(self.x,self.y5,pen=pg.mkPen('#15dbe6', width=2))
+        if(self.ui.check_co_s1.isChecked()):
+            self.plt.plot(self.x,self.y1,pen=pg.mkPen('#eb5802', width=2))
+        if(self.ui.check_co_s2.isChecked()):
+            self.plt.plot(self.x,self.y6,pen=pg.mkPen('#dbf705', width=2))
+        if(self.ui.check_dihidrogeno_s1.isChecked()):
+            self.plt.plot(self.x,self.y2,pen=pg.mkPen('#04ff00', width=2))
+        if(self.ui.check_dihidrogeno_s2.isChecked()):
+            self.plt.plot(self.x,self.y7,pen=pg.mkPen('#8f2afa', width=2))
+        if(self.ui.check_acetona_s1.isChecked()):
+            self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
+        if(self.ui.check_acetona_s2.isChecked()):
+            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+        if(self.ui.check_metano_s1.isChecked()):
+            self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
+        if(self.ui.check_metano_s2.isChecked()):
+            self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
 
     def borrar_muestra(self):
         if self.borrar_generar_datos:
@@ -506,9 +586,10 @@ class Application(QMainWindow):
     
     def clasificar(self):
         self.habilitar_entrenar()
-        promedio_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].mean()
-        max_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].max()
-        max_metano_s1=self.df['METANO_s1[PPM]'].max()
+        df_clasificar=self.df.iloc[300:600,:]
+        promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
+        max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
+        max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
         razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
         X_test=pd.DataFrame({
             'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
