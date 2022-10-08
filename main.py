@@ -170,7 +170,6 @@ class Application(QMainWindow):
         if(self.ui.check_metano_s2.isChecked()):
             self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
 
-        
     def deshabilitar_clasificar(self):
         self.ui.boton_clasificar.setStyleSheet("image:url(:/images/iconos/Imagen7.png);")
         self.ui.boton_clasificar.setEnabled(False)
@@ -284,10 +283,10 @@ class Application(QMainWindow):
     def entrenar_red(self):
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
         Y=dt_frame.categoria
-        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']]
+        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]
         X=pd.DataFrame()
-        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']]=self.sc.fit_transform(
-            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1']])
+        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
+            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
         print(X.head(5))
         self.MLP_classifier.fit(X,Y)
         print("red entrenada")
@@ -469,6 +468,19 @@ class Application(QMainWindow):
         max_metano_s2=df_dataframe['METANO_s2[PPM]'].max()
         razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
         razon_max_metano_alcohol_s2=max_metano_s2/max_alcohol_s2
+        frstMeasure_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].iloc[0]
+        frstMeasure_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].iloc[0]
+        frstMeasure_metano_s1=df_dataframe['METANO_s1[PPM]'].iloc[0]
+        frstMeasure_metano_s2=df_dataframe['METANO_s2[PPM]'].iloc[0]
+        crvElevation_alcohol_s1=max_alcohol_s1-frstMeasure_alcohol_s1
+        promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
+        crvElevation_alcohol_s2=max_alcohol_s2-frstMeasure_alcohol_s2
+        promElevation_alcohol_s2=promedio_alcohol_s2-frstMeasure_alcohol_s2
+        crvElevation_metano_s1=max_metano_s1-frstMeasure_metano_s1
+        promElevation_metano_s1=promedio_metano_s1-frstMeasure_metano_s1
+        crvElevation_metano_s2=max_metano_s2-frstMeasure_metano_s2
+        promElevation_metano_s2=promedio_metano_s2-frstMeasure_metano_s2
+
         #print(f'{promedio_alcohol_s1} -- {max_alcohol_s1} -- {promedio_alcohol_s2} -- {max_alcohol_s2} -- {promedio_metano_s1} -- {max_metano_s1} -- {promedio_metano_s2} -- {max_metano_s2} -- {razon_max_metano_alcohol_s1} -- {razon_max_metano_alcohol_s2} -- {tamano} -- {categoria}')
         file_names2=os.listdir('dataframe')
         new_row2={
@@ -484,7 +496,19 @@ class Application(QMainWindow):
             'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
             'razon_max_value_metano_alcohol_s2':razon_max_metano_alcohol_s2,
             'tamaño[cm]':size,
-            'categoria':cat
+            'categoria':cat,
+            'frstMeasure_alcohol_s1':frstMeasure_alcohol_s1,
+            'frstMeasure_alcohol_s2':frstMeasure_alcohol_s2,
+            'frstMeasure_metano_s1':frstMeasure_metano_s1,
+            'frstMeasure_metano_s2':frstMeasure_metano_s2,
+            'crvElevation_alcohol_s1[PPM]':crvElevation_alcohol_s1,
+            'promElevation_alcohol_s1[PPM]':promElevation_alcohol_s1,
+            'crvElevation_alcohol_s2[PPM]':crvElevation_alcohol_s2,
+            'promElevation_alcohol_s2[PPM]':promElevation_alcohol_s2,
+            'crvElevation_metano_s1[PPM]':crvElevation_metano_s1,
+            'promElevation_metano_s1[PPM]':promElevation_metano_s1,
+            'crvElevation_metano_s2[PPM]':crvElevation_metano_s2,
+            'promElevation_metano_s2[PPM]':promElevation_metano_s2     
         }
         #print(self.df2)
         if file_names2:
@@ -516,6 +540,18 @@ class Application(QMainWindow):
                 df3.loc[df3['identifier']==frame_index, 'razon_max_value_metano_alcohol_s2']=razon_max_metano_alcohol_s2
                 df3.loc[df3['identifier']==frame_index, 'tamaño[cm]']=size
                 df3.loc[df3['identifier']==frame_index, 'categoria']=cat
+                df3.loc[df3['identifier']==frame_index, 'frstMeasure_alcohol_s1']=frstMeasure_alcohol_s1
+                df3.loc[df3['identifier']==frame_index, 'frstMeasure_alcohol_s2']=frstMeasure_alcohol_s2
+                df3.loc[df3['identifier']==frame_index, 'frstMeasure_metano_s1']=frstMeasure_metano_s1
+                df3.loc[df3['identifier']==frame_index, 'frstMeasure_metano_s2']=frstMeasure_metano_s2
+                df3.loc[df3['identifier']==frame_index, 'crvElevation_alcohol_s1[PPM]']=crvElevation_alcohol_s1
+                df3.loc[df3['identifier']==frame_index, 'promElevation_alcohol_s1[PPM]']=promElevation_alcohol_s1
+                df3.loc[df3['identifier']==frame_index, 'crvElevation_alcohol_s2[PPM]']=crvElevation_alcohol_s2
+                df3.loc[df3['identifier']==frame_index, 'promElevation_alcohol_s2[PPM]']=promElevation_alcohol_s2
+                df3.loc[df3['identifier']==frame_index, 'crvElevation_metano_s1[PPM]']=crvElevation_metano_s1
+                df3.loc[df3['identifier']==frame_index, 'promElevation_metano_s1[PPM]']=promElevation_metano_s1
+                df3.loc[df3['identifier']==frame_index, 'crvElevation_metano_s2[PPM]']=crvElevation_metano_s2
+                df3.loc[df3['identifier']==frame_index, 'promElevation_metano_s2[PPM]']=promElevation_metano_s2
                 df3.to_csv('dataframe/dataframe.csv', index=False)
         else:
             self.df2=self.df2.append(new_row2, ignore_index=True)
@@ -535,8 +571,20 @@ class Application(QMainWindow):
             'razon_max_value_metano_alcohol_s1':[],
             'razon_max_value_metano_alcohol_s2':[],
             'tamaño[cm]':[],
-            'categoria':[]
-        })
+            'categoria':[],
+            'frstMeasure_alcohol_s1':[],
+            'frstMeasure_alcohol_s2':[],
+            'frstMeasure_metano_s1':[],
+            'frstMeasure_metano_s2':[],
+            'crvElevation_alcohol_s1':[],
+            'promElevation_alcohol_s1':[],
+            'crvElevation_alcohol_s2':[],
+            'promElevation_alcohol_s2':[],
+            'crvElevation_metano_s1':[],
+            'promElevation_metano_s1':[],
+            'crvElevation_metano_s2':[],
+            'promElevation_metano_s2':[]
+            })
 
     def limpiar_grafica(self):
         self.x = list(np.linspace(0,300,300))
@@ -584,7 +632,7 @@ class Application(QMainWindow):
                 'MONOXIDO DE CARBONO_S2[PPM]':[],
                 'DIHIDROGENO_s2[PPM]':[],
                 'ACETONA_s2[PPM]':[],
-                'METANO_s2[PPM]':[],
+                'METANO_s2[PPM]':[]
             })
             self.deshabilitar_borrar_muestra()
             self.deshabilitar_generar_datos()
@@ -606,7 +654,7 @@ class Application(QMainWindow):
                 'MONOXIDO DE CARBONO_S2[PPM]':[],
                 'DIHIDROGENO_s2[PPM]':[],
                 'ACETONA_s2[PPM]':[],
-                'METANO_s2[PPM]':[],
+                'METANO_s2[PPM]':[]
             })
             self.deshabilitar_borrar_muestra()
             self.deshabilitar_clasificar()
@@ -628,13 +676,18 @@ class Application(QMainWindow):
         max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
         max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
         razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
+        frstMeasure_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].iloc[0]
+        promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
         X_test=pd.DataFrame({
             'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
             'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
+            'promElevation_alcohol_s1[PPM]':[promElevation_alcohol_s1]
         })
         X_test[['prom_alcohol_s1[PPM]',
-                'razon_max_value_metano_alcohol_s1']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
-                                                                                'razon_max_value_metano_alcohol_s1']])
+                'razon_max_value_metano_alcohol_s1',
+                'promElevation_alcohol_s1[PPM]']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
+                                                                            'razon_max_value_metano_alcohol_s1',
+                                                                            'promElevation_alcohol_s1[PPM]']])
         print(X_test)
         Y_pred=self.MLP_classifier.predict(X_test)
         self.imprimir_categoria(Y_pred[0])
