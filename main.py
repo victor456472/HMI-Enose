@@ -130,7 +130,16 @@ class Application(QMainWindow):
 
         #panel de monitoreo
         self.ui.check_alcohol_s1.setChecked(True)
-        self.ui.check_alcohol_s1.setEnabled(True)
+        self.ui.check_alcohol_s1.clicked.connect(self.actualizarGraficas)
+        self.ui.check_alcohol_s2.clicked.connect(self.actualizarGraficas)
+        self.ui.check_acetona_s1.clicked.connect(self.actualizarGraficas)
+        self.ui.check_acetona_s2.clicked.connect(self.actualizarGraficas)
+        self.ui.check_co_s1.clicked.connect(self.actualizarGraficas)
+        self.ui.check_co_s2.clicked.connect(self.actualizarGraficas)
+        self.ui.check_dihidrogeno_s1.clicked.connect(self.actualizarGraficas)
+        self.ui.check_dihidrogeno_s2.clicked.connect(self.actualizarGraficas)
+        self.ui.check_metano_s1.clicked.connect(self.actualizarGraficas)
+        self.ui.check_metano_s2.clicked.connect(self.actualizarGraficas)
 
         #entrada manual de datos
         self.ui.comboBox_categoria.addItems(self.categorias)
@@ -138,6 +147,30 @@ class Application(QMainWindow):
 
         self.read_ports()
     
+    def actualizarGraficas(self):
+        self.plt.clear()
+        if(self.ui.check_alcohol_s1.isChecked()):
+            self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
+        if(self.ui.check_alcohol_s2.isChecked()):
+            self.plt.plot(self.x,self.y5,pen=pg.mkPen('#15dbe6', width=2))
+        if(self.ui.check_co_s1.isChecked()):
+            self.plt.plot(self.x,self.y1,pen=pg.mkPen('#eb5802', width=2))
+        if(self.ui.check_co_s2.isChecked()):
+            self.plt.plot(self.x,self.y6,pen=pg.mkPen('#dbf705', width=2))
+        if(self.ui.check_dihidrogeno_s1.isChecked()):
+            self.plt.plot(self.x,self.y2,pen=pg.mkPen('#04ff00', width=2))
+        if(self.ui.check_dihidrogeno_s2.isChecked()):
+            self.plt.plot(self.x,self.y7,pen=pg.mkPen('#8f2afa', width=2))
+        if(self.ui.check_acetona_s1.isChecked()):
+            self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
+        if(self.ui.check_acetona_s2.isChecked()):
+            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+        if(self.ui.check_metano_s1.isChecked()):
+            self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
+        if(self.ui.check_metano_s2.isChecked()):
+            self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
+
+        
     def deshabilitar_clasificar(self):
         self.ui.boton_clasificar.setStyleSheet("image:url(:/images/iconos/Imagen7.png);")
         self.ui.boton_clasificar.setEnabled(False)
@@ -381,9 +414,11 @@ class Application(QMainWindow):
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
-            self.df.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
+            df_rawdata=self.df.iloc[300:600,:]
+            df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
-            self.df.to_csv('datos_recolectados/rawdata0.csv')
+            df_rawdata=self.df.iloc[300:600,:]
+            df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
             #print(f'rawdata_counter: {self.rawdata_counter}')
     
     def resetear_rawdata(self):
@@ -423,14 +458,15 @@ class Application(QMainWindow):
             mensaje.exec_()
 
     def generar_dataframe(self, size, cat):
-        promedio_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].mean()
-        max_alcohol_s1=self.df['ALCOHOL_s1[PPM]'].max()
-        promedio_alcohol_s2=self.df['ALCOHOL_s2[PPM]'].mean()
-        max_alcohol_s2=self.df['ALCOHOL_s2[PPM]'].max()
-        promedio_metano_s1=self.df['METANO_s1[PPM]'].mean()
-        max_metano_s1=self.df['METANO_s1[PPM]'].max()
-        promedio_metano_s2=self.df['METANO_s2[PPM]'].mean()
-        max_metano_s2=self.df['METANO_s2[PPM]'].max()
+        df_dataframe=self.df.iloc[300:600,:]
+        promedio_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].mean()
+        max_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].max()
+        promedio_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].mean()
+        max_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].max()
+        promedio_metano_s1=df_dataframe['METANO_s1[PPM]'].mean()
+        max_metano_s1=df_dataframe['METANO_s1[PPM]'].max()
+        promedio_metano_s2=df_dataframe['METANO_s2[PPM]'].mean()
+        max_metano_s2=df_dataframe['METANO_s2[PPM]'].max()
         razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
         razon_max_metano_alcohol_s2=max_metano_s2/max_alcohol_s2
         #print(f'{promedio_alcohol_s1} -- {max_alcohol_s1} -- {promedio_alcohol_s2} -- {max_alcohol_s2} -- {promedio_metano_s1} -- {max_metano_s1} -- {promedio_metano_s2} -- {max_metano_s2} -- {razon_max_metano_alcohol_s1} -- {razon_max_metano_alcohol_s2} -- {tamano} -- {categoria}')
@@ -587,6 +623,7 @@ class Application(QMainWindow):
     def clasificar(self):
         self.habilitar_entrenar()
         df_clasificar=self.df.iloc[300:600,:]
+        print(df_clasificar.shape)
         promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
         max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
         max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
