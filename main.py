@@ -120,6 +120,8 @@ class Application(QMainWindow):
                                           activation = 'relu',
                                           solver='adam',
                                           random_state=1)
+        self.infLimit=10
+        self.supLimit=self.infLimit*2
 
         #machine learning buttons and legends
         self.deshabilitar_clasificar()
@@ -141,11 +143,94 @@ class Application(QMainWindow):
         self.ui.check_metano_s1.clicked.connect(self.actualizarGraficas)
         self.ui.check_metano_s2.clicked.connect(self.actualizarGraficas)
 
+        #boton de ajuste ambiental
+        self.ui.ambientAdjust.setEnabled(False)
+        self.ui.ambientAdjust.clicked.connect(self.ajusteAmbiental)
+        self.ambienteAjustado=False
+        self.lastOffset=0
+        self.lastOffset2=0
+        self.offset=0 #32
+        self.offset2=0 #3400
+        self.door0=True
+
         #entrada manual de datos
         self.ui.comboBox_categoria.addItems(self.categorias)
         self.ui.comboBox_categoria.setCurrentText('1')
 
         self.read_ports()
+
+    def changeIconAdjusted(self):
+        self.ui.ambientAdjust.setStyleSheet("QPushButton{"
+                                            "image:url(:/images/iconos/Imagen13.png);"
+                                            "}"
+                                            "QPushButton:hover{"
+                                            "image:url(:/images/iconos/Imagen12.png);"
+                                            "}")
+
+    def changeIconNoAdjusted(self):
+        self.ui.ambientAdjust.setStyleSheet("QPushButton{"
+                                            "image:url(:/images/iconos/Imagen12.png);"
+                                            "}"
+                                            "QPushButton:hover{"
+                                            "image:url(:/images/iconos/Imagen13.png);"
+                                            "}")
+    
+    def deshabilitarAjusteAmbiental(self):
+        self.ui.ambientAdjust.setStyleSheet("QPushButton{"
+                                            "image:url(:/images/iconos/Imagen14.png);"
+                                            "}")
+        
+        self.ui.ambientAdjust.setEnabled(False)
+
+    def verifyAndChangeIconAdj(self, mux=False):
+        if (self.ambienteAjustado ^ mux):
+            self.changeIconAdjusted()
+        else:
+            self.changeIconNoAdjusted()
+
+    def habilitarAjusteAmbiental(self):
+        self.ui.ambientAdjust.setEnabled(True)
+        if self.door0:
+            self.verifyAndChangeIconAdj()
+            self.door0=False
+        else:
+            pass
+
+    def ajusteAmbiental(self):
+        if self.ambienteAjustado:
+            self.ambienteAjustado=False
+            self.offset=0
+            self.offset2=0
+            self.lastOffset=-self.lastOffset
+            self.lastOffset2=-self.lastOffset2
+            self.changeIconNoAdjusted()
+        else:
+            self.offset=self.df.loc[self.df.index[-1],"ALCOHOL_s1[PPM]"]-10
+            self.offset2=self.df.loc[self.df.index[-1],"METANO_s1[PPM]"]-1300
+            self.lastOffset=self.offset
+            self.lastOffset2=self.offset2
+            self.ambienteAjustado=True
+            self.changeIconAdjusted()
+        
+        for element in range(0,len(self.y)):
+            if self.y[element]==0:
+                pass
+            else:
+                print(f'{self.y[element]}-{self.lastOffset}={self.y[element]-self.lastOffset}')
+                self.y[element]=self.y[element]-self.lastOffset
+
+        for element in range(0,len(self.y4)):
+            if self.y4[element]==0:
+                pass
+            else:
+                print(f'{self.y4[element]}-{self.lastOffset2}={self.y4[element]-self.lastOffset2}')
+                self.y4[element]=self.y4[element]-self.lastOffset2
+
+        self.df["ALCOHOL_s1[PPM]"]=self.df["ALCOHOL_s1[PPM]"]-self.lastOffset
+        self.df["METANO_s1[PPM]"]=self.df["METANO_s1[PPM]"]-self.lastOffset2
+                  
+        self.actualizarGraficas()
+
     
     def actualizarGraficas(self):
         self.plt.clear()
@@ -306,11 +391,11 @@ class Application(QMainWindow):
                                              "color:rgb(146,208,80);"
                                              "}")
         self.ui.boton_desconectar.setEnabled(False)
+        self.deshabilitarAjusteAmbiental()
+        self.door0=True
         self.serial.close()
 
     def read_data(self):
-        offset=20 #32
-        offset2=3400 #2200+300
         if not self.serial.canReadLine(): return
         rx = self.serial.readLine()
         x=str(rx, 'utf-8').strip()
@@ -328,11 +413,12 @@ class Application(QMainWindow):
             self.y7 = self.y7[1:]
             self.y8 = self.y8[1:]
             self.y9 = self.y9[1:]
-            self.y.append(float(x[0])-offset)
+            print(f"offset: {self.offset}")
+            self.y.append(float(x[0])-self.offset)
             self.y1.append(float(x[1]))
             self.y2.append(float(x[2]))
             self.y3.append(float(x[3]))
-            self.y4.append(float(x[4])-offset2)
+            self.y4.append(float(x[4])-self.offset2)
             self.y5.append(float(x[5]))
             self.y6.append(float(x[6]))
             self.y7.append(float(x[7]))
@@ -360,11 +446,11 @@ class Application(QMainWindow):
             if(self.ui.check_metano_s2.isChecked()):
                 self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
             new_row={
-                'ALCOHOL_s1[PPM]':float(x[0])-offset,
+                'ALCOHOL_s1[PPM]':float(x[0])-self.offset,
                 'MONOXIDO DE CARBONO_S1[PPM]':float(x[1]),
                 'DIHIDROGENO_s1[PPM]':float(x[2]),
                 'ACETONA_s1[PPM]':float(x[3]),
-                'METANO_s1[PPM]':float(x[4])-offset2,
+                'METANO_s1[PPM]':float(x[4])-self.offset2,
                 'ALCOHOL_s2[PPM]':float(x[5]),
                 'MONOXIDO DE CARBONO_S2[PPM]':float(x[6]),
                 'DIHIDROGENO_s2[PPM]':float(x[7]),
@@ -372,8 +458,9 @@ class Application(QMainWindow):
                 'METANO_s2[PPM]':float(x[9]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
-            print(self.df['METANO_s1[PPM]']) #cambiando lectura
+            #print(self.df['METANO_s1[PPM]']) #cambiando lectura
             self.habilitar_borrar_muestra()
+            self.habilitarAjusteAmbiental()
         elif(fin==1):
             self.habilitar_generar_datos()
             self.habilitar_clasificar()
@@ -413,10 +500,10 @@ class Application(QMainWindow):
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
-            df_rawdata=self.df.iloc[300:600,:]
+            df_rawdata=self.df.iloc[self.infLimit:self.supLimit,:]
             df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
-            df_rawdata=self.df.iloc[300:600,:]
+            df_rawdata=self.df.iloc[self.infLimit:self.supLimit,:]
             df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
             #print(f'rawdata_counter: {self.rawdata_counter}')
     
@@ -457,7 +544,7 @@ class Application(QMainWindow):
             mensaje.exec_()
 
     def generar_dataframe(self, size, cat):
-        df_dataframe=self.df.iloc[300:600,:]
+        df_dataframe=self.df.iloc[self.infLimit:self.supLimit,:]
         promedio_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].mean()
         max_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].max()
         promedio_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].mean()
@@ -670,7 +757,7 @@ class Application(QMainWindow):
     
     def clasificar(self):
         self.habilitar_entrenar()
-        df_clasificar=self.df.iloc[300:600,:]
+        df_clasificar=self.df.iloc[self.infLimit:self.supLimit,:]
         print(df_clasificar.shape)
         promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
         max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
