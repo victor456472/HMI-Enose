@@ -129,6 +129,7 @@ class Application(QMainWindow):
         self.apagar_titulo_clasificar()
         self.ui.boton_clasificar.clicked.connect(self.clasificar)
         self.ui.boton_entrenar.clicked.connect(self.entrenar)
+        self.door1=True
 
         #panel de monitoreo
         self.ui.check_alcohol_s1.setChecked(True)
@@ -231,7 +232,6 @@ class Application(QMainWindow):
                   
         self.actualizarGraficas()
 
-    
     def actualizarGraficas(self):
         self.plt.clear()
         if(self.ui.check_alcohol_s1.isChecked()):
@@ -505,7 +505,6 @@ class Application(QMainWindow):
         else: #si el directorio esta vacio
             df_rawdata=self.df.iloc[self.infLimit:self.supLimit,:]
             df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
-            #print(f'rawdata_counter: {self.rawdata_counter}')
     
     def resetear_rawdata(self):
         self.df = pd.DataFrame({
@@ -729,6 +728,7 @@ class Application(QMainWindow):
             self.borrar_categoria()
             self.borrar_generar_datos = False
             self.limpiar_grafica()
+            self.door1=True
             
         else:
             self.df = pd.DataFrame({
@@ -756,9 +756,11 @@ class Application(QMainWindow):
         self.ui.boton_maximizar.show()
     
     def clasificar(self):
-        self.habilitar_entrenar()
+        if self.door1:
+            self.habilitar_entrenar()
+            self.door1=False
         df_clasificar=self.df.iloc[self.infLimit:self.supLimit,:]
-        print(df_clasificar.shape)
+        #print(df_clasificar.shape)
         promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
         max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
         max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
@@ -780,7 +782,34 @@ class Application(QMainWindow):
         self.imprimir_categoria(Y_pred[0])
 
     def entrenar(self):
-        print("boton entrenar presionado")
+        dt_frame=pd.read_csv('dataframe/dataframe.csv')
+        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]','categoria']]
+        df_entrenar=self.df.iloc[self.infLimit:self.supLimit,:]
+        promedio_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].mean()
+        max_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].max()
+        max_metano_s1=df_entrenar['METANO_s1[PPM]'].max()
+        razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
+        frstMeasure_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].iloc[0]
+        promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
+        categoria=self.ui.comboBox_categoria.currentText()
+        X_last={
+            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,
+            'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
+            'promElevation_alcohol_s1[PPM]':promElevation_alcohol_s1,
+            'categoria':int(categoria)
+        }
+        X_raw=X_raw.append(X_last, ignore_index=True)
+        Y=X_raw.categoria
+        X_raw.drop(['categoria'],axis=1)
+        X=pd.DataFrame()
+        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
+            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
+        print(X.tail(5))
+        self.MLP_classifier.fit(X,Y)
+        self.ui.label_categoria.setText("red entrenada")
+        self.ui.label_categoria.setStyleSheet("color:rgb(218,0,55);"
+                                              "font:87 20pt 'cooper black';")
+        self.deshabilitar_entrenar()
 
     def control_maximizar(self):
         self.showMaximized()
