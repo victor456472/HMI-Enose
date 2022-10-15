@@ -350,6 +350,7 @@ class Application(QMainWindow):
         self.ui.comboBox_baudrate.setCurrentText('9600')
     
     def serial_connect(self):
+        file_names=os.listdir('dataframe')
         self.serial.waitForReadyRead(100)
         self.port = self.ui.comboBox_puerto.currentText()
         self.baud = self.ui.comboBox_baudrate.currentText()
@@ -363,7 +364,10 @@ class Application(QMainWindow):
                                              "color:rgb(218,0,55);")
         self.ui.boton_conectar.setText("CONECTADO")
         self.ui.boton_conectar.setEnabled(False)
-        self.entrenar_red()
+        if file_names:
+            self.entrenar_red()
+        else:
+            pass
     
     def entrenar_red(self):
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
@@ -462,7 +466,11 @@ class Application(QMainWindow):
             self.habilitar_borrar_muestra()
             self.habilitarAjusteAmbiental()
         elif(fin==1):
-            self.habilitar_generar_datos()
+            file_names=os.listdir("dataframe")
+            if file_names:
+                self.habilitar_generar_datos()
+            else:
+                pass
             self.habilitar_clasificar()
             self.encender_titulo_clasificar()
             self.borrar_generar_datos = True
@@ -520,21 +528,24 @@ class Application(QMainWindow):
             'METANO_s2[PPM]':[],
         })
 
-    def calcular_values_dataframe(self):
+    def calcular_values_dataframe(self, train_invoked=False):
         categoria=self.ui.comboBox_categoria.currentText()
         try:
             tamano=float(self.ui.lineEdit_tamano.text().strip())
             self.generar_rawdata()
             self.generar_dataframe(tamano, categoria)
-            self.resetear_dataframe()
-            self.resetear_rawdata()
-            self.limpiar_grafica()
-            self.deshabilitar_generar_datos()
-            self.deshabilitar_borrar_muestra()
-            self.deshabilitar_clasificar()
-            self.deshabilitar_entrenar()
-            self.apagar_titulo_clasificar()
-            self.borrar_categoria()
+            if train_invoked==False:
+                self.resetear_dataframe()
+                self.resetear_rawdata()
+                self.limpiar_grafica()
+                self.deshabilitar_generar_datos()
+                self.deshabilitar_borrar_muestra()
+                self.deshabilitar_clasificar()
+                self.deshabilitar_entrenar()
+                self.apagar_titulo_clasificar()
+                self.borrar_categoria()
+            else:
+                pass
         except:
             mensaje=QMessageBox()
             mensaje.setWindowTitle("Error")
@@ -756,32 +767,45 @@ class Application(QMainWindow):
         self.ui.boton_maximizar.show()
     
     def clasificar(self):
-        if self.door1:
+        file_names=os.listdir('dataframe')
+        if file_names:
+            if self.door1:
+                self.habilitar_entrenar()
+                self.door1=False
+            df_clasificar=self.df.iloc[self.infLimit:self.supLimit,:]
+            #print(df_clasificar.shape)
+            promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
+            max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
+            max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
+            razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
+            frstMeasure_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].iloc[0]
+            promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
+            X_test=pd.DataFrame({
+                'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
+                'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
+                'promElevation_alcohol_s1[PPM]':[promElevation_alcohol_s1]
+            })
+            X_test[['prom_alcohol_s1[PPM]',
+                    'razon_max_value_metano_alcohol_s1',
+                    'promElevation_alcohol_s1[PPM]']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
+                                                                                'razon_max_value_metano_alcohol_s1',
+                                                                                'promElevation_alcohol_s1[PPM]']])
+            print(X_test)
+            Y_pred=self.MLP_classifier.predict(X_test)
+            self.imprimir_categoria(Y_pred[0])
+        else:
+            if self.door1:
+                self.habilitar_entrenar()
+                self.door1=False
+            self.imprimir_categoria("??")
             self.habilitar_entrenar()
-            self.door1=False
-        df_clasificar=self.df.iloc[self.infLimit:self.supLimit,:]
-        #print(df_clasificar.shape)
-        promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
-        max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
-        max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
-        razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
-        frstMeasure_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].iloc[0]
-        promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
-        X_test=pd.DataFrame({
-            'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
-            'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
-            'promElevation_alcohol_s1[PPM]':[promElevation_alcohol_s1]
-        })
-        X_test[['prom_alcohol_s1[PPM]',
-                'razon_max_value_metano_alcohol_s1',
-                'promElevation_alcohol_s1[PPM]']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
-                                                                            'razon_max_value_metano_alcohol_s1',
-                                                                            'promElevation_alcohol_s1[PPM]']])
-        print(X_test)
-        Y_pred=self.MLP_classifier.predict(X_test)
-        self.imprimir_categoria(Y_pred[0])
 
     def entrenar(self):
+        file_names=os.listdir('dataframe')
+        if file_names:
+            pass
+        else:
+            self.calcular_values_dataframe(True)
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
         X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]','categoria']]
         df_entrenar=self.df.iloc[self.infLimit:self.supLimit,:]
