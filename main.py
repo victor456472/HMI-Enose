@@ -249,7 +249,7 @@ class Application(QMainWindow):
         if(self.ui.check_acetona_s1.isChecked()):
             self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
         if(self.ui.check_acetona_s2.isChecked()):
-            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#03016b', width=2))
         if(self.ui.check_metano_s1.isChecked()):
             self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
         if(self.ui.check_metano_s2.isChecked()):
@@ -444,7 +444,7 @@ class Application(QMainWindow):
             if(self.ui.check_acetona_s1.isChecked()):
                 self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
             if(self.ui.check_acetona_s2.isChecked()):
-                self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+                self.plt.plot(self.x,self.y8,pen=pg.mkPen('#03016b', width=2))
             if(self.ui.check_metano_s1.isChecked()):
                 self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
             if(self.ui.check_metano_s2.isChecked()):
@@ -711,7 +711,7 @@ class Application(QMainWindow):
         if(self.ui.check_acetona_s1.isChecked()):
             self.plt.plot(self.x,self.y3,pen=pg.mkPen('#fa2aec', width=2))
         if(self.ui.check_acetona_s2.isChecked()):
-            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#fafafa', width=2))
+            self.plt.plot(self.x,self.y8,pen=pg.mkPen('#03016b', width=2))
         if(self.ui.check_metano_s1.isChecked()):
             self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
         if(self.ui.check_metano_s2.isChecked()):
