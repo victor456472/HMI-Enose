@@ -120,7 +120,7 @@ class Application(QMainWindow):
                                           activation = 'relu',
                                           solver='adam',
                                           random_state=1)
-        self.infLimit=300
+        self.infLimit=30
         self.supLimit=self.infLimit*2
 
         #machine learning buttons and legends
