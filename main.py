@@ -372,13 +372,13 @@ class Application(QMainWindow):
     def entrenar_red(self):
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
         Y=dt_frame.categoria
-        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]
+        X_raw=dt_frame[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]
         X=pd.DataFrame()
-        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
-            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
+        X[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
+            X_raw[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
         print(X.head(5))
         self.MLP_classifier.fit(X,Y)
-        print("red entrenada")
+        print("red entrenada") #listo
 
     def serial_disconnect(self):
         self.ui.boton_desconectar.hide()
@@ -577,6 +577,8 @@ class Application(QMainWindow):
         promElevation_metano_s1=promedio_metano_s1-frstMeasure_metano_s1
         crvElevation_metano_s2=max_metano_s2-frstMeasure_metano_s2
         promElevation_metano_s2=promedio_metano_s2-frstMeasure_metano_s2
+        razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
+
 
         #print(f'{promedio_alcohol_s1} -- {max_alcohol_s1} -- {promedio_alcohol_s2} -- {max_alcohol_s2} -- {promedio_metano_s1} -- {max_metano_s1} -- {promedio_metano_s2} -- {max_metano_s2} -- {razon_max_metano_alcohol_s1} -- {razon_max_metano_alcohol_s2} -- {tamano} -- {categoria}')
         file_names2=os.listdir('dataframe')
@@ -605,7 +607,8 @@ class Application(QMainWindow):
             'crvElevation_metano_s1[PPM]':crvElevation_metano_s1,
             'promElevation_metano_s1[PPM]':promElevation_metano_s1,
             'crvElevation_metano_s2[PPM]':crvElevation_metano_s2,
-            'promElevation_metano_s2[PPM]':promElevation_metano_s2     
+            'promElevation_metano_s2[PPM]':promElevation_metano_s2, 
+            'razon_max_min_alch':razonMaxMinAlch     
         }
         #print(self.df2)
         if file_names2:
@@ -649,10 +652,11 @@ class Application(QMainWindow):
                 df3.loc[df3['identifier']==frame_index, 'promElevation_metano_s1[PPM]']=promElevation_metano_s1
                 df3.loc[df3['identifier']==frame_index, 'crvElevation_metano_s2[PPM]']=crvElevation_metano_s2
                 df3.loc[df3['identifier']==frame_index, 'promElevation_metano_s2[PPM]']=promElevation_metano_s2
+                df3.loc[df3['identifier']==frame_index, 'razon_max_min_alch']=razonMaxMinAlch
                 df3.to_csv('dataframe/dataframe.csv', index=False)
         else:
             self.df2=self.df2.append(new_row2, ignore_index=True)
-            self.df2.to_csv('dataframe/dataframe.csv', index=False)
+            self.df2.to_csv('dataframe/dataframe.csv', index=False) #listo
     
     def resetear_dataframe(self):
         self.df2 =pd.DataFrame({
@@ -680,8 +684,9 @@ class Application(QMainWindow):
             'crvElevation_metano_s1':[],
             'promElevation_metano_s1':[],
             'crvElevation_metano_s2':[],
-            'promElevation_metano_s2':[]
-            })
+            'promElevation_metano_s2':[],
+            'razon_max_min_alch':[]
+            }) #listo
 
     def limpiar_grafica(self):
         self.x = list(np.linspace(0,300,300))
@@ -780,14 +785,15 @@ class Application(QMainWindow):
             razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
             frstMeasure_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].iloc[0]
             promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
+            razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
             X_test=pd.DataFrame({
-                'prom_alcohol_s1[PPM]':[promedio_alcohol_s1],
+                'razon_max_min_alch':[razonMaxMinAlch],
                 'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
                 'promElevation_alcohol_s1[PPM]':[promElevation_alcohol_s1]
             })
-            X_test[['prom_alcohol_s1[PPM]',
+            X_test[['razon_max_min_alch',
                     'razon_max_value_metano_alcohol_s1',
-                    'promElevation_alcohol_s1[PPM]']]=self.sc.transform(X_test[['prom_alcohol_s1[PPM]',
+                    'promElevation_alcohol_s1[PPM]']]=self.sc.transform(X_test[['razon_max_min_alch',
                                                                                 'razon_max_value_metano_alcohol_s1',
                                                                                 'promElevation_alcohol_s1[PPM]']])
             print(X_test)
@@ -798,7 +804,7 @@ class Application(QMainWindow):
                 self.habilitar_entrenar()
                 self.door1=False
             self.imprimir_categoria("??")
-            self.habilitar_entrenar()
+            self.habilitar_entrenar() #listo
 
     def entrenar(self):
         file_names=os.listdir('dataframe')
@@ -807,7 +813,7 @@ class Application(QMainWindow):
         else:
             self.calcular_values_dataframe(True)
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
-        X_raw=dt_frame[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]','categoria']]
+        X_raw=dt_frame[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]','categoria']]
         df_entrenar=self.df.iloc[self.infLimit:self.supLimit,:]
         promedio_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].mean()
         max_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].max()
@@ -815,9 +821,10 @@ class Application(QMainWindow):
         razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
         frstMeasure_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].iloc[0]
         promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
+        razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
         categoria=self.ui.comboBox_categoria.currentText()
         X_last={
-            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,
+            'razon_max_min_alch':razonMaxMinAlch,
             'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
             'promElevation_alcohol_s1[PPM]':promElevation_alcohol_s1,
             'categoria':int(categoria)
@@ -826,14 +833,14 @@ class Application(QMainWindow):
         Y=X_raw.categoria
         X_raw.drop(['categoria'],axis=1)
         X=pd.DataFrame()
-        X[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
-            X_raw[['prom_alcohol_s1[PPM]','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
+        X[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
+            X_raw[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
         print(X.tail(5))
         self.MLP_classifier.fit(X,Y)
         self.ui.label_categoria.setText("red entrenada")
         self.ui.label_categoria.setStyleSheet("color:rgb(218,0,55);"
                                               "font:87 20pt 'cooper black';")
-        self.deshabilitar_entrenar()
+        self.deshabilitar_entrenar() #listo
 
     def control_maximizar(self):
         self.showMaximized()
