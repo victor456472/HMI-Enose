@@ -101,19 +101,6 @@ class Application(QMainWindow):
             'razon_max_value_metano_alcohol_s2':[],
             'tamaño[cm]':[],
             'categoria':[],
-            'frstMeasure_alcohol_s1':[],
-            'frstMeasure_alcohol_s2':[],
-            'frstMeasure_metano_s1':[],
-            'frstMeasure_metano_s2':[],
-            'crvElevation_alcohol_s1':[],
-            'promElevation_alcohol_s1':[],
-            'crvElevation_alcohol_s2':[],
-            'promElevation_alcohol_s2':[],
-            'crvElevation_metano_s1':[],
-            'promElevation_metano_s1':[],
-            'crvElevation_metano_s2':[],
-            'promElevation_metano_s2':[],
-            'razon_max_min_alch':[]
             })
 
         #generar y borrar datos
