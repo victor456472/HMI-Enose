@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1297</width>
-    <height>662</height>
+    <width>1355</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -222,7 +222,7 @@ background-color:rgb(44,44,44);
            <number>5</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,7">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,12">
             <item>
              <widget class="QFrame" name="frame_3">
               <property name="styleSheet">
@@ -506,7 +506,7 @@ QPushButton:hover{
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3" stretch="2,2">
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,3,3">
+               <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,3,3,3">
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -527,6 +527,9 @@ border-radius:10px</string>
                     <spacer name="verticalSpacer_4">
                      <property name="orientation">
                       <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::MinimumExpanding</enum>
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
@@ -589,11 +592,11 @@ font:87 12pt &quot;cooper black&quot;</string>
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::MinimumExpanding</enum>
+                         <enum>QSizePolicy::Minimum</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
-                          <width>50</width>
+                          <width>40</width>
                           <height>20</height>
                          </size>
                         </property>
@@ -603,13 +606,13 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QLineEdit" name="lineEdit_tamano">
                         <property name="minimumSize">
                          <size>
-                          <width>150</width>
+                          <width>50</width>
                           <height>30</height>
                          </size>
                         </property>
                         <property name="maximumSize">
                          <size>
-                          <width>144</width>
+                          <width>50</width>
                           <height>16777215</height>
                          </size>
                         </property>
@@ -662,11 +665,11 @@ font:87 12pt &quot;cooper black&quot;</string>
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::MinimumExpanding</enum>
+                         <enum>QSizePolicy::Minimum</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
-                          <width>50</width>
+                          <width>40</width>
                           <height>20</height>
                          </size>
                         </property>
@@ -716,7 +719,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::Maximum</enum>
+                         <enum>QSizePolicy::Minimum</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -730,13 +733,13 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QComboBox" name="comboBox_categoria">
                         <property name="minimumSize">
                          <size>
-                          <width>102</width>
+                          <width>100</width>
                           <height>0</height>
                          </size>
                         </property>
                         <property name="maximumSize">
                          <size>
-                          <width>174</width>
+                          <width>100</width>
                           <height>16777215</height>
                          </size>
                         </property>
@@ -774,7 +777,7 @@ QComboBox QAbstractItemView{
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::Maximum</enum>
+                         <enum>QSizePolicy::Minimum</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -793,7 +796,7 @@ QComboBox QAbstractItemView{
                       <enum>Qt::Vertical</enum>
                      </property>
                      <property name="sizeType">
-                      <enum>QSizePolicy::Expanding</enum>
+                      <enum>QSizePolicy::Minimum</enum>
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
@@ -903,7 +906,7 @@ border-radius:10px</string>
                              <widget class="QPushButton" name="boton_generar_datos">
                               <property name="minimumSize">
                                <size>
-                                <width>200</width>
+                                <width>100</width>
                                 <height>30</height>
                                </size>
                               </property>
@@ -1212,10 +1215,90 @@ font:87 20pt &quot;cooper black&quot;</string>
                   </layout>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QFrame" name="frame_32">
+                  <property name="styleSheet">
+                   <string notr="true">background-color:rgb(40,40,40);
+border-radius:10px</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_18">
+                   <item>
+                    <widget class="QScrollArea" name="scrollArea">
+                     <property name="styleSheet">
+                      <string notr="true"> QScrollBar:vertical{
+	border:none;
+	background-color: rgb(80,80,122);
+	width: 14px;
+	margin: 15px 0 15px 0;
+	border-radius: 0px;
+}
+
+QScrollBar::handle:vertical{
+	background-color:rgb(80,80,122);
+	min-height:30px;
+	border-radius:7px;
+}
+QScrollBar::handle:vertical:hover{
+	background-color: rgb(164, 252, 97);
+}
+QScrollBar::handle:vertical:pressed{
+	background-color: rgb(53, 148, 39);
+}
+QScrollBar::sub-line:vertical{
+	border:none;
+	background-color: rgb(80,80,122);
+	height: 15px;
+}</string>
+                     </property>
+                     <property name="widgetResizable">
+                      <bool>true</bool>
+                     </property>
+                     <widget class="QWidget" name="scrollAreaWidgetContents">
+                      <property name="geometry">
+                       <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>245</width>
+                        <height>518</height>
+                       </rect>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_19">
+                       <item>
+                        <widget class="QFrame" name="frame_33">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>500</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Raised</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="6,2">
+               <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="6,3,6">
                 <item>
                  <widget class="QFrame" name="frame_5">
                   <property name="styleSheet">
@@ -2087,6 +2170,124 @@ QCheckBox::indicator:unchecked
                     </widget>
                    </item>
                   </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_31">
+                  <property name="styleSheet">
+                   <string notr="true">background-color:rgb(44,44,44);
+border-radius:10px</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <widget class="QRadioButton" name="radioButton">
+                   <property name="geometry">
+                    <rect>
+                     <x>380</x>
+                     <y>20</y>
+                     <width>51</width>
+                     <height>17</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>auto</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="button_ch2_n">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>210</y>
+                     <width>75</width>
+                     <height>23</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>ch2_n</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="button_ch2_v3">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>170</y>
+                     <width>75</width>
+                     <height>23</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>ch2_v3</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="button_ch2_v2">
+                   <property name="geometry">
+                    <rect>
+                     <x>260</x>
+                     <y>110</y>
+                     <width>75</width>
+                     <height>23</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>ch2_v2</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="button_ch2_p2">
+                   <property name="geometry">
+                    <rect>
+                     <x>340</x>
+                     <y>110</y>
+                     <width>75</width>
+                     <height>23</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>ch2_p2</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="button_ch1_v1">
+                   <property name="geometry">
+                    <rect>
+                     <x>140</x>
+                     <y>110</y>
+                     <width>75</width>
+                     <height>23</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>ch1_v1</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="button_ch1_p1">
+                   <property name="geometry">
+                    <rect>
+                     <x>50</x>
+                     <y>110</y>
+                     <width>75</width>
+                     <height>23</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>ch1_p1</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="imagen_fondo">
+                   <property name="geometry">
+                    <rect>
+                     <x>210</x>
+                     <y>90</y>
+                     <width>47</width>
+                     <height>13</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>fondo</string>
+                   </property>
+                  </widget>
                  </widget>
                 </item>
                </layout>
