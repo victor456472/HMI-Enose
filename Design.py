@@ -15,6 +15,64 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1355, 694)
+        MainWindow.setStyleSheet(" QScrollBar:vertical{\n"
+"    border:none;\n"
+"    background-color: rgb(80,80,80);\n"
+"    width: 14px;\n"
+"    margin: 7px 0 7px 0;\n"
+"    border-radius: 0px;\n"
+"}\n"
+"QScrollBar::handle:vertical{\n"
+"    background-color:rgb(80,80,80);\n"
+"    min-height:30px;\n"
+"    border-radius:7px;\n"
+"}\n"
+"QScrollBar::handle:vertical:hover{\n"
+"    background-color: rgb(146,208,80);\n"
+"}\n"
+"QScrollBar::handle:vertical:pressed{\n"
+"    background-color: rgb(53, 148, 39);\n"
+"}\n"
+"QScrollBar::sub-line:vertical{\n"
+"    border:none;\n"
+"    background-color: rgb(50,50,50);\n"
+"    height: 15px;\n"
+"    border-top-left-radius: 7px;\n"
+"    border-bottom-left-radius: 7px;\n"
+"    border-top-right-radius: 7px;\n"
+"    border-bottom-right-radius: 7px;\n"
+"    subcontrol-position:top;\n"
+"    subcontrol-origin:margin;\n"
+"}\n"
+"QScrollBar::sub-line:vertical:hover{\n"
+"    background-color: rgb(146,208,80);\n"
+"}\n"
+"QScrollBar::sub-line:vertical:pressed{\n"
+"    background-color: rgb(53, 148, 39);\n"
+"}\n"
+"QScrollBar::add-line:vertical{\n"
+"    border:none;\n"
+"    background-color: rgb(50,50,50);\n"
+"    height: 15px;\n"
+"    border-top-left-radius: 7px;\n"
+"    border-bottom-left-radius: 7px;\n"
+"    border-top-right-radius: 7px;\n"
+"    border-bottom-right-radius: 7px;\n"
+"    subcontrol-position:bottom;\n"
+"    subcontrol-origin:margin;\n"
+"}\n"
+"QScrollBar::add-line:vertical:hover{\n"
+"    background-color: rgb(164, 252, 97);\n"
+"}\n"
+"QScrollBar::add-line:vertical:pressed{\n"
+"    background-color: rgb(53, 148, 39);\n"
+"}\n"
+"QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical{\n"
+"    background:none;\n"
+"}\n"
+"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{\n"
+"    background:none;\n"
+"}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -292,7 +350,7 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem2)
         self.lineEdit_tamano = QtWidgets.QLineEdit(self.frame_11)
-        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(50, 30))
+        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(144, 30))
         self.lineEdit_tamano.setMaximumSize(QtCore.QSize(50, 16777215))
         self.lineEdit_tamano.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
@@ -335,7 +393,7 @@ class Ui_MainWindow(object):
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem4)
         self.comboBox_categoria = QtWidgets.QComboBox(self.frame_12)
-        self.comboBox_categoria.setMinimumSize(QtCore.QSize(100, 0))
+        self.comboBox_categoria.setMinimumSize(QtCore.QSize(96, 0))
         self.comboBox_categoria.setMaximumSize(QtCore.QSize(100, 16777215))
         self.comboBox_categoria.setStyleSheet("QComboBox{\n"
 "    border: 3px solid #111111;\n"
@@ -366,7 +424,7 @@ class Ui_MainWindow(object):
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem5)
         self.verticalLayout_10.addWidget(self.frame_12)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_10.addItem(spacerItem6)
         self.horizontalLayout_2.addWidget(self.frame_6)
         self.frame_4 = QtWidgets.QFrame(self.frame_2)
@@ -549,34 +607,26 @@ class Ui_MainWindow(object):
         self.verticalLayout_18 = QtWidgets.QVBoxLayout(self.frame_32)
         self.verticalLayout_18.setObjectName("verticalLayout_18")
         self.scrollArea = QtWidgets.QScrollArea(self.frame_32)
-        self.scrollArea.setStyleSheet(" QScrollBar:vertical{\n"
+        self.scrollArea.setStyleSheet("QScrollBar::vertical{\n"
 "    border:none;\n"
-"    background-color: rgb(80,80,122);\n"
-"    width: 14px;\n"
-"    margin: 15px 0 15px 0;\n"
-"    border-radius: 0px;\n"
+"    background:rgb(50, 50, 50);\n"
 "}\n"
-"\n"
 "QScrollBar::handle:vertical{\n"
-"    background-color:rgb(80,80,122);\n"
+"    background-color:rgb(70,70,70);\n"
 "    min-height:30px;\n"
 "    border-radius:7px;\n"
 "}\n"
 "QScrollBar::handle:vertical:hover{\n"
-"    background-color: rgb(164, 252, 97);\n"
+"    background-color: rgb(146,208,80);\n"
 "}\n"
 "QScrollBar::handle:vertical:pressed{\n"
-"    background-color: rgb(53, 148, 39);\n"
-"}\n"
-"QScrollBar::sub-line:vertical{\n"
-"    border:none;\n"
-"    background-color: rgb(80,80,122);\n"
-"    height: 15px;\n"
+"    background-color: rgb(76, 143, 47);\n"
 "}")
+        self.scrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 245, 518))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 235, 518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -989,6 +1039,9 @@ class Ui_MainWindow(object):
         self.imagen_fondo = QtWidgets.QLabel(self.frame_31)
         self.imagen_fondo.setGeometry(QtCore.QRect(210, 90, 47, 13))
         self.imagen_fondo.setObjectName("imagen_fondo")
+        self.button_ch2_v2_2 = QtWidgets.QPushButton(self.frame_31)
+        self.button_ch2_v2_2.setGeometry(QtCore.QRect(70, 200, 75, 23))
+        self.button_ch2_v2_2.setObjectName("button_ch2_v2_2")
         self.horizontalLayout_10.addWidget(self.frame_31)
         self.horizontalLayout_10.setStretch(0, 6)
         self.horizontalLayout_10.setStretch(1, 3)
@@ -1038,4 +1091,5 @@ class Ui_MainWindow(object):
         self.button_ch1_v1.setText(_translate("MainWindow", "ch1_v1"))
         self.button_ch1_p1.setText(_translate("MainWindow", "ch1_p1"))
         self.imagen_fondo.setText(_translate("MainWindow", "fondo"))
+        self.button_ch2_v2_2.setText(_translate("MainWindow", "all"))
 import resource_icon_rc
