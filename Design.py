@@ -627,7 +627,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -254, 235, 518))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -2, 242, 518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -658,6 +658,10 @@ class Ui_MainWindow(object):
         self.label_15.setObjectName("label_15")
         self.horizontalLayout_9.addWidget(self.label_15)
         self.label_16 = QtWidgets.QLabel(self.frame_34)
+        self.label_16.setMaximumSize(QtCore.QSize(20, 20))
+        self.label_16.setText("")
+        self.label_16.setPixmap(QtGui.QPixmap(":/images/iconos/ajustes.png"))
+        self.label_16.setScaledContents(True)
         self.label_16.setObjectName("label_16")
         self.horizontalLayout_9.addWidget(self.label_16)
         self.horizontalLayout_9.setStretch(0, 5)
@@ -684,7 +688,7 @@ class Ui_MainWindow(object):
         self.label_18 = QtWidgets.QLabel(self.frame_35)
         self.label_18.setMinimumSize(QtCore.QSize(77, 0))
         self.label_18.setMaximumSize(QtCore.QSize(77, 16777215))
-        self.label_18.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_18.setStyleSheet("color: rgb(255, 217, 0);\n"
 "font:87 9pt \"cooper black\"")
         self.label_18.setAlignment(QtCore.Qt.AlignCenter)
         self.label_18.setObjectName("label_18")
@@ -695,9 +699,9 @@ class Ui_MainWindow(object):
         self.lineEdit_t1.setMaximumSize(QtCore.QSize(75, 31))
         self.lineEdit_t1.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
-"    border: 3px solid #92d050;\n"
+"    border: 3px solid #ffd900;\n"
 "    border-radius:5px;\n"
-"    color:rgb(255,208,80);\n"
+"    color:rgb(255, 217, 0);\n"
 "    font:87 15pt \"cooper black\";\n"
 "}\n"
 "\n"
@@ -709,13 +713,26 @@ class Ui_MainWindow(object):
         self.horizontalLayout_20.addItem(spacerItem12)
         self.label_19 = QtWidgets.QLabel(self.frame_35)
         self.label_19.setMaximumSize(QtCore.QSize(8, 16777215))
-        self.label_19.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_19.setStyleSheet("color: rgb(255, 217, 0);\n"
 "font:87 12pt \"cooper black\"")
         self.label_19.setObjectName("label_19")
         self.horizontalLayout_20.addWidget(self.label_19)
         spacerItem13 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_20.addItem(spacerItem13)
         self.button_t1 = QtWidgets.QPushButton(self.frame_35)
+        self.button_t1.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/ajustar.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    \n"
+"    image: url(:/images/iconos/ajustar_t1hover.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    \n"
+"    image: url(:/images/iconos/ajustar_t1pressed.png);\n"
+"}")
+        self.button_t1.setText("")
         self.button_t1.setObjectName("button_t1")
         self.horizontalLayout_20.addWidget(self.button_t1)
         self.verticalLayout_20.addWidget(self.frame_35)
@@ -731,7 +748,7 @@ class Ui_MainWindow(object):
         self.label_20 = QtWidgets.QLabel(self.frame_36)
         self.label_20.setMinimumSize(QtCore.QSize(77, 0))
         self.label_20.setMaximumSize(QtCore.QSize(77, 16777215))
-        self.label_20.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_20.setStyleSheet("color: rgb(255, 157, 0);\n"
 "font:87 9pt \"cooper black\"")
         self.label_20.setAlignment(QtCore.Qt.AlignCenter)
         self.label_20.setObjectName("label_20")
@@ -743,9 +760,9 @@ class Ui_MainWindow(object):
         self.lineEdit_t2.setMaximumSize(QtCore.QSize(75, 31))
         self.lineEdit_t2.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
-"    border: 3px solid #92d050;\n"
+"    border: 3px solid #ff9d00;\n"
 "    border-radius:5px;\n"
-"    color:rgb(255,208,80);\n"
+"    color:rgb(255, 157, 0);\n"
 "    font:87 15pt \"cooper black\";\n"
 "}\n"
 "\n"
@@ -757,7 +774,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_21.addItem(spacerItem15)
         self.label_21 = QtWidgets.QLabel(self.frame_36)
         self.label_21.setMaximumSize(QtCore.QSize(8, 16777215))
-        self.label_21.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_21.setStyleSheet("color: rgb(255, 157, 0);\n"
 "font:87 12pt \"cooper black\"")
         self.label_21.setObjectName("label_21")
         self.horizontalLayout_21.addWidget(self.label_21)
@@ -769,6 +786,19 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.button_t2.sizePolicy().hasHeightForWidth())
         self.button_t2.setSizePolicy(sizePolicy)
+        self.button_t2.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/ajustar.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    \n"
+"    image: url(:/images/iconos/ajustar_t2hover.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    \n"
+"    image: url(:/images/iconos/ajustar_t2pressed.png);\n"
+"}")
+        self.button_t2.setText("")
         self.button_t2.setObjectName("button_t2")
         self.horizontalLayout_21.addWidget(self.button_t2)
         self.verticalLayout_20.addWidget(self.frame_36)
@@ -784,7 +814,7 @@ class Ui_MainWindow(object):
         self.label_22 = QtWidgets.QLabel(self.frame_37)
         self.label_22.setMinimumSize(QtCore.QSize(77, 0))
         self.label_22.setMaximumSize(QtCore.QSize(77, 16777215))
-        self.label_22.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_22.setStyleSheet("color: rgb(255, 64, 0);\n"
 "font:87 9pt \"cooper black\"")
         self.label_22.setAlignment(QtCore.Qt.AlignCenter)
         self.label_22.setObjectName("label_22")
@@ -796,9 +826,9 @@ class Ui_MainWindow(object):
         self.lineEdit_3.setMaximumSize(QtCore.QSize(75, 31))
         self.lineEdit_3.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
-"    border: 3px solid #92d050;\n"
+"    border: 3px solid #ff4000;\n"
 "    border-radius:5px;\n"
-"    color:rgb(255,208,80);\n"
+"    color:rgb(255, 64, 0);\n"
 "    font:87 15pt \"cooper black\";\n"
 "}\n"
 "\n"
@@ -810,7 +840,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_22.addItem(spacerItem18)
         self.label_23 = QtWidgets.QLabel(self.frame_37)
         self.label_23.setMaximumSize(QtCore.QSize(8, 16777215))
-        self.label_23.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_23.setStyleSheet("color: rgb(255, 64, 0);\n"
 "font:87 12pt \"cooper black\"")
         self.label_23.setObjectName("label_23")
         self.horizontalLayout_22.addWidget(self.label_23)
@@ -822,6 +852,19 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.button_t3.sizePolicy().hasHeightForWidth())
         self.button_t3.setSizePolicy(sizePolicy)
+        self.button_t3.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/ajustar.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    \n"
+"    image: url(:/images/iconos/ajustar_t3hover.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    \n"
+"    image: url(:/images/iconos/ajustar_t3pressed.png);\n"
+"}")
+        self.button_t3.setText("")
         self.button_t3.setObjectName("button_t3")
         self.horizontalLayout_22.addWidget(self.button_t3)
         self.verticalLayout_20.addWidget(self.frame_37)
@@ -836,7 +879,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_20.addWidget(self.label_25)
         self.label_24 = QtWidgets.QLabel(self.frame_33)
         self.label_24.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.label_24.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_24.setStyleSheet("color: rgb(255, 217, 0);\n"
 "font:87 10pt \"cooper black\"")
         self.label_24.setAlignment(QtCore.Qt.AlignCenter)
         self.label_24.setObjectName("label_24")
@@ -849,21 +892,77 @@ class Ui_MainWindow(object):
         self.horizontalLayout_23 = QtWidgets.QHBoxLayout(self.frame_38)
         self.horizontalLayout_23.setObjectName("horizontalLayout_23")
         self.radioButton_inyt1 = QtWidgets.QRadioButton(self.frame_38)
+        font = QtGui.QFont()
+        font.setFamily("cooper black")
+        font.setPointSize(8)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(10)
+        self.radioButton_inyt1.setFont(font)
+        self.radioButton_inyt1.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 217, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_inyt1.setObjectName("radioButton_inyt1")
         self.horizontalLayout_23.addWidget(self.radioButton_inyt1)
         self.radioButton_limpct1 = QtWidgets.QRadioButton(self.frame_38)
+        self.radioButton_limpct1.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 217, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_limpct1.setObjectName("radioButton_limpct1")
         self.horizontalLayout_23.addWidget(self.radioButton_limpct1)
         self.radioButton_volt1 = QtWidgets.QRadioButton(self.frame_38)
+        self.radioButton_volt1.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 217, 0);\n"
+"    border-radius: 6px\n"
+"}")
+        self.radioButton_volt1.setChecked(True)
         self.radioButton_volt1.setObjectName("radioButton_volt1")
         self.horizontalLayout_23.addWidget(self.radioButton_volt1)
         self.radioButton_limppt1 = QtWidgets.QRadioButton(self.frame_38)
+        self.radioButton_limppt1.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 217, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_limppt1.setObjectName("radioButton_limppt1")
         self.horizontalLayout_23.addWidget(self.radioButton_limppt1)
         self.verticalLayout_20.addWidget(self.frame_38)
         self.label_26 = QtWidgets.QLabel(self.frame_33)
         self.label_26.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.label_26.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_26.setStyleSheet("color: rgb(255, 157, 0);\n"
 "font:87 10pt \"cooper black\"")
         self.label_26.setAlignment(QtCore.Qt.AlignCenter)
         self.label_26.setObjectName("label_26")
@@ -876,21 +975,70 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24 = QtWidgets.QHBoxLayout(self.frame_39)
         self.horizontalLayout_24.setObjectName("horizontalLayout_24")
         self.radioButton_inyt2 = QtWidgets.QRadioButton(self.frame_39)
+        self.radioButton_inyt2.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 157, 0);\n"
+"    border-radius: 6px\n"
+"}")
+        self.radioButton_inyt2.setChecked(True)
         self.radioButton_inyt2.setObjectName("radioButton_inyt2")
         self.horizontalLayout_24.addWidget(self.radioButton_inyt2)
         self.radioButton_limpct2 = QtWidgets.QRadioButton(self.frame_39)
+        self.radioButton_limpct2.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 157, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_limpct2.setObjectName("radioButton_limpct2")
         self.horizontalLayout_24.addWidget(self.radioButton_limpct2)
         self.radioButton_volt2 = QtWidgets.QRadioButton(self.frame_39)
+        self.radioButton_volt2.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 157, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_volt2.setObjectName("radioButton_volt2")
         self.horizontalLayout_24.addWidget(self.radioButton_volt2)
         self.radioButton_limppt2 = QtWidgets.QRadioButton(self.frame_39)
+        self.radioButton_limppt2.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 157, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_limppt2.setObjectName("radioButton_limppt2")
         self.horizontalLayout_24.addWidget(self.radioButton_limppt2)
         self.verticalLayout_20.addWidget(self.frame_39)
         self.label_27 = QtWidgets.QLabel(self.frame_33)
         self.label_27.setMaximumSize(QtCore.QSize(16777215, 30))
-        self.label_27.setStyleSheet("color: rgb(146,208,80);\n"
+        self.label_27.setStyleSheet("color: rgb(255, 64, 0);\n"
 "font:87 10pt \"cooper black\"")
         self.label_27.setAlignment(QtCore.Qt.AlignCenter)
         self.label_27.setObjectName("label_27")
@@ -903,15 +1051,64 @@ class Ui_MainWindow(object):
         self.horizontalLayout_25 = QtWidgets.QHBoxLayout(self.frame_40)
         self.horizontalLayout_25.setObjectName("horizontalLayout_25")
         self.radioButton_inyt3 = QtWidgets.QRadioButton(self.frame_40)
+        self.radioButton_inyt3.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 64, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_inyt3.setObjectName("radioButton_inyt3")
         self.horizontalLayout_25.addWidget(self.radioButton_inyt3)
         self.radioButton_limpct3 = QtWidgets.QRadioButton(self.frame_40)
+        self.radioButton_limpct3.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 64, 0);\n"
+"    border-radius: 6px\n"
+"}")
+        self.radioButton_limpct3.setChecked(True)
         self.radioButton_limpct3.setObjectName("radioButton_limpct3")
         self.horizontalLayout_25.addWidget(self.radioButton_limpct3)
         self.radioButton_volt3 = QtWidgets.QRadioButton(self.frame_40)
+        self.radioButton_volt3.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 64, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_volt3.setObjectName("radioButton_volt3")
         self.horizontalLayout_25.addWidget(self.radioButton_volt3)
         self.radioButton_13 = QtWidgets.QRadioButton(self.frame_40)
+        self.radioButton_13.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 6px\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 64, 0);\n"
+"    border-radius: 6px\n"
+"}")
         self.radioButton_13.setObjectName("radioButton_13")
         self.horizontalLayout_25.addWidget(self.radioButton_13)
         self.verticalLayout_20.addWidget(self.frame_40)
@@ -1296,6 +1493,10 @@ class Ui_MainWindow(object):
         self.frame_31.setObjectName("frame_31")
         self.radioButton = QtWidgets.QRadioButton(self.frame_31)
         self.radioButton.setGeometry(QtCore.QRect(380, 20, 51, 17))
+        self.radioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255, 255, 255); \n"
+"    font:87 7.5pt \"cooper black\"\n"
+"}")
         self.radioButton.setObjectName("radioButton")
         self.button_ch2_n = QtWidgets.QPushButton(self.frame_31)
         self.button_ch2_n.setGeometry(QtCore.QRect(180, 210, 75, 23))
@@ -1355,20 +1556,16 @@ class Ui_MainWindow(object):
         self.label_14.setText(_translate("MainWindow", "Categoria"))
         self.label_categoria.setText(_translate("MainWindow", "??"))
         self.label_15.setText(_translate("MainWindow", "Ajustes"))
-        self.label_16.setText(_translate("MainWindow", "TextLabel"))
         self.label_17.setText(_translate("MainWindow", "Tiempos"))
         self.label_18.setText(_translate("MainWindow", "Tiempo\n"
 "1:"))
         self.label_19.setText(_translate("MainWindow", "s"))
-        self.button_t1.setText(_translate("MainWindow", "t1"))
         self.label_20.setText(_translate("MainWindow", "Tiempo\n"
 "2:"))
         self.label_21.setText(_translate("MainWindow", "s"))
-        self.button_t2.setText(_translate("MainWindow", "t2"))
         self.label_22.setText(_translate("MainWindow", "Tiempo\n"
 "3:"))
         self.label_23.setText(_translate("MainWindow", "s"))
-        self.button_t3.setText(_translate("MainWindow", "t3"))
         self.label_25.setText(_translate("MainWindow", "Secuencia"))
         self.label_24.setText(_translate("MainWindow", "Tiempo 1"))
         self.radioButton_inyt1.setText(_translate("MainWindow", "Iny"))

@@ -2,6 +2,14 @@
   <qresource prefix="images">
     <file>iconos/Imagen12.png</file>
     <file>iconos/Imagen13.png</file>
+    <file>iconos/ajustar.png</file>
+    <file>iconos/ajustar_t1hover.png</file>
+    <file>iconos/ajustar_t1pressed.png</file>
+    <file>iconos/ajustar_t2hover.png</file>
+    <file>iconos/ajustar_t2pressed.png</file>
+    <file>iconos/ajustar_t3hover.png</file>
+    <file>iconos/ajustar_t3pressed.png</file>
+    <file>iconos/ajustes.png</file>
     <file>iconos/Imagen14.png</file>
     <file>iconos/Imagen6.png</file>
     <file>iconos/Imagen7.png</file>

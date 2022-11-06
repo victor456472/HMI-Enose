@@ -1320,8 +1320,8 @@ QScrollBar::handle:vertical:pressed{
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-254</y>
-                        <width>235</width>
+                        <y>-2</y>
+                        <width>242</width>
                         <height>518</height>
                        </rect>
                       </property>
@@ -1411,8 +1411,20 @@ font:87 12pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QLabel" name="label_16">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>20</width>
+                                 <height>20</height>
+                                </size>
+                               </property>
                                <property name="text">
-                                <string>TextLabel</string>
+                                <string/>
+                               </property>
+                               <property name="pixmap">
+                                <pixmap resource="resource_icon.qrc">:/images/iconos/ajustes.png</pixmap>
+                               </property>
+                               <property name="scaledContents">
+                                <bool>true</bool>
                                </property>
                               </widget>
                              </item>
@@ -1486,7 +1498,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 </size>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true">color: rgb(146,208,80);
+                                <string notr="true">color: rgb(255, 217, 0);
 font:87 9pt &quot;cooper black&quot;</string>
                                </property>
                                <property name="text">
@@ -1525,9 +1537,9 @@ font:87 9pt &quot;cooper black&quot;</string>
                                <property name="styleSheet">
                                 <string notr="true">QLineEdit{
 	background-color:rgb(17,17,17);
-	border: 3px solid #92d050;
+	border: 3px solid #ffd900;
 	border-radius:5px;
-	color:rgb(255,208,80);
+	color:rgb(255, 217, 0);
 	font:87 15pt &quot;cooper black&quot;;
 }
 
@@ -1563,7 +1575,7 @@ font:87 9pt &quot;cooper black&quot;</string>
                                 </size>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true">color: rgb(146,208,80);
+                                <string notr="true">color: rgb(255, 217, 0);
 font:87 12pt &quot;cooper black&quot;</string>
                                </property>
                                <property name="text">
@@ -1589,8 +1601,22 @@ font:87 12pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QPushButton" name="button_t1">
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton{
+	image: url(:/images/iconos/ajustar.png);
+}
+
+QPushButton:hover{
+	
+	image: url(:/images/iconos/ajustar_t1hover.png);
+}
+QPushButton:pressed{
+	
+	image: url(:/images/iconos/ajustar_t1pressed.png);
+}</string>
+                               </property>
                                <property name="text">
-                                <string>t1</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
@@ -1642,7 +1668,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 </size>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true">color: rgb(146,208,80);
+                                <string notr="true">color: rgb(255, 157, 0);
 font:87 9pt &quot;cooper black&quot;</string>
                                </property>
                                <property name="text">
@@ -1687,9 +1713,9 @@ font:87 9pt &quot;cooper black&quot;</string>
                                <property name="styleSheet">
                                 <string notr="true">QLineEdit{
 	background-color:rgb(17,17,17);
-	border: 3px solid #92d050;
+	border: 3px solid #ff9d00;
 	border-radius:5px;
-	color:rgb(255,208,80);
+	color:rgb(255, 157, 0);
 	font:87 15pt &quot;cooper black&quot;;
 }
 
@@ -1725,7 +1751,7 @@ font:87 9pt &quot;cooper black&quot;</string>
                                 </size>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true">color: rgb(146,208,80);
+                                <string notr="true">color: rgb(255, 157, 0);
 font:87 12pt &quot;cooper black&quot;</string>
                                </property>
                                <property name="text">
@@ -1757,8 +1783,22 @@ font:87 12pt &quot;cooper black&quot;</string>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton{
+	image: url(:/images/iconos/ajustar.png);
+}
+
+QPushButton:hover{
+	
+	image: url(:/images/iconos/ajustar_t2hover.png);
+}
+QPushButton:pressed{
+	
+	image: url(:/images/iconos/ajustar_t2pressed.png);
+}</string>
+                               </property>
                                <property name="text">
-                                <string>t2</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
@@ -1810,7 +1850,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 </size>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true">color: rgb(146,208,80);
+                                <string notr="true">color: rgb(255, 64, 0);
 font:87 9pt &quot;cooper black&quot;</string>
                                </property>
                                <property name="text">
@@ -1855,9 +1895,9 @@ font:87 9pt &quot;cooper black&quot;</string>
                                <property name="styleSheet">
                                 <string notr="true">QLineEdit{
 	background-color:rgb(17,17,17);
-	border: 3px solid #92d050;
+	border: 3px solid #ff4000;
 	border-radius:5px;
-	color:rgb(255,208,80);
+	color:rgb(255, 64, 0);
 	font:87 15pt &quot;cooper black&quot;;
 }
 
@@ -1893,7 +1933,7 @@ font:87 9pt &quot;cooper black&quot;</string>
                                 </size>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true">color: rgb(146,208,80);
+                                <string notr="true">color: rgb(255, 64, 0);
 font:87 12pt &quot;cooper black&quot;</string>
                                </property>
                                <property name="text">
@@ -1925,8 +1965,22 @@ font:87 12pt &quot;cooper black&quot;</string>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton{
+	image: url(:/images/iconos/ajustar.png);
+}
+
+QPushButton:hover{
+	
+	image: url(:/images/iconos/ajustar_t3hover.png);
+}
+QPushButton:pressed{
+	
+	image: url(:/images/iconos/ajustar_t3pressed.png);
+}</string>
+                               </property>
                                <property name="text">
-                                <string>t3</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
@@ -1964,7 +2018,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(146,208,80);
+                             <string notr="true">color: rgb(255, 217, 0);
 font:87 10pt &quot;cooper black&quot;</string>
                             </property>
                             <property name="text">
@@ -1992,6 +2046,29 @@ font:87 10pt &quot;cooper black&quot;</string>
                             <layout class="QHBoxLayout" name="horizontalLayout_23">
                              <item>
                               <widget class="QRadioButton" name="radioButton_inyt1">
+                               <property name="font">
+                                <font>
+                                 <family>cooper black</family>
+                                 <pointsize>8</pointsize>
+                                 <weight>10</weight>
+                                 <italic>false</italic>
+                                 <bold>false</bold>
+                                </font>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 217, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>Iny</string>
                                </property>
@@ -1999,6 +2076,20 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_limpct1">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 217, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>LimpC</string>
                                </property>
@@ -2006,13 +2097,44 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_volt1">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 217, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>Vol</string>
+                               </property>
+                               <property name="checked">
+                                <bool>true</bool>
                                </property>
                               </widget>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_limppt1">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 217, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>LimpP</string>
                                </property>
@@ -2030,7 +2152,7 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(146,208,80);
+                             <string notr="true">color: rgb(255, 157, 0);
 font:87 10pt &quot;cooper black&quot;</string>
                             </property>
                             <property name="text">
@@ -2058,13 +2180,44 @@ font:87 10pt &quot;cooper black&quot;</string>
                             <layout class="QHBoxLayout" name="horizontalLayout_24">
                              <item>
                               <widget class="QRadioButton" name="radioButton_inyt2">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 157, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>Iny</string>
+                               </property>
+                               <property name="checked">
+                                <bool>true</bool>
                                </property>
                               </widget>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_limpct2">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 157, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>LimpC</string>
                                </property>
@@ -2072,6 +2225,20 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_volt2">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 157, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>Vol</string>
                                </property>
@@ -2079,6 +2246,20 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_limppt2">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 157, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>LimpP</string>
                                </property>
@@ -2096,7 +2277,7 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(146,208,80);
+                             <string notr="true">color: rgb(255, 64, 0);
 font:87 10pt &quot;cooper black&quot;</string>
                             </property>
                             <property name="text">
@@ -2124,6 +2305,20 @@ font:87 10pt &quot;cooper black&quot;</string>
                             <layout class="QHBoxLayout" name="horizontalLayout_25">
                              <item>
                               <widget class="QRadioButton" name="radioButton_inyt3">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 64, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>Iny</string>
                                </property>
@@ -2131,13 +2326,44 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_limpct3">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 64, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>LimpC</string>
+                               </property>
+                               <property name="checked">
+                                <bool>true</bool>
                                </property>
                               </widget>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_volt3">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 64, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>Vol</string>
                                </property>
@@ -2145,6 +2371,20 @@ font:87 10pt &quot;cooper black&quot;</string>
                              </item>
                              <item>
                               <widget class="QRadioButton" name="radioButton_13">
+                               <property name="styleSheet">
+                                <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}
+QRadioButton::indicator::unchecked {
+    background-color: rgb(255, 255, 255);
+	border-radius: 6px
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 64, 0);
+	border-radius: 6px
+}</string>
+                               </property>
                                <property name="text">
                                 <string>LimpP</string>
                                </property>
@@ -3060,6 +3300,12 @@ border-radius:10px</string>
                      <width>51</width>
                      <height>17</height>
                     </rect>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QRadioButton{
+	color: rgb(255, 255, 255); 
+	font:87 7.5pt &quot;cooper black&quot;
+}</string>
                    </property>
                    <property name="text">
                     <string>auto</string>
