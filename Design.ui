@@ -1320,7 +1320,7 @@ QScrollBar::handle:vertical:pressed{
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-2</y>
+                        <y>-273</y>
                         <width>242</width>
                         <height>518</height>
                        </rect>
@@ -3283,8 +3283,7 @@ QCheckBox::indicator:unchecked
                 <item>
                  <widget class="QFrame" name="frame_31">
                   <property name="styleSheet">
-                   <string notr="true">background-color:rgb(44,44,44);
-border-radius:10px</string>
+                   <string notr="true"/>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -3292,129 +3291,446 @@ border-radius:10px</string>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <widget class="QRadioButton" name="radioButton">
-                   <property name="geometry">
-                    <rect>
-                     <x>380</x>
-                     <y>20</y>
-                     <width>51</width>
-                     <height>17</height>
-                    </rect>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QRadioButton{
-	color: rgb(255, 255, 255); 
-	font:87 7.5pt &quot;cooper black&quot;
+                  <layout class="QVBoxLayout" name="verticalLayout_21">
+                   <item>
+                    <widget class="QFrame" name="frame_42">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_26">
+                      <item>
+                       <spacer name="horizontalSpacer_17">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="radioButton_auto_manual">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QRadioButton{
+	color: rgb(0, 255, 153); 
+	font:87 7.5pt &quot;cooper black&quot;;
+}
+QRadioButton::checked{
+	color: rgb(255, 196, 0);
+	font:87 7.5pt &quot;cooper black&quot;;
+}
+
+QRadioButton::indicator::unchecked {
+    background-color: rgb(0, 255, 153);
+	border-radius: 6px;
+}
+QRadioButton::indicator::checked {
+    background-color: rgb(255, 196, 0);
+	border-radius: 6px;
 }</string>
-                   </property>
-                   <property name="text">
-                    <string>auto</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch2_n">
-                   <property name="geometry">
-                    <rect>
-                     <x>180</x>
-                     <y>210</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>ch2_n</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch2_v3">
-                   <property name="geometry">
-                    <rect>
-                     <x>180</x>
-                     <y>170</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>ch2_v3</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch2_v2">
-                   <property name="geometry">
-                    <rect>
-                     <x>260</x>
-                     <y>110</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>ch2_v2</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch2_p2">
-                   <property name="geometry">
-                    <rect>
-                     <x>340</x>
-                     <y>110</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>ch2_p2</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch1_v1">
-                   <property name="geometry">
-                    <rect>
-                     <x>140</x>
-                     <y>110</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>ch1_v1</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch1_p1">
-                   <property name="geometry">
-                    <rect>
-                     <x>50</x>
-                     <y>110</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>ch1_p1</string>
-                   </property>
-                  </widget>
-                  <widget class="QLabel" name="imagen_fondo">
-                   <property name="geometry">
-                    <rect>
-                     <x>210</x>
-                     <y>90</y>
-                     <width>47</width>
-                     <height>13</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>fondo</string>
-                   </property>
-                  </widget>
-                  <widget class="QPushButton" name="button_ch2_v2_2">
-                   <property name="geometry">
-                    <rect>
-                     <x>70</x>
-                     <y>200</y>
-                     <width>75</width>
-                     <height>23</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>all</string>
-                   </property>
-                  </widget>
+                        </property>
+                        <property name="text">
+                         <string>auto</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QFrame" name="frame_41">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_27">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <spacer name="horizontalSpacer_18">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                         <enum>QSizePolicy::Maximum</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>3</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QFrame" name="frame_43">
+                        <property name="minimumSize">
+                         <size>
+                          <width>358</width>
+                          <height>244</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>410</width>
+                          <height>244</height>
+                         </size>
+                        </property>
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Raised</enum>
+                        </property>
+                        <widget class="QPushButton" name="button_ch2_n">
+                         <property name="geometry">
+                          <rect>
+                           <x>196</x>
+                           <y>167</y>
+                           <width>75</width>
+                           <height>30</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>20</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+	image: url(:/images/iconos/N_R.png);
+}
+QPushButton:hover{
+	image: url(:/images/iconos/N.png);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/N_ypressed.png);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <widget class="QPushButton" name="button_ch2_v3">
+                         <property name="geometry">
+                          <rect>
+                           <x>209</x>
+                           <y>115</y>
+                           <width>75</width>
+                           <height>23</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>23</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>23</height>
+                          </size>
+                         </property>
+                         <property name="sizeIncrement">
+                          <size>
+                           <width>0</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+   image: url(:/images/iconos/V3_R.png);
+}
+QPushButton:hover{
+	image: url(:/images/iconos/V3_Y.png);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/V3_Ypressed.png);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <widget class="QPushButton" name="button_ch2_v2">
+                         <property name="geometry">
+                          <rect>
+                           <x>286</x>
+                           <y>13</y>
+                           <width>38</width>
+                           <height>41</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>38</width>
+                           <height>41</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>38</width>
+                           <height>41</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+	image:url(:/images/iconos/V2_R.png);
+}
+QPushButton:hover{
+	image: url(:/images/iconos/V2_Y.png);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/V2_Ypressed.png);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <widget class="QPushButton" name="button_ch2_v2_2">
+                         <property name="geometry">
+                          <rect>
+                           <x>80</x>
+                           <y>180</y>
+                           <width>50</width>
+                           <height>50</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>50</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+	image: url(:/images/iconos/all_r.png);
+	color: rgb(255,255,255);
+	font:87 12pt &quot;cooper black&quot;
+}
+QPushButton:hover{
+	image: url(:/images/iconos/all_y.png);
+	font:87 12pt &quot;cooper black&quot;;
+	color:rgb(0,0,0);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/all_ypressed.png);
+	font:87 12pt &quot;cooper black&quot;;
+	color:rgb(0,0,0);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string>All</string>
+                         </property>
+                        </widget>
+                        <widget class="QPushButton" name="button_ch1_v1">
+                         <property name="geometry">
+                          <rect>
+                           <x>150</x>
+                           <y>16</y>
+                           <width>33</width>
+                           <height>36</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>33</width>
+                           <height>36</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>33</width>
+                           <height>36</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+   	image: url(:/images/iconos/V1_R.png);
+}
+QPushButton:hover{
+	image: url(:/images/iconos/V1_Y.png);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/V1_Ypressed.png);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <widget class="QPushButton" name="button_ch1_p1">
+                         <property name="geometry">
+                          <rect>
+                           <x>79</x>
+                           <y>8</y>
+                           <width>34</width>
+                           <height>45</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>34</width>
+                           <height>45</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>34</width>
+                           <height>45</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+	image: url(:/images/iconos/P1_R.png);
+}
+QPushButton:hover{
+	image: url(:/images/iconos/P1_Y.png);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/P1_Ypressed.png);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <widget class="QPushButton" name="button_ch2_p2">
+                         <property name="geometry">
+                          <rect>
+                           <x>356</x>
+                           <y>8</y>
+                           <width>34</width>
+                           <height>45</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>34</width>
+                           <height>45</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>34</width>
+                           <height>45</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+	image: url(:/images/iconos/P2_R.png);
+}
+QPushButton:hover{
+	image: url(:/images/iconos/P2_Y.png);
+}
+QPushButton:pressed{
+	image: url(:/images/iconos/P2_Ypressed.png);
+}</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <widget class="QLabel" name="imagen_fondo">
+                         <property name="geometry">
+                          <rect>
+                           <x>0</x>
+                           <y>-10</y>
+                           <width>366</width>
+                           <height>200</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>366</width>
+                           <height>200</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>366</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">image:url(:/images/iconos/APAGADO.png);</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                        <zorder>imagen_fondo</zorder>
+                        <zorder>button_ch2_n</zorder>
+                        <zorder>button_ch2_v3</zorder>
+                        <zorder>button_ch2_v2</zorder>
+                        <zorder>button_ch2_v2_2</zorder>
+                        <zorder>button_ch1_v1</zorder>
+                        <zorder>button_ch1_p1</zorder>
+                        <zorder>button_ch2_p2</zorder>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_19">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                         <enum>QSizePolicy::Maximum</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>3</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                 </item>
                </layout>

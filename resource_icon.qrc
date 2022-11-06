@@ -1,5 +1,38 @@
 <RCC>
   <qresource prefix="images">
+    <file>iconos/P2_Y.png</file>
+    <file>iconos/P2_Ypressed.png</file>
+    <file>iconos/V2_Y.png</file>
+    <file>iconos/V2_Ypressed.png</file>
+    <file>iconos/P1_Y.png</file>
+    <file>iconos/P1_Ypressed.png</file>
+    <file>iconos/V3_Y.png</file>
+    <file>iconos/V3_Ypressed.png</file>
+    <file>iconos/V1_Y.png</file>
+    <file>iconos/V1_Ypressed.png</file>
+    <file>iconos/N.png</file>
+    <file>iconos/N_ypressed.png</file>
+    <file>iconos/N_ypressed.png</file>
+    <file>iconos/all_ypressed.png</file>
+    <file>iconos/all_g.png</file>
+    <file>iconos/all_r.png</file>
+    <file>iconos/all_y.png</file>
+    <file>iconos/APAGADO.png</file>
+    <file>iconos/INYECCION.png</file>
+    <file>iconos/N.png</file>
+    <file>iconos/N_R.png</file>
+    <file>iconos/N_V.png</file>
+    <file>iconos/P1_R.png</file>
+    <file>iconos/P1_V.png</file>
+    <file>iconos/P2_R.png</file>
+    <file>iconos/P2_V.png</file>
+    <file>iconos/TODO_ENCENDIDO.png</file>
+    <file>iconos/V1_R.png</file>
+    <file>iconos/V1_V.png</file>
+    <file>iconos/V2_R.png</file>
+    <file>iconos/V2_V.png</file>
+    <file>iconos/V3_R.png</file>
+    <file>iconos/V3_V.png</file>
     <file>iconos/Imagen12.png</file>
     <file>iconos/Imagen13.png</file>
     <file>iconos/ajustar.png</file>

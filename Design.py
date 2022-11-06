@@ -627,7 +627,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -2, 242, 518))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -273, 242, 518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -1486,42 +1486,188 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addWidget(self.frame_30)
         self.horizontalLayout_10.addWidget(self.frame_16)
         self.frame_31 = QtWidgets.QFrame(self.frame_2)
-        self.frame_31.setStyleSheet("background-color:rgb(44,44,44);\n"
-"border-radius:10px")
+        self.frame_31.setStyleSheet("")
         self.frame_31.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_31.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_31.setObjectName("frame_31")
-        self.radioButton = QtWidgets.QRadioButton(self.frame_31)
-        self.radioButton.setGeometry(QtCore.QRect(380, 20, 51, 17))
-        self.radioButton.setStyleSheet("QRadioButton{\n"
-"    color: rgb(255, 255, 255); \n"
-"    font:87 7.5pt \"cooper black\"\n"
+        self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.frame_31)
+        self.verticalLayout_21.setObjectName("verticalLayout_21")
+        self.frame_42 = QtWidgets.QFrame(self.frame_31)
+        self.frame_42.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.frame_42.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_42.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_42.setObjectName("frame_42")
+        self.horizontalLayout_26 = QtWidgets.QHBoxLayout(self.frame_42)
+        self.horizontalLayout_26.setObjectName("horizontalLayout_26")
+        spacerItem20 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_26.addItem(spacerItem20)
+        self.radioButton_auto_manual = QtWidgets.QRadioButton(self.frame_42)
+        self.radioButton_auto_manual.setMinimumSize(QtCore.QSize(0, 20))
+        self.radioButton_auto_manual.setStyleSheet("QRadioButton{\n"
+"    color: rgb(0, 255, 153); \n"
+"    font:87 7.5pt \"cooper black\";\n"
+"}\n"
+"QRadioButton::checked{\n"
+"    color: rgb(255, 196, 0);\n"
+"    font:87 7.5pt \"cooper black\";\n"
+"}\n"
+"\n"
+"QRadioButton::indicator::unchecked {\n"
+"    background-color: rgb(0, 255, 153);\n"
+"    border-radius: 6px;\n"
+"}\n"
+"QRadioButton::indicator::checked {\n"
+"    background-color: rgb(255, 196, 0);\n"
+"    border-radius: 6px;\n"
 "}")
-        self.radioButton.setObjectName("radioButton")
-        self.button_ch2_n = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch2_n.setGeometry(QtCore.QRect(180, 210, 75, 23))
+        self.radioButton_auto_manual.setObjectName("radioButton_auto_manual")
+        self.horizontalLayout_26.addWidget(self.radioButton_auto_manual)
+        self.verticalLayout_21.addWidget(self.frame_42)
+        self.frame_41 = QtWidgets.QFrame(self.frame_31)
+        self.frame_41.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_41.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_41.setObjectName("frame_41")
+        self.horizontalLayout_27 = QtWidgets.QHBoxLayout(self.frame_41)
+        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_27.setSpacing(0)
+        self.horizontalLayout_27.setObjectName("horizontalLayout_27")
+        spacerItem21 = QtWidgets.QSpacerItem(3, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem21)
+        self.frame_43 = QtWidgets.QFrame(self.frame_41)
+        self.frame_43.setMinimumSize(QtCore.QSize(358, 244))
+        self.frame_43.setMaximumSize(QtCore.QSize(410, 244))
+        self.frame_43.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_43.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_43.setObjectName("frame_43")
+        self.button_ch2_n = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch2_n.setGeometry(QtCore.QRect(196, 167, 75, 30))
+        self.button_ch2_n.setMinimumSize(QtCore.QSize(20, 30))
+        self.button_ch2_n.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/N_R.png);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/N.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/N_ypressed.png);\n"
+"}")
+        self.button_ch2_n.setText("")
         self.button_ch2_n.setObjectName("button_ch2_n")
-        self.button_ch2_v3 = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch2_v3.setGeometry(QtCore.QRect(180, 170, 75, 23))
+        self.button_ch2_v3 = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch2_v3.setGeometry(QtCore.QRect(209, 115, 75, 23))
+        self.button_ch2_v3.setMinimumSize(QtCore.QSize(0, 23))
+        self.button_ch2_v3.setMaximumSize(QtCore.QSize(16777215, 23))
+        self.button_ch2_v3.setSizeIncrement(QtCore.QSize(0, 0))
+        self.button_ch2_v3.setStyleSheet("QPushButton{\n"
+"   image: url(:/images/iconos/V3_R.png);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/V3_Y.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/V3_Ypressed.png);\n"
+"}")
+        self.button_ch2_v3.setText("")
         self.button_ch2_v3.setObjectName("button_ch2_v3")
-        self.button_ch2_v2 = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch2_v2.setGeometry(QtCore.QRect(260, 110, 75, 23))
+        self.button_ch2_v2 = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch2_v2.setGeometry(QtCore.QRect(286, 13, 38, 41))
+        self.button_ch2_v2.setMinimumSize(QtCore.QSize(38, 41))
+        self.button_ch2_v2.setMaximumSize(QtCore.QSize(38, 41))
+        self.button_ch2_v2.setStyleSheet("QPushButton{\n"
+"    image:url(:/images/iconos/V2_R.png);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/V2_Y.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/V2_Ypressed.png);\n"
+"}")
+        self.button_ch2_v2.setText("")
         self.button_ch2_v2.setObjectName("button_ch2_v2")
-        self.button_ch2_p2 = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch2_p2.setGeometry(QtCore.QRect(340, 110, 75, 23))
-        self.button_ch2_p2.setObjectName("button_ch2_p2")
-        self.button_ch1_v1 = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch1_v1.setGeometry(QtCore.QRect(140, 110, 75, 23))
-        self.button_ch1_v1.setObjectName("button_ch1_v1")
-        self.button_ch1_p1 = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch1_p1.setGeometry(QtCore.QRect(50, 110, 75, 23))
-        self.button_ch1_p1.setObjectName("button_ch1_p1")
-        self.imagen_fondo = QtWidgets.QLabel(self.frame_31)
-        self.imagen_fondo.setGeometry(QtCore.QRect(210, 90, 47, 13))
-        self.imagen_fondo.setObjectName("imagen_fondo")
-        self.button_ch2_v2_2 = QtWidgets.QPushButton(self.frame_31)
-        self.button_ch2_v2_2.setGeometry(QtCore.QRect(70, 200, 75, 23))
+        self.button_ch2_v2_2 = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch2_v2_2.setGeometry(QtCore.QRect(80, 180, 50, 50))
+        self.button_ch2_v2_2.setMinimumSize(QtCore.QSize(50, 50))
+        self.button_ch2_v2_2.setMaximumSize(QtCore.QSize(50, 50))
+        self.button_ch2_v2_2.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/all_r.png);\n"
+"    color: rgb(255,255,255);\n"
+"    font:87 12pt \"cooper black\"\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/all_y.png);\n"
+"    font:87 12pt \"cooper black\";\n"
+"    color:rgb(0,0,0);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/all_ypressed.png);\n"
+"    font:87 12pt \"cooper black\";\n"
+"    color:rgb(0,0,0);\n"
+"}")
         self.button_ch2_v2_2.setObjectName("button_ch2_v2_2")
+        self.button_ch1_v1 = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch1_v1.setGeometry(QtCore.QRect(150, 16, 33, 36))
+        self.button_ch1_v1.setMinimumSize(QtCore.QSize(33, 36))
+        self.button_ch1_v1.setMaximumSize(QtCore.QSize(33, 36))
+        self.button_ch1_v1.setStyleSheet("QPushButton{\n"
+"       image: url(:/images/iconos/V1_R.png);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/V1_Y.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/V1_Ypressed.png);\n"
+"}")
+        self.button_ch1_v1.setText("")
+        self.button_ch1_v1.setObjectName("button_ch1_v1")
+        self.button_ch1_p1 = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch1_p1.setGeometry(QtCore.QRect(79, 8, 34, 45))
+        self.button_ch1_p1.setMinimumSize(QtCore.QSize(34, 45))
+        self.button_ch1_p1.setMaximumSize(QtCore.QSize(34, 45))
+        self.button_ch1_p1.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/P1_R.png);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/P1_Y.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/P1_Ypressed.png);\n"
+"}")
+        self.button_ch1_p1.setText("")
+        self.button_ch1_p1.setObjectName("button_ch1_p1")
+        self.button_ch2_p2 = QtWidgets.QPushButton(self.frame_43)
+        self.button_ch2_p2.setGeometry(QtCore.QRect(356, 8, 34, 45))
+        self.button_ch2_p2.setMinimumSize(QtCore.QSize(34, 45))
+        self.button_ch2_p2.setMaximumSize(QtCore.QSize(34, 45))
+        self.button_ch2_p2.setStyleSheet("QPushButton{\n"
+"    image: url(:/images/iconos/P2_R.png);\n"
+"}\n"
+"QPushButton:hover{\n"
+"    image: url(:/images/iconos/P2_Y.png);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    image: url(:/images/iconos/P2_Ypressed.png);\n"
+"}")
+        self.button_ch2_p2.setText("")
+        self.button_ch2_p2.setObjectName("button_ch2_p2")
+        self.imagen_fondo = QtWidgets.QLabel(self.frame_43)
+        self.imagen_fondo.setGeometry(QtCore.QRect(0, -10, 366, 200))
+        self.imagen_fondo.setMinimumSize(QtCore.QSize(366, 200))
+        self.imagen_fondo.setMaximumSize(QtCore.QSize(366, 16777215))
+        self.imagen_fondo.setStyleSheet("image:url(:/images/iconos/APAGADO.png);")
+        self.imagen_fondo.setText("")
+        self.imagen_fondo.setObjectName("imagen_fondo")
+        self.imagen_fondo.raise_()
+        self.button_ch2_n.raise_()
+        self.button_ch2_v3.raise_()
+        self.button_ch2_v2.raise_()
+        self.button_ch2_v2_2.raise_()
+        self.button_ch1_v1.raise_()
+        self.button_ch1_p1.raise_()
+        self.button_ch2_p2.raise_()
+        self.horizontalLayout_27.addWidget(self.frame_43)
+        spacerItem22 = QtWidgets.QSpacerItem(3, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem22)
+        self.verticalLayout_21.addWidget(self.frame_41)
         self.horizontalLayout_10.addWidget(self.frame_31)
         self.horizontalLayout_10.setStretch(0, 6)
         self.horizontalLayout_10.setStretch(1, 3)
@@ -1590,13 +1736,6 @@ class Ui_MainWindow(object):
         self.label_11.setText(_translate("MainWindow", "Metano"))
         self.label_12.setText(_translate("MainWindow", "S1"))
         self.label_13.setText(_translate("MainWindow", "S2"))
-        self.radioButton.setText(_translate("MainWindow", "auto"))
-        self.button_ch2_n.setText(_translate("MainWindow", "ch2_n"))
-        self.button_ch2_v3.setText(_translate("MainWindow", "ch2_v3"))
-        self.button_ch2_v2.setText(_translate("MainWindow", "ch2_v2"))
-        self.button_ch2_p2.setText(_translate("MainWindow", "ch2_p2"))
-        self.button_ch1_v1.setText(_translate("MainWindow", "ch1_v1"))
-        self.button_ch1_p1.setText(_translate("MainWindow", "ch1_p1"))
-        self.imagen_fondo.setText(_translate("MainWindow", "fondo"))
-        self.button_ch2_v2_2.setText(_translate("MainWindow", "all"))
+        self.radioButton_auto_manual.setText(_translate("MainWindow", "auto"))
+        self.button_ch2_v2_2.setText(_translate("MainWindow", "All"))
 import resource_icon_rc
