@@ -627,7 +627,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -273, 242, 518))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 242, 518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -1584,11 +1584,11 @@ class Ui_MainWindow(object):
 "}")
         self.button_ch2_v2.setText("")
         self.button_ch2_v2.setObjectName("button_ch2_v2")
-        self.button_ch2_v2_2 = QtWidgets.QPushButton(self.frame_43)
-        self.button_ch2_v2_2.setGeometry(QtCore.QRect(80, 180, 50, 50))
-        self.button_ch2_v2_2.setMinimumSize(QtCore.QSize(50, 50))
-        self.button_ch2_v2_2.setMaximumSize(QtCore.QSize(50, 50))
-        self.button_ch2_v2_2.setStyleSheet("QPushButton{\n"
+        self.button_all = QtWidgets.QPushButton(self.frame_43)
+        self.button_all.setGeometry(QtCore.QRect(80, 180, 50, 50))
+        self.button_all.setMinimumSize(QtCore.QSize(50, 50))
+        self.button_all.setMaximumSize(QtCore.QSize(50, 50))
+        self.button_all.setStyleSheet("QPushButton{\n"
 "    image: url(:/images/iconos/all_r.png);\n"
 "    color: rgb(255,255,255);\n"
 "    font:87 12pt \"cooper black\"\n"
@@ -1603,7 +1603,7 @@ class Ui_MainWindow(object):
 "    font:87 12pt \"cooper black\";\n"
 "    color:rgb(0,0,0);\n"
 "}")
-        self.button_ch2_v2_2.setObjectName("button_ch2_v2_2")
+        self.button_all.setObjectName("button_all")
         self.button_ch1_v1 = QtWidgets.QPushButton(self.frame_43)
         self.button_ch1_v1.setGeometry(QtCore.QRect(150, 16, 33, 36))
         self.button_ch1_v1.setMinimumSize(QtCore.QSize(33, 36))
@@ -1660,7 +1660,7 @@ class Ui_MainWindow(object):
         self.button_ch2_n.raise_()
         self.button_ch2_v3.raise_()
         self.button_ch2_v2.raise_()
-        self.button_ch2_v2_2.raise_()
+        self.button_all.raise_()
         self.button_ch1_v1.raise_()
         self.button_ch1_p1.raise_()
         self.button_ch2_p2.raise_()
@@ -1737,5 +1737,5 @@ class Ui_MainWindow(object):
         self.label_12.setText(_translate("MainWindow", "S1"))
         self.label_13.setText(_translate("MainWindow", "S2"))
         self.radioButton_auto_manual.setText(_translate("MainWindow", "auto"))
-        self.button_ch2_v2_2.setText(_translate("MainWindow", "All"))
+        self.button_all.setText(_translate("MainWindow", "All"))
 import resource_icon_rc

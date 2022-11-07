@@ -1320,7 +1320,7 @@ QScrollBar::handle:vertical:pressed{
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-273</y>
+                        <y>0</y>
                         <width>242</width>
                         <height>518</height>
                        </rect>
@@ -3523,7 +3523,7 @@ QPushButton:pressed{
                           <string/>
                          </property>
                         </widget>
-                        <widget class="QPushButton" name="button_ch2_v2_2">
+                        <widget class="QPushButton" name="button_all">
                          <property name="geometry">
                           <rect>
                            <x>80</x>
@@ -3705,7 +3705,7 @@ QPushButton:pressed{
                         <zorder>button_ch2_n</zorder>
                         <zorder>button_ch2_v3</zorder>
                         <zorder>button_ch2_v2</zorder>
-                        <zorder>button_ch2_v2_2</zorder>
+                        <zorder>button_all</zorder>
                         <zorder>button_ch1_v1</zorder>
                         <zorder>button_ch1_p1</zorder>
                         <zorder>button_ch2_p2</zorder>

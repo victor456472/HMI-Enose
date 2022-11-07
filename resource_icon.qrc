@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="images">
+    <file>iconos/LIMPIEZA_PARCIAL.png</file>
+    <file>iconos/all_gray.png</file>
     <file>iconos/P2_Y.png</file>
     <file>iconos/P2_Ypressed.png</file>
     <file>iconos/V2_Y.png</file>

@@ -47,6 +47,11 @@ class Application(QMainWindow):
         #mover ventana
         self.ui.frame_superior.mouseMoveEvent = self.mover_ventana
 
+        #lectura de configuraciones
+
+        self.configParameters = pd.read_csv("configuration/configuration.csv")
+        print(self.configParameters)
+
         #conexion serial
         self.serial=QSerialPort()
         self.ui.boton_actualizar.clicked.connect(self.read_ports)
@@ -73,6 +78,20 @@ class Application(QMainWindow):
         pg.setConfigOption('foreground', '#ffffff')
         self.plt = pg.PlotWidget(title='grafica')
         self.ui.grafica.addWidget(self.plt)
+
+        #panel de control manual
+        self.ch1_on=False
+        self.ch2_on=False
+        self.setCircuitInitialization()
+        self.ui.radioButton_auto_manual.clicked.connect(self.auto_manual_event)
+        self.ui.button_ch1_p1.clicked.connect(self.ch1_event)
+        self.ui.button_ch1_v1.clicked.connect(self.ch1_event)
+        self.ui.button_ch2_v2.clicked.connect(self.ch2_event)
+        self.ui.button_ch2_p2.clicked.connect(self.ch2_event)
+        self.ui.button_ch2_v3.clicked.connect(self.ch2_event)
+        self.ui.button_ch2_n.clicked.connect(self.ch2_event)
+        self.ui.button_all.clicked.connect(self.all_event)
+        #
 
         #dataframes
         self.df = pd.DataFrame({
@@ -159,6 +178,594 @@ class Application(QMainWindow):
         self.ui.comboBox_categoria.setCurrentText('1')
 
         self.read_ports()
+
+    def send_data(self, data):
+        data=data+"\n"
+        print(data)
+        if self.serial.isOpen():
+            self.serial.write(data.encode())
+    
+    def all_event(self):
+        ch1=self.configParameters["ch1"].loc[0]
+        ch2=self.configParameters["ch2"].loc[0]
+        if ch2=="i":
+            self.ch2_on=True
+        elif ch2=="o":
+            self.ch2_on=False
+        if ch1=="i":
+            self.ch1_on=True
+        elif ch1=="o":
+            self.ch1_on=False
+
+        if (self.ch1_on==True & self.ch2_on==True):
+            self.ch1_on=False
+            self.ch2_on=False
+            status, ch1, ch2=self.setCircuitWidgetStatus(ch1="o", ch2="o", save_config=True)
+        else:
+            self.ch1_on=True
+            self.ch2_on=True
+            status, ch1, ch2=self.setCircuitWidgetStatus(ch1="i", ch2="i", save_config=True)
+
+        data=f'n,n,n,n,{ch1},{ch2},n,n,n'
+        self.send_data(data)
+
+    def ch2_event(self):
+        ch2=self.configParameters["ch2"].loc[0]
+        if ch2=="i":
+            self.ch2_on=True
+        elif ch2=="o":
+            self.ch2_on=False
+        
+        if self.ch2_on:
+            status, ch1, ch2=self.setCircuitWidgetStatus(ch2="o", save_config=True)
+        else:
+            status, ch1, ch2=self.setCircuitWidgetStatus(ch2="i", save_config=True)
+        data=f'n,n,n,n,n,{ch2},n,n,n'
+        self.send_data(data)
+
+    def ch1_event(self):
+        ch1=self.configParameters["ch1"].loc[0]
+        if ch1=="i":
+            self.ch1_on=True
+        elif ch1=="o":
+            self.ch1_on=False
+        
+        if self.ch1_on:
+            status, ch1, ch2=self.setCircuitWidgetStatus(ch1="o", save_config=True)
+        else:
+            status, ch1, ch2=self.setCircuitWidgetStatus(ch1="i", save_config=True)
+        
+        data=f'n,n,n,n,{ch1},n,n,n,n'
+        self.send_data(data)
+
+    def auto_manual_event(self):
+        self.setCircuitWidgetStatus(save_config=True)
+        ch1=self.configParameters["ch1"].loc[0]
+        ch2=self.configParameters["ch2"].loc[0]
+        auto=self.configParameters["auto"].loc[0]
+        data=f'{auto},n,n,n,{ch1},{ch2},n,n,n'
+        self.send_data(data)
+
+    def setCircuitInitialization(self):
+        self.autoMode()
+        self.printEnabledAutoButtom(False)
+    
+    def printEnabledAutoButtom(self, enabled=True):
+        if enabled:
+            self.ui.radioButton_auto_manual.setEnabled(enabled)
+            self.ui.radioButton_auto_manual.setStyleSheet(
+                "QRadioButton{"
+                "color: rgb(0, 255, 153);"
+                "font:87 7.5pt 'cooper black';"
+                "}"
+                "QRadioButton::checked{"
+                "color: rgb(255, 196, 0);"
+                "font:87 7.5pt 'cooper black';"
+                "}"
+                "QRadioButton::indicator::unchecked {"
+                "background-color: rgb(0, 255, 153);"
+                "border-radius: 6px;"
+                "}"
+                "QRadioButton::indicator::checked {"
+                "background-color: rgb(255, 196, 0);"
+                "border-radius: 6px;"
+                "}"
+            )
+        else:
+            self.ui.radioButton_auto_manual.setEnabled(enabled)
+            self.ui.radioButton_auto_manual.setStyleSheet(
+                "QRadioButton{"
+                "color: rgb(40, 40, 40);"
+                "font:87 7.5pt 'cooper black';"
+                "}"
+                "QRadioButton::indicator{"
+                "background-color: rgb(40, 40, 40);"
+                "border-radius: 6px;"
+                "}"
+            )
+
+    def setCircuitWidgetStatus(self, status="1", ch1="n", ch2="n", enable=True, save_config=False):
+
+        """permite establecer el estado del widget en funcion del evento click o de la inicializacion con el csv de
+        configuracion
+        
+        parametros:
+        
+        status->(por defecto: "1") si se pasa n leera la columna "auto" del csv y establecera el boton auto/manual\n
+        \t\ten el estado que se encuentre status (automatico si es 1 y manual si es 0), mandando por el puerto serie\n
+        \t\tel comando de configuracion correspondiente al estado actual
+        """
+
+        if enable: #si no se pasa el habilitador como parametro
+
+            self.ui.radioButton_auto_manual.setEnabled(True) #se establece el widget habilitado 
+
+            if status=="n": #si se pasa n como parametro en status
+
+                status=self.configParameters["auto"].loc[0] #se lee "auto" del csv de configuracion
+
+                if str(status)=="1": #si en la config "auto" es 1
+
+                    self.printEnabledAutoButtom()
+                    self.ui.radioButton_auto_manual.setChecked(False)
+
+                elif str(status)=="0": #si en la config "auto" es 0
+
+                    self.printEnabledAutoButtom()
+                    self.ui.radioButton_auto_manual.setChecked(True)
+            
+
+            if self.ui.radioButton_auto_manual.isChecked(): #si no se pasa nada como parametro en status
+                self.ui.radioButton_auto_manual.setText("manual")
+                if (ch1=="n") & (ch2=="n"):
+                    ch1=self.configParameters["ch1"].loc[0]
+                    ch2=self.configParameters["ch2"].loc[0]
+                elif (ch2=="n"):
+                    ch2=self.configParameters["ch2"].loc[0]
+                elif (ch1=="n"):
+                    ch1=self.configParameters["ch1"].loc[0]
+
+                self.autoMode(False, ch1, ch2, enable_butall=True)
+                self.configParameters["ch1"].loc[0]=ch1
+                self.configParameters["ch2"].loc[0]=ch2
+                self.configParameters["auto"].loc[0]=0
+                if save_config:
+                    self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                else:
+                    pass
+
+            else:
+                self.configParameters["auto"].loc[0]=1
+                self.ui.radioButton_auto_manual.setText("auto")
+                self.autoMode()
+                if save_config:
+                    self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                else:
+                    pass
+        else:
+            self.printEnabledAutoButtom(False)
+            self.autoMode(enable=True)
+        
+        return status, ch1, ch2
+    
+    def encender_canal1(self):
+        self.ui.button_ch1_p1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P1_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch1_v1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V1_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_n.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/N_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/N.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/N_ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_p2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P2_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V2_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v3.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V3_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V3_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V3_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_all.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/all_r.png);"
+            "    color: rgb(255,255,255);"
+            "    font:87 12pt 'cooper black'"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/all_y.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"
+            "QPushButton:pressed{"
+            "    image: url(:/images/iconos/all_ypressed.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"     
+        )
+        self.ui.button_all.setText("All")
+        self.ui.imagen_fondo.setStyleSheet(
+            "image:url(:/images/iconos/INYECCION.png);"
+        )
+
+    def encender_canal2(self):
+        self.ui.button_ch1_p1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P1_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch1_v1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V1_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_n.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/N_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/N.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/N_ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_p2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P2_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V2_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v3.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V3_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V3_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V3_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_all.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/all_r.png);"
+            "    color: rgb(255,255,255);"
+            "    font:87 12pt 'cooper black'"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/all_y.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"
+            "QPushButton:pressed{"
+            "    image: url(:/images/iconos/all_ypressed.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"  
+        )
+        self.ui.button_all.setText("All")
+        self.ui.imagen_fondo.setStyleSheet(
+            "image:url(:/images/iconos/LIMPIEZA_PARCIAL.png);"
+        )
+
+    def apagar_todo(self):
+        self.ui.button_ch1_p1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P1_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch1_v1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V1_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_n.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/N_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/N.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/N_ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_p2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P2_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V2_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v3.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V3_R.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V3_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V3_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_all.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/all_r.png);"
+            "    color: rgb(255,255,255);"
+            "    font:87 12pt 'cooper black'"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/all_y.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"
+            "QPushButton:pressed{"
+            "    image: url(:/images/iconos/all_ypressed.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"  
+        )
+        self.ui.button_all.setText("All")
+        self.ui.imagen_fondo.setStyleSheet(
+            "image:url(:/images/iconos/APAGADO.png);"
+        )
+    
+    def encender_todo(self):
+        self.ui.button_ch1_p1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P1_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch1_v1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V1_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V1_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V1_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_n.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/N_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/N.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/N_ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_p2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P2_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/P2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/P2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V2_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V2_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V2_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_ch2_v3.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V3_V.png);"
+            "}"
+            "QPushButton:hover{"
+            "image: url(:/images/iconos/V3_Y.png);"
+            "}"
+            "QPushButton:pressed{"
+            "image: url(:/images/iconos/V3_Ypressed.png);"
+            "}" 
+        )
+        self.ui.button_all.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/all_g.png);"
+            "    color: rgb(0,0,0);"
+            "    font:87 12pt 'cooper black'"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/all_y.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"
+            "QPushButton:pressed{"
+            "    image: url(:/images/iconos/all_ypressed.png);"
+            "    font:87 12pt 'cooper black';"
+            "    color:rgb(0,0,0);"
+            "}"  
+        )
+        self.ui.button_all.setText("All")
+        self.ui.imagen_fondo.setStyleSheet(
+            "image:url(:/images/iconos/TODO_ENCENDIDO.png);"
+        )
+    
+    def automatico(self):
+        self.ui.button_ch1_p1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P1_Y.png);"
+            "}"        
+        )
+        self.ui.button_ch1_v1.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V1_Y.png);"
+            "}"        
+        )
+        self.ui.button_ch2_n.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/N.png);"
+            "}"        
+        )
+        self.ui.button_ch2_p2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/P2_Y.png);"
+            "}"        
+        )
+        self.ui.button_ch2_v2.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V2_Y.png);"
+            "}"        
+        )
+        self.ui.button_ch2_v3.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/V3_Y.png);"
+            "}"
+        )
+        self.ui.button_all.setStyleSheet(
+            "QPushButton{"
+            "image: url(:/images/iconos/all_gray.png);"
+            "font:87 12pt 'cooper black';"
+            "color:rgb(0,0,0);"
+            "}"        
+        )
+        self.ui.button_all.setText("")
+        self.ui.imagen_fondo.setStyleSheet(
+            "image: url(:/images/iconos/APAGADO.png);"
+        )
+
+    def autoMode(self, enable=True, ch1=None, ch2=None, enable_butall=False):
+        self.ui.button_ch1_p1.setEnabled(not enable)
+        self.ui.button_ch1_v1.setEnabled(not enable)
+        self.ui.button_ch2_n.setEnabled(not enable)
+        self.ui.button_ch2_p2.setEnabled(not enable)
+        self.ui.button_ch2_v2.setEnabled(not enable)
+        self.ui.button_ch2_v3.setEnabled(not enable)
+        self.ui.button_all.setEnabled(enable_butall)
+        if enable:
+            self.automatico()
+        else:
+            if (ch1=="i") & (ch2=="o"):
+                self.encender_canal1()
+            elif (ch1=="o") & (ch2=="o"):
+                self.apagar_todo()
+            elif (ch1=="o") & (ch2=="i"):
+                self.encender_canal2()
+            elif (ch1=="i") & (ch2=="i"):
+                self.encender_todo()
 
     def changeIconAdjusted(self):
         self.ui.ambientAdjust.setStyleSheet("QPushButton{"
@@ -351,23 +958,42 @@ class Application(QMainWindow):
     
     def serial_connect(self):
         file_names=os.listdir('dataframe')
-        self.serial.waitForReadyRead(100)
-        self.port = self.ui.comboBox_puerto.currentText()
-        self.baud = self.ui.comboBox_baudrate.currentText()
-        self.serial.setBaudRate(int(self.baud))
-        self.serial.setPortName(self.port)
-        self.serial.open(QIODevice.ReadWrite)
-        self.ui.boton_desconectar.show()
-        self.ui.boton_desconectar.setEnabled(True)
-        self.ui.boton_conectar.setStyleSheet("background-color:rgb(17,17,17);"
-                                             "font:87 12pt 'cooper black';"
-                                             "color:rgb(218,0,55);")
-        self.ui.boton_conectar.setText("CONECTADO")
-        self.ui.boton_conectar.setEnabled(False)
-        if file_names:
-            self.entrenar_red()
+        config_file=os.listdir('configuration')
+        if config_file:
+            self.serial.waitForReadyRead(100)
+            self.port = self.ui.comboBox_puerto.currentText()
+            self.baud = self.ui.comboBox_baudrate.currentText()
+            self.serial.setBaudRate(int(self.baud))
+            self.serial.setPortName(self.port)
+            self.serial.open(QIODevice.ReadWrite)
+            self.ui.boton_desconectar.show()
+            self.ui.boton_desconectar.setEnabled(True)
+            self.ui.boton_conectar.setStyleSheet("background-color:rgb(17,17,17);"
+                                                "font:87 12pt 'cooper black';"
+                                                "color:rgb(218,0,55);")
+            self.ui.boton_conectar.setText("CONECTADO")
+            self.ui.boton_conectar.setEnabled(False)
+            self.setCircuitWidgetStatus(status="n")
+            ch1=self.configParameters["ch1"].loc[0]
+            ch2=self.configParameters["ch2"].loc[0]
+            auto=self.configParameters["auto"].loc[0]
+            t1=self.configParameters["t1"].loc[0]
+            t2=self.configParameters["t2"].loc[0]
+            t3=self.configParameters["t3"].loc[0]
+            tt1=self.configParameters["tt1"].loc[0]
+            tt2=self.configParameters["tt2"].loc[0]
+            tt3=self.configParameters["tt3"].loc[0]
+            data=f'{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}'
+            self.send_data(data)
+            if file_names:
+                self.entrenar_red()
+            else:
+                pass
         else:
             pass
+
+        
+
     
     def entrenar_red(self):
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
@@ -397,6 +1023,7 @@ class Application(QMainWindow):
         self.ui.boton_desconectar.setEnabled(False)
         self.deshabilitarAjusteAmbiental()
         self.door0=True
+        self.setCircuitWidgetStatus(enable=False)
         self.serial.close()
 
     def read_data(self):
