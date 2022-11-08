@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="images">
+    <file>iconos/ajustar_unabled.png</file>
     <file>iconos/LIMPIEZA_PARCIAL.png</file>
     <file>iconos/all_gray.png</file>
     <file>iconos/P2_Y.png</file>

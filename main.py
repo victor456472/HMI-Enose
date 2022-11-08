@@ -91,7 +91,10 @@ class Application(QMainWindow):
         self.ui.button_ch2_v3.clicked.connect(self.ch2_event)
         self.ui.button_ch2_n.clicked.connect(self.ch2_event)
         self.ui.button_all.clicked.connect(self.all_event)
-        #
+        
+        #panel de ajuste de tiempos
+        self.deshabilitar_tmp_config()
+        self.ui.button_t1.clicked.connect(self.config_t1)
 
         #dataframes
         self.df = pd.DataFrame({
@@ -178,6 +181,412 @@ class Application(QMainWindow):
         self.ui.comboBox_categoria.setCurrentText('1')
 
         self.read_ports()
+
+    def deshabilitar_tmp_config(self):
+        self.ui.button_t1.setEnabled(False)
+        self.ui.button_t2.setEnabled(False)
+        self.ui.button_t3.setEnabled(False)
+        self.ui.button_t1.setStyleSheet(
+            "QPushButton{"
+	        "image: url(:/images/iconos/ajustar_unabled.png);"
+            "}"
+        )
+        self.ui.button_t2.setStyleSheet(
+            "QPushButton{"
+	        "image: url(:/images/iconos/ajustar_unabled.png);"
+            "}"
+        )
+        self.ui.button_t3.setStyleSheet(
+            "QPushButton{"
+	        "image: url(:/images/iconos/ajustar_unabled.png);"
+            "}"
+        )
+
+        self.ui.radioButton_inyt1.setEnabled(False)
+        self.ui.radioButton_limpct1.setEnabled(False)
+        self.ui.radioButton_limppt1.setEnabled(False)
+        self.ui.radioButton_volt1.setEnabled(False)
+
+        self.ui.radioButton_inyt2.setEnabled(False)
+        self.ui.radioButton_limpct2.setEnabled(False)
+        self.ui.radioButton_limppt2.setEnabled(False)
+        self.ui.radioButton_volt2.setEnabled(False)
+
+        self.ui.radioButton_inyt3.setEnabled(False)
+        self.ui.radioButton_limpct3.setEnabled(False)
+        self.ui.radioButton_limppt3.setEnabled(False)
+        self.ui.radioButton_volt3.setEnabled(False)
+
+        self.ui.radioButton_inyt1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limpct1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limppt1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_volt1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+
+        self.ui.radioButton_inyt2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limpct2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limppt2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_volt2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+
+        self.ui.radioButton_inyt3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limpct3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limppt3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_volt3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(17, 17, 17);"
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator{"
+            "    background-color: rgb(17,17,17);"
+	        "    border-radius: 6px"
+            "}"
+        )
+
+    def habilitar_tmp_config(self):
+        self.ui.button_t1.setEnabled(True)
+        self.ui.button_t2.setEnabled(True)
+        self.ui.button_t3.setEnabled(True)
+
+        self.ui.button_t1.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/ajustar.png);"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/ajustar_t1hover.png);"
+            "}"
+            "QPushButton:pressed{   "
+            "    image: url(:/images/iconos/ajustar_t1pressed.png);"
+            "}"
+        )
+        self.ui.button_t2.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/ajustar.png);"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/ajustar_t2hover.png);"
+            "}"
+            "QPushButton:pressed{   "
+            "    image: url(:/images/iconos/ajustar_t2pressed.png);"
+            "}"
+        )
+        self.ui.button_t3.setStyleSheet(
+            "QPushButton{"
+            "    image: url(:/images/iconos/ajustar.png);"
+            "}"
+            "QPushButton:hover{"
+            "    image: url(:/images/iconos/ajustar_t3hover.png);"
+            "}"
+            "QPushButton:pressed{   "
+            "    image: url(:/images/iconos/ajustar_t3pressed.png);"
+            "}"
+        )
+
+        self.ui.radioButton_inyt1.setEnabled(True)
+        self.ui.radioButton_limpct1.setEnabled(True)
+        self.ui.radioButton_limppt1.setEnabled(True)
+        self.ui.radioButton_volt1.setEnabled(True)
+
+        self.ui.radioButton_inyt2.setEnabled(True)
+        self.ui.radioButton_limpct2.setEnabled(True)
+        self.ui.radioButton_limppt2.setEnabled(True)
+        self.ui.radioButton_volt2.setEnabled(True)
+
+        self.ui.radioButton_inyt3.setEnabled(True)
+        self.ui.radioButton_limpct3.setEnabled(True)
+        self.ui.radioButton_limppt3.setEnabled(True)
+        self.ui.radioButton_volt3.setEnabled(True)
+
+        self.ui.radioButton_inyt1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 217, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limpct1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 217, 0);"
+            "    border-radius: 6px"
+            "}"
+
+        )
+        self.ui.radioButton_limppt1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 217, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_volt1.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 217, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+
+        self.ui.radioButton_inyt2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limpct2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+
+        )
+        self.ui.radioButton_limppt2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_volt2.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+
+        self.ui.radioButton_inyt3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limpct3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_limppt3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+        self.ui.radioButton_volt3.setStyleSheet(
+            "QRadioButton{"
+            "    color: rgb(255, 255, 255);" 
+            "    font:87 7.5pt 'cooper black'"
+            "}"
+            "QRadioButton::indicator::unchecked {"
+            "    background-color: rgb(255, 255, 255);"
+            "    border-radius: 6px"
+            "}"
+            "QRadioButton::indicator::checked {"
+            "    background-color: rgb(255, 157, 0);"
+            "    border-radius: 6px"
+            "}"
+        )
+
+    def config_t1(self):
+        try:
+            try:
+                t1=int(self.ui.lineEdit_t1.text().strip())
+            except:
+                raise Exception("ingresa un valor numerico")
+            if t1==0:
+                raise Exception("no se permiten tiempos iguales a cero")
+            elif t1<0:
+                raise Exception("no se permiten tiempos negativos")
+            else:
+                self.send_data(f'n,n,n,n,n,n,{t1},n,n')
+        except Exception as err:
+            mensaje=QMessageBox()
+            mensaje.setWindowTitle("Error")
+            mensaje.setIcon(QMessageBox.Warning)
+            mensaje.setText(str(err))
+            mensaje.exec_()
+
+
 
     def send_data(self, data):
         data=data+"\n"
@@ -983,6 +1392,7 @@ class Application(QMainWindow):
             tt1=self.configParameters["tt1"].loc[0]
             tt2=self.configParameters["tt2"].loc[0]
             tt3=self.configParameters["tt3"].loc[0]
+            self.habilitar_tmp_config()
             data=f'{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}'
             self.send_data(data)
             if file_names:
@@ -992,9 +1402,6 @@ class Application(QMainWindow):
         else:
             pass
 
-        
-
-    
     def entrenar_red(self):
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
         Y=dt_frame.categoria
@@ -1024,6 +1431,7 @@ class Application(QMainWindow):
         self.deshabilitarAjusteAmbiental()
         self.door0=True
         self.setCircuitWidgetStatus(enable=False)
+        self.deshabilitar_tmp_config()
         self.serial.close()
 
     def read_data(self):

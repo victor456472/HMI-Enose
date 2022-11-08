@@ -666,7 +666,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QLineEdit" name="lineEdit_tamano">
                         <property name="minimumSize">
                          <size>
-                          <width>144</width>
+                          <width>150</width>
                           <height>30</height>
                          </size>
                         </property>
@@ -793,7 +793,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QComboBox" name="comboBox_categoria">
                         <property name="minimumSize">
                          <size>
-                          <width>96</width>
+                          <width>102</width>
                           <height>0</height>
                          </size>
                         </property>
@@ -1320,8 +1320,8 @@ QScrollBar::handle:vertical:pressed{
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>0</y>
-                        <width>242</width>
+                        <y>-237</y>
+                        <width>241</width>
                         <height>518</height>
                        </rect>
                       </property>
@@ -2370,7 +2370,7 @@ QRadioButton::indicator::checked {
                               </widget>
                              </item>
                              <item>
-                              <widget class="QRadioButton" name="radioButton_13">
+                              <widget class="QRadioButton" name="radioButton_limppt3">
                                <property name="styleSheet">
                                 <string notr="true">QRadioButton{
 	color: rgb(255, 255, 255); 

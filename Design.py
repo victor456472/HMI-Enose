@@ -350,7 +350,7 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem2)
         self.lineEdit_tamano = QtWidgets.QLineEdit(self.frame_11)
-        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(144, 30))
+        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(150, 30))
         self.lineEdit_tamano.setMaximumSize(QtCore.QSize(50, 16777215))
         self.lineEdit_tamano.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
@@ -393,7 +393,7 @@ class Ui_MainWindow(object):
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem4)
         self.comboBox_categoria = QtWidgets.QComboBox(self.frame_12)
-        self.comboBox_categoria.setMinimumSize(QtCore.QSize(96, 0))
+        self.comboBox_categoria.setMinimumSize(QtCore.QSize(102, 0))
         self.comboBox_categoria.setMaximumSize(QtCore.QSize(100, 16777215))
         self.comboBox_categoria.setStyleSheet("QComboBox{\n"
 "    border: 3px solid #111111;\n"
@@ -627,7 +627,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 242, 518))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -237, 241, 518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -1096,8 +1096,8 @@ class Ui_MainWindow(object):
 "}")
         self.radioButton_volt3.setObjectName("radioButton_volt3")
         self.horizontalLayout_25.addWidget(self.radioButton_volt3)
-        self.radioButton_13 = QtWidgets.QRadioButton(self.frame_40)
-        self.radioButton_13.setStyleSheet("QRadioButton{\n"
+        self.radioButton_limppt3 = QtWidgets.QRadioButton(self.frame_40)
+        self.radioButton_limppt3.setStyleSheet("QRadioButton{\n"
 "    color: rgb(255, 255, 255); \n"
 "    font:87 7.5pt \"cooper black\"\n"
 "}\n"
@@ -1109,8 +1109,8 @@ class Ui_MainWindow(object):
 "    background-color: rgb(255, 64, 0);\n"
 "    border-radius: 6px\n"
 "}")
-        self.radioButton_13.setObjectName("radioButton_13")
-        self.horizontalLayout_25.addWidget(self.radioButton_13)
+        self.radioButton_limppt3.setObjectName("radioButton_limppt3")
+        self.horizontalLayout_25.addWidget(self.radioButton_limppt3)
         self.verticalLayout_20.addWidget(self.frame_40)
         self.verticalLayout_19.addWidget(self.frame_33)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -1727,7 +1727,7 @@ class Ui_MainWindow(object):
         self.radioButton_inyt3.setText(_translate("MainWindow", "Iny"))
         self.radioButton_limpct3.setText(_translate("MainWindow", "LimpC"))
         self.radioButton_volt3.setText(_translate("MainWindow", "Vol"))
-        self.radioButton_13.setText(_translate("MainWindow", "LimpP"))
+        self.radioButton_limppt3.setText(_translate("MainWindow", "LimpP"))
         self.label_6.setText(_translate("MainWindow", "Sensor monitor"))
         self.label_7.setText(_translate("MainWindow", "Alcohol"))
         self.label_8.setText(_translate("MainWindow", "CO"))
