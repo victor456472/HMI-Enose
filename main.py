@@ -95,9 +95,25 @@ class Application(QMainWindow):
         
         #panel de ajuste de tiempos
         self.deshabilitar_tmp_config()
-        self.ui.button_t1.clicked.connect(self.config_tt("tt1"))
-        self.ui.button_t2.clicked.connect(self.config_tt("tt2"))
-        self.ui.button_t3.clicked.connect(self.config_tt("tt3"))
+        self.ui.button_t1.clicked.connect(lambda: self.config_tt("tt1"))
+        self.ui.button_t2.clicked.connect(lambda: self.config_tt("tt2"))
+        self.ui.button_t3.clicked.connect(lambda: self.config_tt("tt3"))
+
+        #panel de ajuste de secuencias
+        self.ui.radioButton_inyt1.clicked.connect(lambda: self.config_t("inyt1"))
+        self.ui.radioButton_limpct1.clicked.connect(lambda: self.config_t("limpct1"))
+        self.ui.radioButton_limppt1.clicked.connect(lambda: self.config_t("limppt1"))
+        self.ui.radioButton_volt1.clicked.connect(lambda: self.config_t("volt1"))
+
+        self.ui.radioButton_inyt2.clicked.connect(lambda: self.config_t("inyt2"))
+        self.ui.radioButton_limpct2.clicked.connect(lambda: self.config_t("limpct2"))
+        self.ui.radioButton_limppt2.clicked.connect(lambda: self.config_t("limppt2"))
+        self.ui.radioButton_volt2.clicked.connect(lambda: self.config_t("volt2"))
+
+        self.ui.radioButton_inyt3.clicked.connect(lambda: self.config_t("inyt3"))
+        self.ui.radioButton_limpct3.clicked.connect(lambda: self.config_t("limpct3"))
+        self.ui.radioButton_limppt3.clicked.connect(lambda: self.config_t("limppt3"))
+        self.ui.radioButton_volt3.clicked.connect(lambda: self.config_t("volt3"))
 
         #dataframes
         self.df = pd.DataFrame({
@@ -184,6 +200,111 @@ class Application(QMainWindow):
         self.ui.comboBox_categoria.setCurrentText('1')
 
         self.read_ports()
+
+    def config_t(self, t):
+        if t=="inyt1":
+            secuence="a"
+            self.configParameters["t1"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,{secuence},n,n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="limpct1":
+            secuence="b"
+            self.configParameters["t1"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,{secuence},n,n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="volt1":
+            secuence="c"
+            self.configParameters["t1"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,{secuence},n,n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="limppt1":
+            secuence="d"
+            self.configParameters["t1"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,{secuence},n,n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="inyt2":
+            secuence="a"
+            self.configParameters["t2"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,{secuence},n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="limpct2":
+            secuence="b"
+            self.configParameters["t2"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,{secuence},n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="volt2":
+            secuence="c"
+            self.configParameters["t2"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,{secuence},n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="limppt2":
+            secuence="d"
+            self.configParameters["t2"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,{secuence},n,n,n,n,n,n'
+            self.send_data(data)
+        elif t=="inyt3":
+            secuence="a"
+            self.configParameters["t3"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,n,{secuence},n,n,n,n,n'
+            self.send_data(data)
+        elif t=="limpct3":
+            secuence="b"
+            self.configParameters["t3"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,n,{secuence},n,n,n,n,n'
+            self.send_data(data)
+        elif t=="volt3":
+            secuence="c"
+            self.configParameters["t3"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,n,{secuence},n,n,n,n,n'
+            self.send_data(data)
+        elif t=="limppt3":
+            secuence="d"
+            self.configParameters["t3"]=secuence
+            self.configParameters.to_csv("configuration\configuration.csv", index=False)
+            data=f'n,n,n,{secuence},n,n,n,n,n'
+            self.send_data(data)
+
+    def cargar_secuencia(self, secuence_t1="c", secuence_t2="a", secuence_t3="b"):
+        if secuence_t1=="a":
+            self.ui.radioButton_inyt1.setChecked(True)
+        elif secuence_t1=="b":
+            self.ui.radioButton_limpct1.setChecked(True)
+        elif secuence_t1=="c":
+            self.ui.radioButton_volt1.setChecked(True)
+        elif secuence_t1=="d":
+            self.ui.radioButton_limppt1.setChecked(True)
+
+        if secuence_t2=="a":
+            self.ui.radioButton_inyt2.setChecked(True)
+        elif secuence_t2=="b":
+            self.ui.radioButton_limpct2.setChecked(True)
+        elif secuence_t2=="c":
+            self.ui.radioButton_volt2.setChecked(True)
+        elif secuence_t2=="d":
+            self.ui.radioButton_limppt2.setChecked(True)
+
+        if secuence_t3=="a":
+            self.ui.radioButton_inyt3.setChecked(True)
+        elif secuence_t3=="b":
+            self.ui.radioButton_limpct3.setChecked(True)
+        elif secuence_t3=="c":
+            self.ui.radioButton_volt3.setChecked(True)
+        elif secuence_t3=="d":
+            self.ui.radioButton_limppt3.setChecked(True)
+
+
+
 
     def deshabilitar_tmp_config(self):
         self.ui.button_t1.setEnabled(False)
@@ -523,7 +644,7 @@ class Application(QMainWindow):
             "    border-radius: 6px"
             "}"
             "QRadioButton::indicator::checked {"
-            "    background-color: rgb(255, 157, 0);"
+            "    background-color: rgb(255, 64, 0);"
             "    border-radius: 6px"
             "}"
         )
@@ -537,7 +658,7 @@ class Application(QMainWindow):
             "    border-radius: 6px"
             "}"
             "QRadioButton::indicator::checked {"
-            "    background-color: rgb(255, 157, 0);"
+            "    background-color: rgb(255, 64, 0);"
             "    border-radius: 6px"
             "}"
         )
@@ -551,7 +672,7 @@ class Application(QMainWindow):
             "    border-radius: 6px"
             "}"
             "QRadioButton::indicator::checked {"
-            "    background-color: rgb(255, 157, 0);"
+            "    background-color: rgb(255, 64, 0);"
             "    border-radius: 6px"
             "}"
         )
@@ -608,8 +729,8 @@ class Application(QMainWindow):
 
     def inicializar_config_widget(self,tt1="",tt2="",tt3=""):
         self.ui.lineEdit_t1.setText(tt1)
-        self.ui.lineEdit_t1.setText(tt2)
-        self.ui.lineEdit_t1.setText(tt3)
+        self.ui.lineEdit_t2.setText(tt2)
+        self.ui.lineEdit_t3.setText(tt3)
     
     def borrar_config_linedits(self):
         self.ui.lineEdit_t1.setText("")
@@ -1424,6 +1545,7 @@ class Application(QMainWindow):
             self.habilitar_tmp_config()
             self.inicializar_config_widget(str(tt1), str(tt2), str(tt3))
             data=f"{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}"
+            self.cargar_secuencia(secuence_t1=t1, secuence_t2=t2, secuence_t3=t3)
             time.sleep(0.5)
             self.send_data(data)
             if file_names:
