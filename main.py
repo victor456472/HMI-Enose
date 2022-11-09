@@ -1,4 +1,5 @@
 import sys
+import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 from PyQt5.QtCore import QIODevice, QPoint
@@ -94,7 +95,9 @@ class Application(QMainWindow):
         
         #panel de ajuste de tiempos
         self.deshabilitar_tmp_config()
-        self.ui.button_t1.clicked.connect(self.config_t1)
+        self.ui.button_t1.clicked.connect(self.config_tt("tt1"))
+        self.ui.button_t2.clicked.connect(self.config_tt("tt2"))
+        self.ui.button_t3.clicked.connect(self.config_tt("tt3"))
 
         #dataframes
         self.df = pd.DataFrame({
@@ -567,18 +570,35 @@ class Application(QMainWindow):
             "}"
         )
 
-    def config_t1(self):
+    def config_tt(self, tt_input):
         try:
             try:
-                t1=int(self.ui.lineEdit_t1.text().strip())
+                if tt_input=="tt1":
+                    tt=int(self.ui.lineEdit_t1.text().strip())
+                elif tt_input=="tt2":
+                    tt=int(self.ui.lineEdit_t2.text().strip())
+                elif tt_input=="tt3":
+                    tt=int(self.ui.lineEdit_t3.text().strip())
             except:
                 raise Exception("ingresa un valor numerico")
-            if t1==0:
+
+            if tt==0:
                 raise Exception("no se permiten tiempos iguales a cero")
-            elif t1<0:
+            elif tt<0:
                 raise Exception("no se permiten tiempos negativos")
             else:
-                self.send_data(f'n,n,n,n,n,n,{t1},n,n')
+                if tt_input=="tt1":
+                    self.configParameters["tt1"].loc[0]=tt
+                    self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                    self.send_data(f'n,n,n,n,n,n,{tt},n,n')
+                elif tt_input=="tt2":
+                    self.configParameters["tt2"].loc[0]=tt
+                    self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                    self.send_data(f'n,n,n,n,n,n,n,{tt},n')
+                elif tt_input=="tt3":
+                    self.configParameters["tt3"].loc[0]=tt
+                    self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                    self.send_data(f'n,n,n,n,n,n,n,n,{tt}')
         except Exception as err:
             mensaje=QMessageBox()
             mensaje.setWindowTitle("Error")
@@ -586,12 +606,21 @@ class Application(QMainWindow):
             mensaje.setText(str(err))
             mensaje.exec_()
 
-
+    def inicializar_config_widget(self,tt1="",tt2="",tt3=""):
+        self.ui.lineEdit_t1.setText(tt1)
+        self.ui.lineEdit_t1.setText(tt2)
+        self.ui.lineEdit_t1.setText(tt3)
+    
+    def borrar_config_linedits(self):
+        self.ui.lineEdit_t1.setText("")
+        self.ui.lineEdit_t2.setText("")
+        self.ui.lineEdit_t3.setText("")
 
     def send_data(self, data):
         data=data+"\n"
         print(data)
         if self.serial.isOpen():
+            print("entro")
             self.serial.write(data.encode())
     
     def all_event(self):
@@ -1393,7 +1422,9 @@ class Application(QMainWindow):
             tt2=self.configParameters["tt2"].loc[0]
             tt3=self.configParameters["tt3"].loc[0]
             self.habilitar_tmp_config()
-            data=f'{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}'
+            self.inicializar_config_widget(str(tt1), str(tt2), str(tt3))
+            data=f"{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}"
+            time.sleep(0.5)
             self.send_data(data)
             if file_names:
                 self.entrenar_red()
@@ -1432,6 +1463,7 @@ class Application(QMainWindow):
         self.door0=True
         self.setCircuitWidgetStatus(enable=False)
         self.deshabilitar_tmp_config()
+        self.borrar_config_linedits()
         self.serial.close()
 
     def read_data(self):

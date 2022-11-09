@@ -1320,7 +1320,7 @@ QScrollBar::handle:vertical:pressed{
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-237</y>
+                        <y>0</y>
                         <width>241</width>
                         <height>518</height>
                        </rect>
@@ -1879,7 +1879,7 @@ font:87 9pt &quot;cooper black&quot;</string>
                               </spacer>
                              </item>
                              <item>
-                              <widget class="QLineEdit" name="lineEdit_3">
+                              <widget class="QLineEdit" name="lineEdit_t3">
                                <property name="minimumSize">
                                 <size>
                                  <width>75</width>

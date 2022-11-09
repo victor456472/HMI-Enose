@@ -627,7 +627,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -237, 241, 518))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 241, 518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -821,10 +821,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_22.addWidget(self.label_22)
         spacerItem17 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_22.addItem(spacerItem17)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.frame_37)
-        self.lineEdit_3.setMinimumSize(QtCore.QSize(75, 0))
-        self.lineEdit_3.setMaximumSize(QtCore.QSize(75, 31))
-        self.lineEdit_3.setStyleSheet("QLineEdit{\n"
+        self.lineEdit_t3 = QtWidgets.QLineEdit(self.frame_37)
+        self.lineEdit_t3.setMinimumSize(QtCore.QSize(75, 0))
+        self.lineEdit_t3.setMaximumSize(QtCore.QSize(75, 31))
+        self.lineEdit_t3.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
 "    border: 3px solid #ff4000;\n"
 "    border-radius:5px;\n"
@@ -833,9 +833,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "146,208,80")
-        self.lineEdit_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.horizontalLayout_22.addWidget(self.lineEdit_3)
+        self.lineEdit_t3.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_t3.setObjectName("lineEdit_t3")
+        self.horizontalLayout_22.addWidget(self.lineEdit_t3)
         spacerItem18 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_22.addItem(spacerItem18)
         self.label_23 = QtWidgets.QLabel(self.frame_37)
