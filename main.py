@@ -303,9 +303,6 @@ class Application(QMainWindow):
         elif secuence_t3=="d":
             self.ui.radioButton_limppt3.setChecked(True)
 
-
-
-
     def deshabilitar_tmp_config(self):
         self.ui.button_t1.setEnabled(False)
         self.ui.button_t2.setEnabled(False)
@@ -804,6 +801,7 @@ class Application(QMainWindow):
         auto=self.configParameters["auto"].loc[0]
         data=f'{auto},n,n,n,{ch1},{ch2},n,n,n'
         self.send_data(data)
+        self.borrar_muestra()
 
     def setCircuitInitialization(self):
         self.autoMode()
@@ -1586,7 +1584,31 @@ class Application(QMainWindow):
         self.setCircuitWidgetStatus(enable=False)
         self.deshabilitar_tmp_config()
         self.borrar_config_linedits()
+        self.deshabilitar_labelsTmpHmdt()
+        self.borrar_muestra()
         self.serial.close()
+
+    def habilitar_labelsTmpHmdt(self):
+        self.ui.labelTemperatura.setStyleSheet(
+            "color: rgb(255,255,255);"
+            "font:87 8pt 'cooper black'"
+        )
+        self.ui.labelHumedad.setStyleSheet(
+            "color: rgb(255,255,255);"
+            "font:87 8pt 'cooper black'"
+        )
+
+    def deshabilitar_labelsTmpHmdt(self):
+        self.ui.labelTemperatura.setStyleSheet(
+            "color: rgb(17,17,17);"
+            "font:87 8pt 'cooper black'"
+        )
+        self.ui.labelHumedad.setStyleSheet(
+            "color: rgb(17,17,17);"
+            "font:87 8pt 'cooper black'"
+        )
+        self.ui.labelTemperatura.setText("???")
+        self.ui.labelHumedad.setText("???")
 
     def read_data(self):
         if not self.serial.canReadLine(): return
@@ -1594,6 +1616,7 @@ class Application(QMainWindow):
         x=str(rx, 'utf-8').strip()
         x=x.split(',')
         fin=int(x[10])
+        print(fin)
         #print(f'{x[0]} -- {x[1]} -- {x[2]} -- {x[3]} -- {x[4]} -- {x[5]} -- {x[6]} -- {x[7]} -- {x[8]} -- {x[9]} -- {x[10]}')
         if(fin==0):
             self.y = self.y[1:]
@@ -1638,6 +1661,9 @@ class Application(QMainWindow):
                 self.plt.plot(self.x,self.y4,pen=pg.mkPen('#32a862', width=2))
             if(self.ui.check_metano_s2.isChecked()):
                 self.plt.plot(self.x,self.y9,pen=pg.mkPen('#fc0000', width=2))
+            self.habilitar_labelsTmpHmdt()
+            self.ui.labelTemperatura.setText(x[11]+"°C")
+            self.ui.labelHumedad.setText(x[12]+"%")
             new_row={
                 'ALCOHOL_s1[PPM]':float(x[0])-self.offset,
                 'MONOXIDO DE CARBONO_S1[PPM]':float(x[1]),
@@ -1649,6 +1675,8 @@ class Application(QMainWindow):
                 'DIHIDROGENO_s2[PPM]':float(x[7]),
                 'ACETONA_s2[PPM]':float(x[8]),
                 'METANO_s2[PPM]':float(x[9]),
+                'temperatura':float(x[11]),
+                'humedad':float(x[12]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
             #print(self.df['METANO_s1[PPM]']) #cambiando lectura
@@ -1715,6 +1743,8 @@ class Application(QMainWindow):
             'DIHIDROGENO_s2[PPM]':[],
             'ACETONA_s2[PPM]':[],
             'METANO_s2[PPM]':[],
+            'temperatura':[],
+            'humedad':[],
         })
 
     def calcular_values_dataframe(self, train_invoked=False):
@@ -1773,7 +1803,7 @@ class Application(QMainWindow):
         file_names2=os.listdir('dataframe')
         new_row2={
             'identifier':self.rawdata_counter,
-            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,
+            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,+
             'max_val_alcohol_s1[PPM]':max_alcohol_s1,
             'prom_alcohol_s2[PPM]':promedio_alcohol_s2,
             'max_val_alcohol_s2[PPM]':max_alcohol_s2,
@@ -1913,18 +1943,7 @@ class Application(QMainWindow):
 
     def borrar_muestra(self):
         if self.borrar_generar_datos:
-            self.df = pd.DataFrame({
-                'ALCOHOL_s1[PPM]':[],
-                'MONOXIDO DE CARBONO_S1[PPM]':[],
-                'DIHIDROGENO_s1[PPM]':[],
-                'ACETONA_s1[PPM]':[],
-                'METANO_s1[PPM]':[],
-                'ALCOHOL_s2[PPM]':[],
-                'MONOXIDO DE CARBONO_S2[PPM]':[],
-                'DIHIDROGENO_s2[PPM]':[],
-                'ACETONA_s2[PPM]':[],
-                'METANO_s2[PPM]':[]
-            })
+            self.resetear_rawdata()
             self.deshabilitar_borrar_muestra()
             self.deshabilitar_generar_datos()
             self.deshabilitar_clasificar()
@@ -1933,27 +1952,17 @@ class Application(QMainWindow):
             self.borrar_categoria()
             self.borrar_generar_datos = False
             self.limpiar_grafica()
-            self.door1=True
-            
+            self.deshabilitar_labelsTmpHmdt()
+            self.door1=True 
         else:
-            self.df = pd.DataFrame({
-                'ALCOHOL_s1[PPM]':[],
-                'MONOXIDO DE CARBONO_S1[PPM]':[],
-                'DIHIDROGENO_s1[PPM]':[],
-                'ACETONA_s1[PPM]':[],
-                'METANO_s1[PPM]':[],
-                'ALCOHOL_s2[PPM]':[],
-                'MONOXIDO DE CARBONO_S2[PPM]':[],
-                'DIHIDROGENO_s2[PPM]':[],
-                'ACETONA_s2[PPM]':[],
-                'METANO_s2[PPM]':[]
-            })
+            self.resetear_rawdata()
             self.deshabilitar_borrar_muestra()
             self.deshabilitar_clasificar()
             self.deshabilitar_entrenar()
             self.apagar_titulo_clasificar()
             self.borrar_categoria()
             self.limpiar_grafica()
+            self.deshabilitar_labelsTmpHmdt()
 
     def control_normalizar(self):
         self.showNormal()
@@ -2034,12 +2043,10 @@ class Application(QMainWindow):
         self.showMaximized()
         self.ui.boton_maximizar.hide()
         self.ui.boton_normalizar.show()
-
     #tamaño de la ventana
     def resizeEvent(self, event):
         rect = self.rect()
         self.grip.move(rect.right() - self.gripSize, rect.bottom() - self.gripSize) 
-    
     #mover la ventana
     def mousePressEvent(self, event):
         self.click_position = event.globalPos()
