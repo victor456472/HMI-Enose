@@ -127,6 +127,8 @@ class Application(QMainWindow):
             'DIHIDROGENO_s2[PPM]':[],
             'ACETONA_s2[PPM]':[],
             'METANO_s2[PPM]':[],
+            'temperatura':[],
+            'humedad':[]
         })
         self.df2 =pd.DataFrame({
             'identifier':[],
@@ -693,8 +695,10 @@ class Application(QMainWindow):
             try:
                 if tt_input=="tt1":
                     tt=int(self.ui.lineEdit_t1.text().strip())
+                    self.infLimit=tt
                 elif tt_input=="tt2":
                     tt=int(self.ui.lineEdit_t2.text().strip())
+                    self.supLimit=tt
                 elif tt_input=="tt3":
                     tt=int(self.ui.lineEdit_t3.text().strip())
             except:
@@ -1540,6 +1544,8 @@ class Application(QMainWindow):
             tt1=self.configParameters["tt1"].loc[0]
             tt2=self.configParameters["tt2"].loc[0]
             tt3=self.configParameters["tt3"].loc[0]
+            self.infLimit=tt1
+            self.supLimit=tt2
             self.habilitar_tmp_config()
             self.inicializar_config_widget(str(tt1), str(tt2), str(tt3))
             data=f"{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}"
@@ -1679,6 +1685,7 @@ class Application(QMainWindow):
                 'humedad':float(x[12]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
+            print(self.df)
             #print(self.df['METANO_s1[PPM]']) #cambiando lectura
             self.habilitar_borrar_muestra()
             self.habilitarAjusteAmbiental()
@@ -1725,7 +1732,7 @@ class Application(QMainWindow):
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
-            df_rawdata=self.df.iloc[self.infLimit:self.supLimit,:]
+            df_rawdata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
             df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
             df_rawdata=self.df.iloc[self.infLimit:self.supLimit,:]
@@ -1752,6 +1759,7 @@ class Application(QMainWindow):
         try:
             tamano=float(self.ui.lineEdit_tamano.text().strip())
             self.generar_rawdata()
+            print("paso generar_rawdata")
             self.generar_dataframe(tamano, categoria)
             if train_invoked==False:
                 self.resetear_dataframe()
@@ -1773,7 +1781,7 @@ class Application(QMainWindow):
             mensaje.exec_()
 
     def generar_dataframe(self, size, cat):
-        df_dataframe=self.df.iloc[self.infLimit:self.supLimit,:]
+        df_dataframe=self.df.iloc[self.infLimit:(self.supLimit+self.infLimit),:]
         promedio_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].mean()
         max_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].max()
         promedio_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].mean()
@@ -1801,9 +1809,10 @@ class Application(QMainWindow):
 
         #print(f'{promedio_alcohol_s1} -- {max_alcohol_s1} -- {promedio_alcohol_s2} -- {max_alcohol_s2} -- {promedio_metano_s1} -- {max_metano_s1} -- {promedio_metano_s2} -- {max_metano_s2} -- {razon_max_metano_alcohol_s1} -- {razon_max_metano_alcohol_s2} -- {tamano} -- {categoria}')
         file_names2=os.listdir('dataframe')
+        print(f"{self.rawdata_counter}+{promedio_alcohol_s1}+{max_alcohol_s1}+{promedio_alcohol_s2}+{max_alcohol_s2}+{promedio_metano_s1}+{max_metano_s1}")
         new_row2={
             'identifier':self.rawdata_counter,
-            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,+
+            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,
             'max_val_alcohol_s1[PPM]':max_alcohol_s1,
             'prom_alcohol_s2[PPM]':promedio_alcohol_s2,
             'max_val_alcohol_s2[PPM]':max_alcohol_s2,
@@ -1829,6 +1838,8 @@ class Application(QMainWindow):
             'promElevation_metano_s2[PPM]':promElevation_metano_s2, 
             'razon_max_min_alch':razonMaxMinAlch     
         }
+
+        
         #print(self.df2)
         if file_names2:
             df3=pd.read_csv('dataframe/dataframe.csv')
