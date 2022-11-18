@@ -1792,13 +1792,12 @@ class Application(QMainWindow):
             index_list=[]
             df_puredata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
             df_dx_data=self.df_derivadas.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
-            print("llega")
             df_rawdata=pd.concat([df_puredata,df_dx_data], axis=1)
             df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
             df_puredata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
             df_dx_data=self.df_derivadas.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
-            df_rawdata=pd.merge(df_puredata, df_dx_data)
+            df_rawdata=pd.concat([df_puredata,df_dx_data], axis=1)
             df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
     
     def resetear_rawdata(self):
