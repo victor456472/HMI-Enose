@@ -60,19 +60,22 @@ class Application(QMainWindow):
         self.ui.boton_desconectar.hide()
         self.ui.boton_desconectar.clicked.connect(self.serial_disconnect)
 
+        self.infLimit=30
+        self.supLimit=self.infLimit*2
+
         #lectura de datos
         self.serial.readyRead.connect(self.read_data)
-        self.x = list(np.linspace(0,300,300))
-        self.y = list(np.linspace(0,0,300))
-        self.y1 = list(np.linspace(0,0,300))
-        self.y2 = list(np.linspace(0,0,300))
-        self.y3 = list(np.linspace(0,0,300))
-        self.y4 = list(np.linspace(0,0,300))
-        self.y5 = list(np.linspace(0,0,300))
-        self.y6 = list(np.linspace(0,0,300))
-        self.y7 = list(np.linspace(0,0,300))
-        self.y8 = list(np.linspace(0,0,300))
-        self.y9 = list(np.linspace(0,0,300))
+        self.x = list(np.linspace(0,self.infLimit*2,self.infLimit*2))
+        self.y = list(np.linspace(0,0,self.infLimit*2))
+        self.y1 = list(np.linspace(0,0,self.infLimit*2))
+        self.y2 = list(np.linspace(0,0,self.infLimit*2))
+        self.y3 = list(np.linspace(0,0,self.infLimit*2))
+        self.y4 = list(np.linspace(0,0,self.infLimit*2))
+        self.y5 = list(np.linspace(0,0,self.infLimit*2))
+        self.y6 = list(np.linspace(0,0,self.infLimit*2))
+        self.y7 = list(np.linspace(0,0,self.infLimit*2))
+        self.y8 = list(np.linspace(0,0,self.infLimit*2))
+        self.y9 = list(np.linspace(0,0,self.infLimit*2))
 
         #grafica
         pg.setConfigOption('background', '#2c2c2c')
@@ -163,8 +166,6 @@ class Application(QMainWindow):
                                           activation = 'relu',
                                           solver='adam',
                                           random_state=1)
-        self.infLimit=30
-        self.supLimit=self.infLimit*2
 
         #machine learning buttons and legends
         self.deshabilitar_clasificar()
@@ -712,14 +713,17 @@ class Application(QMainWindow):
                 if tt_input=="tt1":
                     self.configParameters["tt1"].loc[0]=tt
                     self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                    self.limpiar_grafica(self.infLimit,self.supLimit)
                     self.send_data(f'n,n,n,n,n,n,{tt},n,n')
                 elif tt_input=="tt2":
                     self.configParameters["tt2"].loc[0]=tt
                     self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                    self.limpiar_grafica(self.infLimit,self.supLimit)
                     self.send_data(f'n,n,n,n,n,n,n,{tt},n')
                 elif tt_input=="tt3":
                     self.configParameters["tt3"].loc[0]=tt
                     self.configParameters.to_csv("configuration\configuration.csv", index=False)
+                    self.limpiar_grafica(self.infLimit,self.supLimit)
                     self.send_data(f'n,n,n,n,n,n,n,n,{tt}')
         except Exception as err:
             mensaje=QMessageBox()
@@ -1546,6 +1550,7 @@ class Application(QMainWindow):
             tt3=self.configParameters["tt3"].loc[0]
             self.infLimit=tt1
             self.supLimit=tt2
+            self.limpiar_grafica(self.infLimit, self.supLimit)
             self.habilitar_tmp_config()
             self.inicializar_config_widget(str(tt1), str(tt2), str(tt3))
             data=f"{auto},{t1},{t2},{t3},{ch1},{ch2},{tt1},{tt2},{tt3}"
@@ -1764,7 +1769,7 @@ class Application(QMainWindow):
             if train_invoked==False:
                 self.resetear_dataframe()
                 self.resetear_rawdata()
-                self.limpiar_grafica()
+                self.limpiar_grafica(self.infLimit, self.supLimit)
                 self.deshabilitar_generar_datos()
                 self.deshabilitar_borrar_muestra()
                 self.deshabilitar_clasificar()
@@ -1918,18 +1923,18 @@ class Application(QMainWindow):
             'razon_max_min_alch':[]
             }) #listo
 
-    def limpiar_grafica(self):
-        self.x = list(np.linspace(0,300,300))
-        self.y = list(np.linspace(0,0,300))
-        self.y1 = list(np.linspace(0,0,300))
-        self.y2 = list(np.linspace(0,0,300))
-        self.y3 = list(np.linspace(0,0,300))
-        self.y4 = list(np.linspace(0,0,300))
-        self.y5 = list(np.linspace(0,0,300))
-        self.y6 = list(np.linspace(0,0,300))
-        self.y7 = list(np.linspace(0,0,300))
-        self.y8 = list(np.linspace(0,0,300))
-        self.y9 = list(np.linspace(0,0,300))
+    def limpiar_grafica(self, infLimit, supLimit):
+        self.x = list(np.linspace(0,infLimit+supLimit,infLimit+supLimit))
+        self.y = list(np.linspace(0,0,infLimit+supLimit))
+        self.y1 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y2 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y3 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y4 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y5 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y6 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y7 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y8 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y9 = list(np.linspace(0,0,infLimit+supLimit))
         self.plt.clear()
         if(self.ui.check_alcohol_s1.isChecked()):
             self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
@@ -1962,7 +1967,7 @@ class Application(QMainWindow):
             self.apagar_titulo_clasificar()
             self.borrar_categoria()
             self.borrar_generar_datos = False
-            self.limpiar_grafica()
+            self.limpiar_grafica(self.infLimit, self.supLimit)
             self.deshabilitar_labelsTmpHmdt()
             self.door1=True 
         else:
@@ -1972,7 +1977,7 @@ class Application(QMainWindow):
             self.deshabilitar_entrenar()
             self.apagar_titulo_clasificar()
             self.borrar_categoria()
-            self.limpiar_grafica()
+            self.limpiar_grafica(self.infLimit, self.supLimit)
             self.deshabilitar_labelsTmpHmdt()
 
     def control_normalizar(self):
