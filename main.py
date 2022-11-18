@@ -148,7 +148,7 @@ class Application(QMainWindow):
             'tamaño[cm]':[],
             'categoria':[],
             })
-
+        self.df_derivadas = pd.DataFrame()
         #generar y borrar datos
         self.deshabilitar_generar_datos()
         self.deshabilitar_borrar_muestra()
@@ -1621,6 +1621,58 @@ class Application(QMainWindow):
         self.ui.labelTemperatura.setText("???")
         self.ui.labelHumedad.setText("???")
 
+    def derivar_dataframe(self, x):
+        a=[]
+        nombres=list(x.columns.values)
+        df_dx=pd.DataFrame()
+        j=0
+        for name in nombres:
+            size=x[name].shape[0]
+            if size==1:
+                df_dx[f'dx({name})']=pd.DataFrame({
+                    f'dx({name})':[]
+                })
+                if j==0:
+                    df_dx=df_dx.append({
+                        f'dx({name})':float(0)
+                    }, ignore_index=True)
+                else:
+                    df_dx.loc[0,f'dx({name})']=float(0)
+            else:
+                df_dx[f'dx({name})']=pd.DataFrame({
+                    f'dx({name})':[]
+                })
+                dx=((size-1)-0)/(size-1)
+                """es necesario resaltar que en este caso dx es 1
+                porque se envia 1 dato cada segundo. en caso que se envien
+                mas datos por segundo la formula debe cambiar por
+                dx=(x(max)-x(min))/N-1"""
+                if j==0:
+                    for i in range(0,size):
+                        if i==0:
+                            df_dx=df_dx.append({
+                                f'dx({name})':(x[name].loc[i+1]-x[name].loc[i])/dx
+                            }, ignore_index=True)
+                        elif i==(size-1):
+                            df_dx=df_dx.append({
+                                f'dx({name})':(x[name].loc[i]-x[name].loc[i-1])/dx
+                            }, ignore_index=True)
+                        else:
+                            df_dx=df_dx.append({
+                                f'dx({name})':(x[name].loc[i+1]-x[name].loc[i-1])/(2*dx)
+                            }, ignore_index=True)
+                else:
+                    for i in range(0,size):
+                        if i==0:
+                            df_dx.loc[i,f'dx({name})']=(x[name].loc[i+1]-x[name].loc[i])/dx
+                        elif i==(x[name].shape[0]-1):
+                            df_dx.loc[i,f'dx({name})']=(x[name].loc[i]-x[name].loc[i-1])/dx
+                        else:
+                            df_dx.loc[i,f'dx({name})']=(x[name].loc[i+1]-x[name].loc[i-1])/(2*dx)
+            j+=1
+
+        return df_dx
+
     def read_data(self):
         if not self.serial.canReadLine(): return
         rx = self.serial.readLine()
@@ -1690,6 +1742,7 @@ class Application(QMainWindow):
                 'humedad':float(x[12]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
+            self.df_derivadas=self.derivar_dataframe(self.df) #checkpoint
             print(self.df)
             #print(self.df['METANO_s1[PPM]']) #cambiando lectura
             self.habilitar_borrar_muestra()
@@ -1737,10 +1790,15 @@ class Application(QMainWindow):
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
-            df_rawdata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
+            df_puredata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
+            df_dx_data=self.df_derivadas.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
+            print("llega")
+            df_rawdata=pd.concat([df_puredata,df_dx_data], axis=1)
             df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
-            df_rawdata=self.df.iloc[self.infLimit:self.supLimit,:]
+            df_puredata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
+            df_dx_data=self.df_derivadas.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
+            df_rawdata=pd.merge(df_puredata, df_dx_data)
             df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
     
     def resetear_rawdata(self):
@@ -1778,7 +1836,8 @@ class Application(QMainWindow):
                 self.borrar_categoria()
             else:
                 pass
-        except:
+        except Exception as e:
+            print(e)
             mensaje=QMessageBox()
             mensaje.setWindowTitle("Error")
             mensaje.setIcon(QMessageBox.Warning)
