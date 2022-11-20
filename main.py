@@ -1742,9 +1742,8 @@ class Application(QMainWindow):
                 'humedad':float(x[12]),
             }
             self.df=self.df.append(new_row, ignore_index=True)
-            self.df_derivadas=self.derivar_dataframe(self.df) #checkpoint
-            print(self.df)
-            #print(self.df['METANO_s1[PPM]']) #cambiando lectura
+            if not self.ui.radioButton_auto_manual.isChecked():
+                self.df_derivadas=self.derivar_dataframe(self.df) #checkpoint
             self.habilitar_borrar_muestra()
             self.habilitarAjusteAmbiental()
         elif(fin==1):
