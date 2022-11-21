@@ -76,6 +76,8 @@ class Application(QMainWindow):
         self.y7 = list(np.linspace(0,0,self.infLimit*2))
         self.y8 = list(np.linspace(0,0,self.infLimit*2))
         self.y9 = list(np.linspace(0,0,self.infLimit*2))
+        self.y10 = list(np.linspace(0,0,self.infLimit*2))
+        self.y11 = list(np.linspace(0,0,self.infLimit*2))
 
         #grafica
         pg.setConfigOption('background', '#2c2c2c')
@@ -1692,6 +1694,8 @@ class Application(QMainWindow):
             self.y7 = self.y7[1:]
             self.y8 = self.y8[1:]
             self.y9 = self.y9[1:]
+            self.y10 = self.y10[1:]
+            self.y11 = self.y11[1:]
             print(f"offset: {self.offset}")
             self.y.append(float(x[0])-self.offset)
             self.y1.append(float(x[1]))
@@ -1703,6 +1707,8 @@ class Application(QMainWindow):
             self.y7.append(float(x[7]))
             self.y8.append(float(x[8]))
             self.y9.append(float(x[9]))
+            self.y10.append(float(x[11]))
+            self.y11.append(float(x[12]))
             self.plt.clear()
             if(self.ui.check_alcohol_s1.isChecked()):
                 self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
@@ -1727,23 +1733,6 @@ class Application(QMainWindow):
             self.habilitar_labelsTmpHmdt()
             self.ui.labelTemperatura.setText(x[11]+"°C")
             self.ui.labelHumedad.setText(x[12]+"%")
-            new_row={
-                'ALCOHOL_s1[PPM]':float(x[0])-self.offset,
-                'MONOXIDO DE CARBONO_S1[PPM]':float(x[1]),
-                'DIHIDROGENO_s1[PPM]':float(x[2]),
-                'ACETONA_s1[PPM]':float(x[3]),
-                'METANO_s1[PPM]':float(x[4])-self.offset2,
-                'ALCOHOL_s2[PPM]':float(x[5]),
-                'MONOXIDO DE CARBONO_S2[PPM]':float(x[6]),
-                'DIHIDROGENO_s2[PPM]':float(x[7]),
-                'ACETONA_s2[PPM]':float(x[8]),
-                'METANO_s2[PPM]':float(x[9]),
-                'temperatura':float(x[11]),
-                'humedad':float(x[12]),
-            }
-            self.df=self.df.append(new_row, ignore_index=True)
-            if not self.ui.radioButton_auto_manual.isChecked():
-                self.df_derivadas=self.derivar_dataframe(self.df) #checkpoint
             self.habilitar_borrar_muestra()
             self.habilitarAjusteAmbiental()
         elif(fin==1):
@@ -1789,14 +1778,42 @@ class Application(QMainWindow):
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
-            df_puredata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
-            df_dx_data=self.df_derivadas.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
-            df_rawdata=pd.concat([df_puredata,df_dx_data], axis=1)
+            rawdata={
+                'ALCOHOL_s1[PPM]':self.y[self.infLimit:],
+                'MONOXIDO DE CARBONO_S1[PPM]':self.y1[self.infLimit:],
+                'DIHIDROGENO_s1[PPM]':self.y2[self.infLimit:],
+                'ACETONA_s1[PPM]':self.y3[self.infLimit:],
+                'METANO_s1[PPM]':self.y4[self.infLimit:],
+                'ALCOHOL_s2[PPM]':self.y5[self.infLimit:],
+                'MONOXIDO DE CARBONO_S2[PPM]':self.y6[self.infLimit:],
+                'DIHIDROGENO_s2[PPM]':self.y7[self.infLimit:],
+                'ACETONA_s2[PPM]':self.y8[self.infLimit:],
+                'METANO_s2[PPM]':self.y9[self.infLimit:],
+                'temperatura':self.y10[self.infLimit:],
+                'humedad':self.y11[self.infLimit:],
+            }
+            self.df=pd.DataFrame(rawdata)
+            self.df_derivadas=self.derivar_dataframe(self.df)
+            df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
             df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
-            df_puredata=self.df.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
-            df_dx_data=self.df_derivadas.iloc[self.infLimit:(self.infLimit+self.supLimit),:]
-            df_rawdata=pd.concat([df_puredata,df_dx_data], axis=1)
+            rawdata={
+                'ALCOHOL_s1[PPM]':self.y[self.infLimit:],
+                'MONOXIDO DE CARBONO_S1[PPM]':self.y1[self.infLimit:],
+                'DIHIDROGENO_s1[PPM]':self.y2[self.infLimit:],
+                'ACETONA_s1[PPM]':self.y3[self.infLimit:],
+                'METANO_s1[PPM]':self.y4[self.infLimit:],
+                'ALCOHOL_s2[PPM]':self.y5[self.infLimit:],
+                'MONOXIDO DE CARBONO_S2[PPM]':self.y6[self.infLimit:],
+                'DIHIDROGENO_s2[PPM]':self.y7[self.infLimit:],
+                'ACETONA_s2[PPM]':self.y8[self.infLimit:],
+                'METANO_s2[PPM]':self.y9[self.infLimit:],
+                'temperatura':self.y10[self.infLimit:],
+                'humedad':self.y11[self.infLimit:],
+            }
+            self.df=pd.DataFrame(rawdata)
+            self.df_derivadas=self.derivar_dataframe(self.df)
+            df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
             df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
     
     def resetear_rawdata(self):
@@ -1992,6 +2009,8 @@ class Application(QMainWindow):
         self.y7 = list(np.linspace(0,0,infLimit+supLimit))
         self.y8 = list(np.linspace(0,0,infLimit+supLimit))
         self.y9 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y10 = list(np.linspace(0,0,infLimit+supLimit))
+        self.y11 = list(np.linspace(0,0,infLimit+supLimit))
         self.plt.clear()
         if(self.ui.check_alcohol_s1.isChecked()):
             self.plt.plot(self.x,self.y,pen=pg.mkPen('#da0037', width=2))
