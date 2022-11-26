@@ -603,7 +603,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QLineEdit" name="lineEdit_tamano">
                         <property name="minimumSize">
                          <size>
-                          <width>144</width>
+                          <width>150</width>
                           <height>30</height>
                          </size>
                         </property>
@@ -730,7 +730,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QComboBox" name="comboBox_categoria">
                         <property name="minimumSize">
                          <size>
-                          <width>96</width>
+                          <width>102</width>
                           <height>0</height>
                          </size>
                         </property>
@@ -1554,6 +1554,20 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <height>12</height>
                                </size>
                               </property>
+                              <property name="styleSheet">
+                               <string notr="true">
+QCheckBox::indicator:checked
+{
+	background-color:#da0037;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
+                              </property>
                               <property name="text">
                                <string/>
                               </property>
@@ -1572,6 +1586,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <width>19</width>
                                 <height>12</height>
                                </size>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#15dbe6;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
                               </property>
                               <property name="text">
                                <string/>
@@ -1631,6 +1658,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <height>12</height>
                                </size>
                               </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#eb5802;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
+                              </property>
                               <property name="text">
                                <string/>
                               </property>
@@ -1649,6 +1689,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <width>19</width>
                                 <height>12</height>
                                </size>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#dbf705;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
                               </property>
                               <property name="text">
                                <string/>
@@ -1708,6 +1761,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <height>12</height>
                                </size>
                               </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#04ff00;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
+                              </property>
                               <property name="text">
                                <string/>
                               </property>
@@ -1726,6 +1792,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <width>19</width>
                                 <height>12</height>
                                </size>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#8f2afa;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
                               </property>
                               <property name="text">
                                <string/>
@@ -1785,6 +1864,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <height>12</height>
                                </size>
                               </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#fa2aec;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
+                              </property>
                               <property name="text">
                                <string/>
                               </property>
@@ -1803,6 +1895,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <width>19</width>
                                 <height>12</height>
                                </size>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#03016b;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
                               </property>
                               <property name="text">
                                <string/>
@@ -1862,6 +1967,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <height>12</height>
                                </size>
                               </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#32a862;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
+                              </property>
                               <property name="text">
                                <string/>
                               </property>
@@ -1883,6 +2001,19 @@ font:87 12pt &quot;cooper black&quot;</string>
                                 <width>19</width>
                                 <height>12</height>
                                </size>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true">QCheckBox::indicator:checked
+{
+	background-color:#fc0000;
+	border-radius:3px;
+}
+
+QCheckBox::indicator:unchecked
+{
+	background-color:rgb(255,255,255);
+	border-radius:3px;
+}</string>
                               </property>
                               <property name="text">
                                <string/>

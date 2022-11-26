@@ -292,7 +292,7 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(50, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem2)
         self.lineEdit_tamano = QtWidgets.QLineEdit(self.frame_11)
-        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(144, 30))
+        self.lineEdit_tamano.setMinimumSize(QtCore.QSize(150, 30))
         self.lineEdit_tamano.setMaximumSize(QtCore.QSize(144, 16777215))
         self.lineEdit_tamano.setStyleSheet("QLineEdit{\n"
 "    background-color:rgb(17,17,17);\n"
@@ -335,7 +335,7 @@ class Ui_MainWindow(object):
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem4)
         self.comboBox_categoria = QtWidgets.QComboBox(self.frame_12)
-        self.comboBox_categoria.setMinimumSize(QtCore.QSize(96, 0))
+        self.comboBox_categoria.setMinimumSize(QtCore.QSize(102, 0))
         self.comboBox_categoria.setMaximumSize(QtCore.QSize(174, 16777215))
         self.comboBox_categoria.setStyleSheet("QComboBox{\n"
 "    border: 3px solid #111111;\n"
@@ -672,12 +672,35 @@ class Ui_MainWindow(object):
         self.check_alcohol_s1 = QtWidgets.QCheckBox(self.frame_21)
         self.check_alcohol_s1.setMinimumSize(QtCore.QSize(18, 11))
         self.check_alcohol_s1.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_alcohol_s1.setStyleSheet("\n"
+"QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#da0037;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_alcohol_s1.setText("")
         self.check_alcohol_s1.setObjectName("check_alcohol_s1")
         self.horizontalLayout_12.addWidget(self.check_alcohol_s1)
         self.check_alcohol_s2 = QtWidgets.QCheckBox(self.frame_21)
         self.check_alcohol_s2.setMinimumSize(QtCore.QSize(18, 11))
         self.check_alcohol_s2.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_alcohol_s2.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#15dbe6;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_alcohol_s2.setText("")
         self.check_alcohol_s2.setObjectName("check_alcohol_s2")
         self.horizontalLayout_12.addWidget(self.check_alcohol_s2)
@@ -695,12 +718,34 @@ class Ui_MainWindow(object):
         self.check_co_s1 = QtWidgets.QCheckBox(self.frame_22)
         self.check_co_s1.setMinimumSize(QtCore.QSize(18, 11))
         self.check_co_s1.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_co_s1.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#eb5802;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_co_s1.setText("")
         self.check_co_s1.setObjectName("check_co_s1")
         self.horizontalLayout_13.addWidget(self.check_co_s1)
         self.check_co_s2 = QtWidgets.QCheckBox(self.frame_22)
         self.check_co_s2.setMinimumSize(QtCore.QSize(18, 11))
         self.check_co_s2.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_co_s2.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#dbf705;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_co_s2.setText("")
         self.check_co_s2.setObjectName("check_co_s2")
         self.horizontalLayout_13.addWidget(self.check_co_s2)
@@ -718,12 +763,34 @@ class Ui_MainWindow(object):
         self.check_dihidrogeno_s1 = QtWidgets.QCheckBox(self.frame_23)
         self.check_dihidrogeno_s1.setMinimumSize(QtCore.QSize(18, 11))
         self.check_dihidrogeno_s1.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_dihidrogeno_s1.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#04ff00;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_dihidrogeno_s1.setText("")
         self.check_dihidrogeno_s1.setObjectName("check_dihidrogeno_s1")
         self.horizontalLayout_14.addWidget(self.check_dihidrogeno_s1)
         self.check_dihidrogeno_s2 = QtWidgets.QCheckBox(self.frame_23)
         self.check_dihidrogeno_s2.setMinimumSize(QtCore.QSize(18, 11))
         self.check_dihidrogeno_s2.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_dihidrogeno_s2.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#8f2afa;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_dihidrogeno_s2.setText("")
         self.check_dihidrogeno_s2.setObjectName("check_dihidrogeno_s2")
         self.horizontalLayout_14.addWidget(self.check_dihidrogeno_s2)
@@ -741,12 +808,34 @@ class Ui_MainWindow(object):
         self.check_acetona_s1 = QtWidgets.QCheckBox(self.frame_24)
         self.check_acetona_s1.setMinimumSize(QtCore.QSize(18, 11))
         self.check_acetona_s1.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_acetona_s1.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#fa2aec;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_acetona_s1.setText("")
         self.check_acetona_s1.setObjectName("check_acetona_s1")
         self.horizontalLayout_15.addWidget(self.check_acetona_s1)
         self.check_acetona_s2 = QtWidgets.QCheckBox(self.frame_24)
         self.check_acetona_s2.setMinimumSize(QtCore.QSize(18, 11))
         self.check_acetona_s2.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_acetona_s2.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#03016b;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_acetona_s2.setText("")
         self.check_acetona_s2.setObjectName("check_acetona_s2")
         self.horizontalLayout_15.addWidget(self.check_acetona_s2)
@@ -764,6 +853,17 @@ class Ui_MainWindow(object):
         self.check_metano_s1 = QtWidgets.QCheckBox(self.frame_25)
         self.check_metano_s1.setMinimumSize(QtCore.QSize(18, 11))
         self.check_metano_s1.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_metano_s1.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#32a862;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_metano_s1.setText("")
         self.check_metano_s1.setTristate(False)
         self.check_metano_s1.setObjectName("check_metano_s1")
@@ -771,6 +871,17 @@ class Ui_MainWindow(object):
         self.check_metano_s2 = QtWidgets.QCheckBox(self.frame_25)
         self.check_metano_s2.setMinimumSize(QtCore.QSize(18, 11))
         self.check_metano_s2.setMaximumSize(QtCore.QSize(19, 12))
+        self.check_metano_s2.setStyleSheet("QCheckBox::indicator:checked\n"
+"{\n"
+"    background-color:#fc0000;\n"
+"    border-radius:3px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked\n"
+"{\n"
+"    background-color:rgb(255,255,255);\n"
+"    border-radius:3px;\n"
+"}")
         self.check_metano_s2.setText("")
         self.check_metano_s2.setObjectName("check_metano_s2")
         self.horizontalLayout_16.addWidget(self.check_metano_s2)
