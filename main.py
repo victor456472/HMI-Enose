@@ -1932,7 +1932,7 @@ class Application(QMainWindow):
             """si no existe ningun archivo dentro de la carpeta dataframe
             unicamente se genera el archivo csv"""
 
-            df_new_row=self.feature_extraction(self.df_rawdata, cat, frame_index, size)
+            df_new_row=self.feature_extraction(self.df_rawdata, cat, self.rawdata_counter, size)
             df_new_row=df_new_row.set_index('identifier', drop=False)
             self.df2=df_new_row
             self.df2.to_csv('dataframe/dataframe.csv', index=False) #listo
