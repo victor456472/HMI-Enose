@@ -150,6 +150,22 @@ background-color:rgb(44,44,44);
            <number>0</number>
           </property>
           <item>
+           <widget class="QLabel" name="github_icon">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">image:url(:/images/iconos/github.png);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -833,7 +849,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QLineEdit" name="lineEdit_tamano">
                         <property name="minimumSize">
                          <size>
-                          <width>150</width>
+                          <width>144</width>
                           <height>30</height>
                          </size>
                         </property>
@@ -960,7 +976,7 @@ font:87 12pt &quot;cooper black&quot;</string>
                        <widget class="QComboBox" name="comboBox_categoria">
                         <property name="minimumSize">
                          <size>
-                          <width>102</width>
+                          <width>96</width>
                           <height>0</height>
                          </size>
                         </property>
@@ -1584,7 +1600,7 @@ QScrollBar::handle:vertical:pressed{
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>241</width>
+                        <width>242</width>
                         <height>518</height>
                        </rect>
                       </property>
@@ -3964,6 +3980,28 @@ QPushButton:pressed{
                           <string/>
                          </property>
                         </widget>
+                        <widget class="QLabel" name="logo_universidadd">
+                         <property name="geometry">
+                          <rect>
+                           <x>300</x>
+                           <y>170</y>
+                           <width>100</width>
+                           <height>100</height>
+                          </rect>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>100</width>
+                           <height>100</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">image:url(:/images/iconos/uniautonoma.png);</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
                         <zorder>imagen_fondo</zorder>
                         <zorder>button_ch2_n</zorder>
                         <zorder>button_ch2_v3</zorder>
@@ -3972,6 +4010,7 @@ QPushButton:pressed{
                         <zorder>button_ch1_v1</zorder>
                         <zorder>button_ch1_p1</zorder>
                         <zorder>button_ch2_p2</zorder>
+                        <zorder>logo_universidadd</zorder>
                        </widget>
                       </item>
                       <item>
