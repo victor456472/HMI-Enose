@@ -8,9 +8,9 @@ import pyqtgraph as pg
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, accuracy_score
 from Design import Ui_MainWindow
 import os
 
@@ -148,9 +148,9 @@ class Application(QMainWindow):
         self.habilitar_data_save=False
         self.categorias=['1', '2', '3', '4', '5', '6', '7']
         self.borrar_generar_datos = False
-        self.sc=StandardScaler()
-        self.MLP_classifier=MLPClassifier(hidden_layer_sizes=(150,100,50), 
-                                          max_iter=300,
+        self.sc=MinMaxScaler()
+        self.MLP_classifier=MLPClassifier(hidden_layer_sizes=(200,200,200), 
+                                          max_iter=1000,
                                           activation = 'relu',
                                           solver='adam',
                                           random_state=1)
@@ -1551,16 +1551,64 @@ class Application(QMainWindow):
                 pass
         else:
             pass
+    
+    def feature_selection(self, df, action='predict'):
+        x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])']]
+        if action=='predict':
+            return x
+        elif action=='train':
+            y=df[['categoria']]
+            return x,y
+
+    def mapLabelHeaderAccuracy(self, accuracy):
+        if accuracy<50:
+            self.ui.labelAccuracyHeader.setStyleSheet(
+                "color: rgb(255, 64, 0);"
+                "font:87 8pt 'cooper black'"
+            )
+        elif (accuracy>=50) & (accuracy<70):
+            self.ui.labelAccuracyHeader.setStyleSheet(
+                "color: rgb(255, 217, 0);"
+                "font:87 8pt 'cooper black'"
+            )
+        elif (accuracy>=70) & (accuracy<90):
+            self.ui.labelAccuracyHeader.setStyleSheet(
+                "color: rgb(146,208,80);"
+                "font:87 8pt 'cooper black'"
+            )
+        else:
+            self.ui.labelAccuracyHeader.setStyleSheet(
+                "color: rgb(52, 235, 177);"
+                "font:87 8pt 'cooper black'"
+            )
+
+    def setLabelAccuracyOn(self, accuracy):
+        self.ui.labelAccuracy.setStyleSheet(
+            "color: rgb(255,255,255);"
+            "font:87 8pt 'cooper black'"
+            )
+        self.ui.labelAccuracy.setText(f"{round(accuracy, 2)}%")
+        self.mapLabelHeaderAccuracy(accuracy)
+    
+    def setLabelAccuracyOff(self):
+        self.ui.labelAccuracy.setStyleSheet(
+            "color: rgb(17,17,17);"
+            "font:87 8pt 'cooper black'"
+            )
+        self.ui.labelAccuracy.setText("???")
 
     def entrenar_red(self):
         dt_frame=pd.read_csv('dataframe/dataframe.csv')
-        Y=dt_frame.categoria
-        X_raw=dt_frame[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]
+        X_raw, Y=self.feature_selection(dt_frame, 'train')
         X=pd.DataFrame()
-        X[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
-            X_raw[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
+        X[list(X_raw.columns.values)]=self.sc.fit_transform(X_raw[list(X_raw.columns.values)])
+        x_train, x_test, y_train, y_test = train_test_split(X, Y, random_state = 101, test_size = 0.2, stratify=Y)
         print(X.head(5))
-        self.MLP_classifier.fit(X,Y)
+        self.MLP_classifier.fit(x_train, y_train)
+        prediction_rn = self.MLP_classifier.predict(x_test)
+        accuracy_rn=accuracy_score(y_test,prediction_rn)
+        self.setLabelAccuracyOn(accuracy_rn*100)
+        self.MLP_classifier.fit(X, Y)
         print("red entrenada") #listo
 
     def serial_disconnect(self):
