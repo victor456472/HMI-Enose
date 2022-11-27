@@ -137,7 +137,6 @@ class Application(QMainWindow):
         })
         self.df2 =pd.DataFrame()
         self.df_derivadas = pd.DataFrame()
-        self.df_rawdata = pd.DataFrame()
         #generar y borrar datos
         self.deshabilitar_generar_datos()
         self.deshabilitar_borrar_muestra()
@@ -1781,8 +1780,8 @@ class Application(QMainWindow):
             }
             self.df=pd.DataFrame(rawdata)
             self.df_derivadas=self.derivar_dataframe(self.df)
-            self.df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
-            self.df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
+            df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
+            df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
             rawdata={
                 'ALCOHOL_s1[PPM]':self.y[self.infLimit:],
@@ -1800,8 +1799,8 @@ class Application(QMainWindow):
             }
             self.df=pd.DataFrame(rawdata)
             self.df_derivadas=self.derivar_dataframe(self.df)
-            self.df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
-            self.df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
+            df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
+            df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
     
     def resetear_rawdata(self):
         self.df = pd.DataFrame({
@@ -1881,13 +1880,14 @@ class Application(QMainWindow):
                 features.insert(i+1, f"max:{name}", max_value.loc[0,name])
                 features.insert(i+2, f"crvElevation:{name}", crv_elevation.loc[0,name])
                 features.insert(i+3, f"prmElevation:{name}", prm_elevation.loc[0,name])
-                i+=4
+            i+=4
         features.insert(i, "tamaño[cm]", size)
         features.insert(i+1, "prom:temperatura", temp)
         features.insert(i+2, "prom:humedad", hum)
         features.insert(i+3, "categoria", categoria)
         features.insert(0, "identifier", index)
         
+        print(features)
         return features
 
     def generar_dataframe(self, size, cat):
@@ -1905,7 +1905,7 @@ class Application(QMainWindow):
             lista_name=os.listdir('datos_recolectados')
 
             df3=df3.set_index('identifier',drop=False)       
-            df_new_row=self.feature_extraction(self.df_rawdata, cat, frame_index, size)
+            df_new_row=self.feature_extraction(pd.concat([self.df,self.df_derivadas], axis=1), cat, frame_index, size)
             df_new_row=df_new_row.set_index('identifier', drop=False)
             
             if df3.shape[0]+1 == len(lista_name):
@@ -1918,6 +1918,7 @@ class Application(QMainWindow):
                 df_dataframe=df_dataframe.sort_index()
                 df_dataframe.to_csv('dataframe/dataframe.csv', index=False)
                 print(f'frame index: {frame_index}')
+                #print(f"dtaframe:\n{self.df_rawdata['ALCOHOL_S1[PPM]']}")
             else:
 
                 """sino se localiza la fila correspondiente al rawdata borrado y se
