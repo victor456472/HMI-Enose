@@ -1587,7 +1587,7 @@ class Application(QMainWindow):
             "color: rgb(255,255,255);"
             "font:87 8pt 'cooper black'"
             )
-        self.ui.labelAccuracy.setText(f"{accuracy}%")
+        self.ui.labelAccuracy.setText(f"{round(accuracy, 2)}%")
         self.mapLabelHeaderAccuracy(accuracy)
     
     def setLabelAccuracyOff(self):
