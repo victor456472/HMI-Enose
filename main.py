@@ -135,21 +135,7 @@ class Application(QMainWindow):
             'temperatura':[],
             'humedad':[]
         })
-        self.df2 =pd.DataFrame({
-            'identifier':[],
-            'prom_alcohol_s1[PPM]':[],
-            'max_val_alcohol_s1[PPM]':[],
-            'prom_alcohol_s2[PPM]':[],
-            'max_val_alcohol_s2[PPM]':[],
-            'prom_metano_s1[PPM]':[],
-            'max_val_metano_s1[PPM]':[],
-            'prom_metano_s2[PPM]':[],
-            'max_val_metano_s2[PPM]':[],
-            'razon_max_value_metano_alcohol_s1':[],
-            'razon_max_value_metano_alcohol_s2':[],
-            'tamaño[cm]':[],
-            'categoria':[],
-            })
+        self.df2 =pd.DataFrame()
         self.df_derivadas = pd.DataFrame()
         #generar y borrar datos
         self.deshabilitar_generar_datos()
@@ -1859,67 +1845,55 @@ class Application(QMainWindow):
             mensaje.setText("ingresa todos los campos")
             mensaje.exec_()
 
-    def generar_dataframe(self, size, cat):
-        df_dataframe=self.df.iloc[self.infLimit:(self.supLimit+self.infLimit),:]
-        promedio_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].mean()
-        max_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].max()
-        promedio_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].mean()
-        max_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].max()
-        promedio_metano_s1=df_dataframe['METANO_s1[PPM]'].mean()
-        max_metano_s1=df_dataframe['METANO_s1[PPM]'].max()
-        promedio_metano_s2=df_dataframe['METANO_s2[PPM]'].mean()
-        max_metano_s2=df_dataframe['METANO_s2[PPM]'].max()
-        razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
-        razon_max_metano_alcohol_s2=max_metano_s2/max_alcohol_s2
-        frstMeasure_alcohol_s1=df_dataframe['ALCOHOL_s1[PPM]'].iloc[0]
-        frstMeasure_alcohol_s2=df_dataframe['ALCOHOL_s2[PPM]'].iloc[0]
-        frstMeasure_metano_s1=df_dataframe['METANO_s1[PPM]'].iloc[0]
-        frstMeasure_metano_s2=df_dataframe['METANO_s2[PPM]'].iloc[0]
-        crvElevation_alcohol_s1=max_alcohol_s1-frstMeasure_alcohol_s1
-        promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
-        crvElevation_alcohol_s2=max_alcohol_s2-frstMeasure_alcohol_s2
-        promElevation_alcohol_s2=promedio_alcohol_s2-frstMeasure_alcohol_s2
-        crvElevation_metano_s1=max_metano_s1-frstMeasure_metano_s1
-        promElevation_metano_s1=promedio_metano_s1-frstMeasure_metano_s1
-        crvElevation_metano_s2=max_metano_s2-frstMeasure_metano_s2
-        promElevation_metano_s2=promedio_metano_s2-frstMeasure_metano_s2
-        razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
+    def feature_extraction(self,x, categoria, index, size):
+        temp=x[['temperatura']].mean(numeric_only=True).values[0]
+        hum=x[['humedad']].mean(numeric_only=True).values[0]
+        a=x[['ALCOHOL_s1[PPM]','dx(ALCOHOL_s1[PPM])', 'METANO_s1[PPM]', 'dx(METANO_s1[PPM])', 'ALCOHOL_s2[PPM]','dx(ALCOHOL_s2[PPM])', 'MONOXIDO DE CARBONO_S2[PPM]', 'dx(MONOXIDO DE CARBONO_S2[PPM])']] #ojo se esta modificando esta fila
+        columns=list(a.columns.values)
+        statistic_descriptors=a.describe()
+        initial_value=a.head(1)
 
 
-        #print(f'{promedio_alcohol_s1} -- {max_alcohol_s1} -- {promedio_alcohol_s2} -- {max_alcohol_s2} -- {promedio_metano_s1} -- {max_metano_s1} -- {promedio_metano_s2} -- {max_metano_s2} -- {razon_max_metano_alcohol_s1} -- {razon_max_metano_alcohol_s2} -- {tamano} -- {categoria}')
-        file_names2=os.listdir('dataframe')
-        print(f"{self.rawdata_counter}+{promedio_alcohol_s1}+{max_alcohol_s1}+{promedio_alcohol_s2}+{max_alcohol_s2}+{promedio_metano_s1}+{max_metano_s1}")
-        new_row2={
-            'identifier':self.rawdata_counter,
-            'prom_alcohol_s1[PPM]':promedio_alcohol_s1,
-            'max_val_alcohol_s1[PPM]':max_alcohol_s1,
-            'prom_alcohol_s2[PPM]':promedio_alcohol_s2,
-            'max_val_alcohol_s2[PPM]':max_alcohol_s2,
-            'prom_metano_s1[PPM]':promedio_metano_s1,
-            'max_val_metano_s1[PPM]':max_metano_s1,
-            'prom_metano_s2[PPM]':promedio_metano_s2,
-            'max_val_metano_s2[PPM]':max_metano_s2,
-            'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
-            'razon_max_value_metano_alcohol_s2':razon_max_metano_alcohol_s2,
-            'tamaño[cm]':size,
-            'categoria':cat,
-            'frstMeasure_alcohol_s1':frstMeasure_alcohol_s1,
-            'frstMeasure_alcohol_s2':frstMeasure_alcohol_s2,
-            'frstMeasure_metano_s1':frstMeasure_metano_s1,
-            'frstMeasure_metano_s2':frstMeasure_metano_s2,
-            'crvElevation_alcohol_s1[PPM]':crvElevation_alcohol_s1,
-            'promElevation_alcohol_s1[PPM]':promElevation_alcohol_s1,
-            'crvElevation_alcohol_s2[PPM]':crvElevation_alcohol_s2,
-            'promElevation_alcohol_s2[PPM]':promElevation_alcohol_s2,
-            'crvElevation_metano_s1[PPM]':crvElevation_metano_s1,
-            'promElevation_metano_s1[PPM]':promElevation_metano_s1,
-            'crvElevation_metano_s2[PPM]':crvElevation_metano_s2,
-            'promElevation_metano_s2[PPM]':promElevation_metano_s2, 
-            'razon_max_min_alch':razonMaxMinAlch     
-        }
+        max_value=statistic_descriptors.loc[['max']]
+        max_value['index']=0
+        max_value=max_value.set_index('index')
 
+        prom_value=statistic_descriptors.loc[['mean']]
+        prom_value['index']=0
+        prom_value=prom_value.set_index('index')
+
+        crv_elevation=max_value-initial_value
+
+        prm_elevation=prom_value-initial_value
+
+        i=0
+        for name in columns:
+            if i==0:
+                features=pd.DataFrame({
+                    f'mean:{name}':prom_value.loc[0, name],
+                    f'max:{name}':max_value.loc[0,name],
+                    f'crvElevation:{name}':crv_elevation.loc[0,name],
+                    f'prmElevation:{name}':prm_elevation.loc[0,name]
+                    }, index=[0])
+            else:
+                features.insert(i, f"mean:{name}", statistic_descriptors.loc['mean', name])
+                features.insert(i+1, f"max:{name}", max_value.loc[0,name])
+                features.insert(i+2, f"crvElevation:{name}", crv_elevation.loc[0,name])
+                features.insert(i+3, f"prmElevation:{name}", prm_elevation.loc[0,name])
+            i+=4
+        features.insert(i, "tamaño[cm]", size)
+        features.insert(i+1, "prom:temperatura", temp)
+        features.insert(i+2, "prom:humedad", hum)
+        features.insert(i+3, "categoria", categoria)
+        features.insert(0, "identifier", index)
         
-        #print(self.df2)
+        print(features)
+        return features
+
+    def generar_dataframe(self, size, cat):
+        
+        file_names2=os.listdir('dataframe')
+
         if file_names2:
             df3=pd.read_csv('dataframe/dataframe.csv')
             frame_index=0
@@ -1929,73 +1903,43 @@ class Application(QMainWindow):
                 else:
                     pass
             lista_name=os.listdir('datos_recolectados')
+
+            df3=df3.set_index('identifier',drop=False)       
+            df_new_row=self.feature_extraction(pd.concat([self.df,self.df_derivadas], axis=1), cat, frame_index, size)
+            df_new_row=df_new_row.set_index('identifier', drop=False)
+            
             if df3.shape[0]+1 == len(lista_name):
-                print("añadiendo a dataframe")       
-                df3=df3.append(new_row2, ignore_index=True)
-                df3.to_csv('dataframe/dataframe.csv', index=False)
+
+                """si el numero de rawdata es  igual al numero de filas del dataframe
+                se añade una nueva columna"""
+
+                print("añadiendo a dataframe")
+                df_dataframe=pd.concat([df3,df_new_row])
+                df_dataframe=df_dataframe.sort_index()
+                df_dataframe.to_csv('dataframe/dataframe.csv', index=False)
                 print(f'frame index: {frame_index}')
+                #print(f"dtaframe:\n{self.df_rawdata['ALCOHOL_S1[PPM]']}")
             else:
+
+                """sino se localiza la fila correspondiente al rawdata borrado y se
+                sobreescriben los resultados en esa fila"""
+
                 print(f'frame index: {frame_index}')
                 print(f'size: {size}')
-                df3.loc[df3['identifier']==frame_index, 'prom_alcohol_s1[PPM]']=promedio_alcohol_s1
-                df3.loc[df3['identifier']==frame_index, 'max_val_alcohol_s1[PPM]']=max_alcohol_s1
-                df3.loc[df3['identifier']==frame_index, 'prom_alcohol_s2[PPM]']=promedio_alcohol_s2
-                df3.loc[df3['identifier']==frame_index, 'max_val_alcohol_s2[PPM]']=max_alcohol_s2
-                df3.loc[df3['identifier']==frame_index, 'prom_metano_s1[PPM]']=promedio_metano_s1
-                df3.loc[df3['identifier']==frame_index, 'max_val_metano_s1[PPM]']=max_metano_s2
-                df3.loc[df3['identifier']==frame_index, 'prom_metano_s2[PPM]']=promedio_metano_s2
-                df3.loc[df3['identifier']==frame_index, 'max_val_metano_s2[PPM]']=max_metano_s2
-                df3.loc[df3['identifier']==frame_index, 'razon_max_value_metano_alcohol_s1']=razon_max_metano_alcohol_s1
-                df3.loc[df3['identifier']==frame_index, 'razon_max_value_metano_alcohol_s2']=razon_max_metano_alcohol_s2
-                df3.loc[df3['identifier']==frame_index, 'tamaño[cm]']=size
-                df3.loc[df3['identifier']==frame_index, 'categoria']=cat
-                df3.loc[df3['identifier']==frame_index, 'frstMeasure_alcohol_s1']=frstMeasure_alcohol_s1
-                df3.loc[df3['identifier']==frame_index, 'frstMeasure_alcohol_s2']=frstMeasure_alcohol_s2
-                df3.loc[df3['identifier']==frame_index, 'frstMeasure_metano_s1']=frstMeasure_metano_s1
-                df3.loc[df3['identifier']==frame_index, 'frstMeasure_metano_s2']=frstMeasure_metano_s2
-                df3.loc[df3['identifier']==frame_index, 'crvElevation_alcohol_s1[PPM]']=crvElevation_alcohol_s1
-                df3.loc[df3['identifier']==frame_index, 'promElevation_alcohol_s1[PPM]']=promElevation_alcohol_s1
-                df3.loc[df3['identifier']==frame_index, 'crvElevation_alcohol_s2[PPM]']=crvElevation_alcohol_s2
-                df3.loc[df3['identifier']==frame_index, 'promElevation_alcohol_s2[PPM]']=promElevation_alcohol_s2
-                df3.loc[df3['identifier']==frame_index, 'crvElevation_metano_s1[PPM]']=crvElevation_metano_s1
-                df3.loc[df3['identifier']==frame_index, 'promElevation_metano_s1[PPM]']=promElevation_metano_s1
-                df3.loc[df3['identifier']==frame_index, 'crvElevation_metano_s2[PPM]']=crvElevation_metano_s2
-                df3.loc[df3['identifier']==frame_index, 'promElevation_metano_s2[PPM]']=promElevation_metano_s2
-                df3.loc[df3['identifier']==frame_index, 'razon_max_min_alch']=razonMaxMinAlch
+                df3.loc[df3['identifier']==frame_index]=df_new_row
                 df3.to_csv('dataframe/dataframe.csv', index=False)
         else:
-            self.df2=self.df2.append(new_row2, ignore_index=True)
+
+            """si no existe ningun archivo dentro de la carpeta dataframe
+            unicamente se genera el archivo csv"""
+
+            df_new_row=self.feature_extraction(self.df_rawdata, cat, self.rawdata_counter, size)
+            df_new_row=df_new_row.set_index('identifier', drop=False)
+            self.df2=df_new_row
             self.df2.to_csv('dataframe/dataframe.csv', index=False) #listo
     
     def resetear_dataframe(self):
-        self.df2 =pd.DataFrame({
-            'identifier':[],
-            'prom_alcohol_s1[PPM]':[],
-            'max_val_alcohol_s1[PPM]':[],
-            'prom_alcohol_s2[PPM]':[],
-            'max_val_alcohol_s2[PPM]':[],
-            'prom_metano_s1[PPM]':[],
-            'max_val_metano_s1[PPM]':[],
-            'prom_metano_s2[PPM]':[],
-            'max_val_metano_s2[PPM]':[],
-            'razon_max_value_metano_alcohol_s1':[],
-            'razon_max_value_metano_alcohol_s2':[],
-            'tamaño[cm]':[],
-            'categoria':[],
-            'frstMeasure_alcohol_s1':[],
-            'frstMeasure_alcohol_s2':[],
-            'frstMeasure_metano_s1':[],
-            'frstMeasure_metano_s2':[],
-            'crvElevation_alcohol_s1':[],
-            'promElevation_alcohol_s1':[],
-            'crvElevation_alcohol_s2':[],
-            'promElevation_alcohol_s2':[],
-            'crvElevation_metano_s1':[],
-            'promElevation_metano_s1':[],
-            'crvElevation_metano_s2':[],
-            'promElevation_metano_s2':[],
-            'razon_max_min_alch':[]
-            }) #listo
+        self.df2 =pd.DataFrame() #listo
 
     def limpiar_grafica(self, infLimit, supLimit):
         self.x = list(np.linspace(0,infLimit+supLimit,infLimit+supLimit))
