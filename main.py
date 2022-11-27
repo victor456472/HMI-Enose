@@ -1552,8 +1552,12 @@ class Application(QMainWindow):
         else:
             pass
     
-    def feature_selection(self, df, action='predict'):
-        x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])']]
+    def feature_selection(self, df, action='predict', merge_ouput=False):
+        if merge_ouput:
+            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])', 'categoria']]
+        else:
+            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])']]
+        
         if action=='predict':
             return x
         elif action=='train':
@@ -1778,7 +1782,25 @@ class Application(QMainWindow):
             self.habilitar_clasificar()
             self.encender_titulo_clasificar()
             self.borrar_generar_datos = True
-   
+    
+    def cargar_rawdata(self):
+        rawdata={
+            'ALCOHOL_s1[PPM]':self.y[self.infLimit:],
+            'MONOXIDO DE CARBONO_S1[PPM]':self.y1[self.infLimit:],
+            'DIHIDROGENO_s1[PPM]':self.y2[self.infLimit:],
+            'ACETONA_s1[PPM]':self.y3[self.infLimit:],
+            'METANO_s1[PPM]':self.y4[self.infLimit:],
+            'ALCOHOL_s2[PPM]':self.y5[self.infLimit:],
+            'MONOXIDO DE CARBONO_S2[PPM]':self.y6[self.infLimit:],
+            'DIHIDROGENO_s2[PPM]':self.y7[self.infLimit:],
+            'ACETONA_s2[PPM]':self.y8[self.infLimit:],
+            'METANO_s2[PPM]':self.y9[self.infLimit:],
+            'temperatura':self.y10[self.infLimit:],
+            'humedad':self.y11[self.infLimit:],
+        }
+        self.df=pd.DataFrame(rawdata)
+        self.df_derivadas=self.derivar_dataframe(self.df)
+
     def generar_rawdata(self):
         file_names=os.listdir('datos_recolectados')
         if file_names: #si el directorio esta lleno
@@ -1812,41 +1834,11 @@ class Application(QMainWindow):
             self.rawdata_counter=aux_counter
             aux_counter=0
             index_list=[]
-            rawdata={
-                'ALCOHOL_s1[PPM]':self.y[self.infLimit:],
-                'MONOXIDO DE CARBONO_S1[PPM]':self.y1[self.infLimit:],
-                'DIHIDROGENO_s1[PPM]':self.y2[self.infLimit:],
-                'ACETONA_s1[PPM]':self.y3[self.infLimit:],
-                'METANO_s1[PPM]':self.y4[self.infLimit:],
-                'ALCOHOL_s2[PPM]':self.y5[self.infLimit:],
-                'MONOXIDO DE CARBONO_S2[PPM]':self.y6[self.infLimit:],
-                'DIHIDROGENO_s2[PPM]':self.y7[self.infLimit:],
-                'ACETONA_s2[PPM]':self.y8[self.infLimit:],
-                'METANO_s2[PPM]':self.y9[self.infLimit:],
-                'temperatura':self.y10[self.infLimit:],
-                'humedad':self.y11[self.infLimit:],
-            }
-            self.df=pd.DataFrame(rawdata)
-            self.df_derivadas=self.derivar_dataframe(self.df)
+            self.cargar_rawdata()
             df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
             df_rawdata.to_csv(f'datos_recolectados/rawdata{self.rawdata_counter}.csv')     
         else: #si el directorio esta vacio
-            rawdata={
-                'ALCOHOL_s1[PPM]':self.y[self.infLimit:],
-                'MONOXIDO DE CARBONO_S1[PPM]':self.y1[self.infLimit:],
-                'DIHIDROGENO_s1[PPM]':self.y2[self.infLimit:],
-                'ACETONA_s1[PPM]':self.y3[self.infLimit:],
-                'METANO_s1[PPM]':self.y4[self.infLimit:],
-                'ALCOHOL_s2[PPM]':self.y5[self.infLimit:],
-                'MONOXIDO DE CARBONO_S2[PPM]':self.y6[self.infLimit:],
-                'DIHIDROGENO_s2[PPM]':self.y7[self.infLimit:],
-                'ACETONA_s2[PPM]':self.y8[self.infLimit:],
-                'METANO_s2[PPM]':self.y9[self.infLimit:],
-                'temperatura':self.y10[self.infLimit:],
-                'humedad':self.y11[self.infLimit:],
-            }
-            self.df=pd.DataFrame(rawdata)
-            self.df_derivadas=self.derivar_dataframe(self.df)
+            self.cargar_rawdata()
             df_rawdata=pd.concat([self.df,self.df_derivadas], axis=1)
             df_rawdata.to_csv('datos_recolectados/rawdata0.csv')
     
@@ -1893,9 +1885,15 @@ class Application(QMainWindow):
             mensaje.setText("ingresa todos los campos")
             mensaje.exec_()
 
-    def feature_extraction(self,x, categoria, index, size):
-        temp=x[['temperatura']].mean(numeric_only=True).values[0]
-        hum=x[['humedad']].mean(numeric_only=True).values[0]
+    def feature_extraction(self,x, categoria=None, index=None, size=None):
+        if index is not None:
+            if size is not None:
+                temp=x[['temperatura']].mean(numeric_only=True).values[0]
+                hum=x[['humedad']].mean(numeric_only=True).values[0]
+            else:
+                pass
+        else:
+            pass
         a=x[['ALCOHOL_s1[PPM]','dx(ALCOHOL_s1[PPM])', 'METANO_s1[PPM]', 'dx(METANO_s1[PPM])', 'ALCOHOL_s2[PPM]','dx(ALCOHOL_s2[PPM])', 'MONOXIDO DE CARBONO_S2[PPM]', 'dx(MONOXIDO DE CARBONO_S2[PPM])']] #ojo se esta modificando esta fila
         columns=list(a.columns.values)
         statistic_descriptors=a.describe()
@@ -1929,13 +1927,33 @@ class Application(QMainWindow):
                 features.insert(i+2, f"crvElevation:{name}", crv_elevation.loc[0,name])
                 features.insert(i+3, f"prmElevation:{name}", prm_elevation.loc[0,name])
             i+=4
-        features.insert(i, "tamaño[cm]", size)
-        features.insert(i+1, "prom:temperatura", temp)
-        features.insert(i+2, "prom:humedad", hum)
-        features.insert(i+3, "categoria", categoria)
-        features.insert(0, "identifier", index)
+        if categoria is not None:
+            if index is not None:
+                if size is not None:
+                    features.insert(i, "tamaño[cm]", size)
+                    features.insert(i+1, "prom:temperatura", temp)
+                    features.insert(i+2, "prom:humedad", hum)
+                    features.insert(i+3, "categoria", categoria)
+                    features.insert(0, "identifier", index)
+                else:
+                    pass
+            else:
+                pass
+        else:
+            pass
+
+        if categoria is not None:
+            if index is None:
+                if size is None:
+                    features.insert(i, "categoria", categoria)
+                else:
+                    pass
+            else:
+                pass
+        else:
+            pass
         
-        print(features)
+        #print(features)
         return features
 
     def generar_dataframe(self, size, cat):
@@ -1981,7 +1999,7 @@ class Application(QMainWindow):
             """si no existe ningun archivo dentro de la carpeta dataframe
             unicamente se genera el archivo csv"""
 
-            df_new_row=self.feature_extraction(self.df_rawdata, cat, self.rawdata_counter, size)
+            df_new_row=self.feature_extraction(pd.concat([self.df,self.df_derivadas], axis=1), cat, self.rawdata_counter, size)
             df_new_row=df_new_row.set_index('identifier', drop=False)
             self.df2=df_new_row
             self.df2.to_csv('dataframe/dataframe.csv', index=False) #listo
@@ -2059,66 +2077,55 @@ class Application(QMainWindow):
             if self.door1:
                 self.habilitar_entrenar()
                 self.door1=False
-            df_clasificar=self.df.iloc[self.infLimit:self.supLimit,:]
-            #print(df_clasificar.shape)
-            promedio_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].mean()
-            max_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].max()
-            max_metano_s1=df_clasificar['METANO_s1[PPM]'].max()
-            razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
-            frstMeasure_alcohol_s1=df_clasificar['ALCOHOL_s1[PPM]'].iloc[0]
-            promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
-            razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
-            X_test=pd.DataFrame({
-                'razon_max_min_alch':[razonMaxMinAlch],
-                'razon_max_value_metano_alcohol_s1':[razon_max_metano_alcohol_s1],
-                'promElevation_alcohol_s1[PPM]':[promElevation_alcohol_s1]
-            })
-            X_test[['razon_max_min_alch',
-                    'razon_max_value_metano_alcohol_s1',
-                    'promElevation_alcohol_s1[PPM]']]=self.sc.transform(X_test[['razon_max_min_alch',
-                                                                                'razon_max_value_metano_alcohol_s1',
-                                                                                'promElevation_alcohol_s1[PPM]']])
+            self.cargar_rawdata()
+            raw_features = self.feature_extraction(pd.concat([self.df,self.df_derivadas], axis=1))
+            features=self.feature_selection(raw_features)
+            X_test=pd.DataFrame()
+            X_test[list(features.columns.values)]=self.sc.transform(features[list(features.columns.values)])
             print(X_test)
             Y_pred=self.MLP_classifier.predict(X_test)
             self.imprimir_categoria(Y_pred[0])
+            self.habilitar_entrenar() #listo
         else:
             if self.door1:
                 self.habilitar_entrenar()
                 self.door1=False
             self.imprimir_categoria("??")
-            self.habilitar_entrenar() #listo
 
     def entrenar(self):
         file_names=os.listdir('dataframe')
         if file_names:
-            dt_frame=pd.read_csv('dataframe/dataframe.csv')
-            X_raw=dt_frame[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]','categoria']]
-            df_entrenar=self.df.iloc[self.infLimit:self.supLimit,:]
-            promedio_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].mean()
-            max_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].max()
-            max_metano_s1=df_entrenar['METANO_s1[PPM]'].max()
-            razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
-            frstMeasure_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].iloc[0]
-            promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
-            razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
-            categoria=self.ui.comboBox_categoria.currentText()
-            X_last={
-                'razon_max_min_alch':razonMaxMinAlch,
-                'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
-                'promElevation_alcohol_s1[PPM]':promElevation_alcohol_s1,
-                'categoria':int(categoria)
-            }
-            X_raw=X_raw.append(X_last, ignore_index=True)
-            Y=X_raw.categoria
-            X_raw.drop(['categoria'],axis=1)
-            X=pd.DataFrame()
-            X[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
-                X_raw[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
-            print(X.tail(5))
-            self.MLP_classifier.fit(X,Y)
-            self.ui.label_categoria.setText("red entrenada")
-            self.ui.label_categoria.setStyleSheet("color:rgb(218,0,55);"
-                                                "font:87 20pt 'cooper black';")
+            try:
+                dt_frame=pd.read_csv('dataframe/dataframe.csv')
+                dt_frame=self.feature_selection(dt_frame, merge_ouput=True)
+                dt_new_row=self.feature_extraction(pd.concat([self.df,self.df_derivadas], axis=1), categoria=int(self.ui.comboBox_categoria.currentText()))
+                dt_new_row=self.feature_selection(dt_new_row, merge_ouput=True)
+                dt=pd.concat([dt_frame,dt_new_row])
+                Y=dt['categoria']
+                X_raw=dt.drop('categoria', axis=1)
+                X=pd.DataFrame()
+                X[list(X_raw.columns.values)]=self.sc.fit_transform(X_raw[list(X_raw.columns.values)])
+                try:
+                    x_train, x_test, y_train, y_test = train_test_split(X, Y, random_state = 101, test_size = 0.2, stratify=Y)
+                except:
+                    self.sc.fit(dt_frame.drop('categoria', axis = 1))
+                    raise Exception('para enseñar una nueva categoria es importante tener al menos dos observaciones de la misma. genera el dato y luego toma otra observacion')
+                self.MLP_classifier.fit(x_train,y_train)
+                prediction_rn = self.MLP_classifier.predict(x_test)
+                accuracy_rn=accuracy_score(y_test,prediction_rn)
+                self.setLabelAccuracyOn(accuracy_rn*100)
+                print(X.tail(5))
+                self.MLP_classifier.fit(X,Y)
+                self.ui.label_categoria.setText("red entrenada")
+                self.ui.label_categoria.setStyleSheet("color:rgb(218,0,55);"
+                                                    "font:87 20pt 'cooper black';")
+            except Exception as err:
+                #print(err)
+                mensaje=QMessageBox()
+                mensaje.setWindowTitle("Error")
+                mensaje.setIcon(QMessageBox.Warning)
+                mensaje.setText(str(err))
+                mensaje.exec_()
         else:
             self.calcular_values_dataframe(True)
         self.deshabilitar_entrenar() #listo
