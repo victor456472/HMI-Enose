@@ -1552,8 +1552,12 @@ class Application(QMainWindow):
         else:
             pass
     
-    def feature_selection(self, df, action='predict'):
-        x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])']]
+    def feature_selection(self, df, action='predict', merge_ouput=False):
+        if merge_ouput:
+            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])', 'categoria']]
+        else:
+            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])']]
+        
         if action=='predict':
             return x
         elif action=='train':
@@ -1882,13 +1886,10 @@ class Application(QMainWindow):
             mensaje.exec_()
 
     def feature_extraction(self,x, categoria=None, index=None, size=None):
-        if categoria is not None:
-            if index is not None:
-                if size is not None:
-                    temp=x[['temperatura']].mean(numeric_only=True).values[0]
-                    hum=x[['humedad']].mean(numeric_only=True).values[0]
-                else:
-                    pass
+        if index is not None:
+            if size is not None:
+                temp=x[['temperatura']].mean(numeric_only=True).values[0]
+                hum=x[['humedad']].mean(numeric_only=True).values[0]
             else:
                 pass
         else:
@@ -1934,6 +1935,17 @@ class Application(QMainWindow):
                     features.insert(i+2, "prom:humedad", hum)
                     features.insert(i+3, "categoria", categoria)
                     features.insert(0, "identifier", index)
+                else:
+                    pass
+            else:
+                pass
+        else:
+            pass
+
+        if categoria is not None:
+            if index is None:
+                if size is None:
+                    features.insert(i, "categoria", categoria)
                 else:
                     pass
             else:
@@ -2073,44 +2085,47 @@ class Application(QMainWindow):
             print(X_test)
             Y_pred=self.MLP_classifier.predict(X_test)
             self.imprimir_categoria(Y_pred[0])
+            self.habilitar_entrenar() #listo
         else:
             if self.door1:
                 self.habilitar_entrenar()
                 self.door1=False
             self.imprimir_categoria("??")
-            self.habilitar_entrenar() #listo
 
     def entrenar(self):
         file_names=os.listdir('dataframe')
         if file_names:
-            dt_frame=pd.read_csv('dataframe/dataframe.csv')
-            X_raw=dt_frame[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]','categoria']]
-            df_entrenar=self.df.iloc[self.infLimit:self.supLimit,:]
-            promedio_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].mean()
-            max_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].max()
-            max_metano_s1=df_entrenar['METANO_s1[PPM]'].max()
-            razon_max_metano_alcohol_s1=max_metano_s1/max_alcohol_s1
-            frstMeasure_alcohol_s1=df_entrenar['ALCOHOL_s1[PPM]'].iloc[0]
-            promElevation_alcohol_s1=promedio_alcohol_s1-frstMeasure_alcohol_s1
-            razonMaxMinAlch=max_alcohol_s1/frstMeasure_alcohol_s1
-            categoria=self.ui.comboBox_categoria.currentText()
-            X_last={
-                'razon_max_min_alch':razonMaxMinAlch,
-                'razon_max_value_metano_alcohol_s1':razon_max_metano_alcohol_s1,
-                'promElevation_alcohol_s1[PPM]':promElevation_alcohol_s1,
-                'categoria':int(categoria)
-            }
-            X_raw=X_raw.append(X_last, ignore_index=True)
-            Y=X_raw.categoria
-            X_raw.drop(['categoria'],axis=1)
-            X=pd.DataFrame()
-            X[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']]=self.sc.fit_transform(
-                X_raw[['razon_max_min_alch','razon_max_value_metano_alcohol_s1','promElevation_alcohol_s1[PPM]']])
-            print(X.tail(5))
-            self.MLP_classifier.fit(X,Y)
-            self.ui.label_categoria.setText("red entrenada")
-            self.ui.label_categoria.setStyleSheet("color:rgb(218,0,55);"
-                                                "font:87 20pt 'cooper black';")
+            try:
+                dt_frame=pd.read_csv('dataframe/dataframe.csv')
+                dt_frame=self.feature_selection(dt_frame, merge_ouput=True)
+                dt_new_row=self.feature_extraction(pd.concat([self.df,self.df_derivadas], axis=1), categoria=int(self.ui.comboBox_categoria.currentText()))
+                dt_new_row=self.feature_selection(dt_new_row, merge_ouput=True)
+                dt=pd.concat([dt_frame,dt_new_row])
+                Y=dt['categoria']
+                X_raw=dt.drop('categoria', axis=1)
+                X=pd.DataFrame()
+                X[list(X_raw.columns.values)]=self.sc.fit_transform(X_raw[list(X_raw.columns.values)])
+                try:
+                    x_train, x_test, y_train, y_test = train_test_split(X, Y, random_state = 101, test_size = 0.2, stratify=Y)
+                except:
+                    self.sc.fit(dt_frame.drop('categoria', axis = 1))
+                    raise Exception('para enseñar una nueva categoria es importante tener al menos dos observaciones de la misma. genera el dato y luego toma otra observacion')
+                self.MLP_classifier.fit(x_train,y_train)
+                prediction_rn = self.MLP_classifier.predict(x_test)
+                accuracy_rn=accuracy_score(y_test,prediction_rn)
+                self.setLabelAccuracyOn(accuracy_rn*100)
+                print(X.tail(5))
+                self.MLP_classifier.fit(X,Y)
+                self.ui.label_categoria.setText("red entrenada")
+                self.ui.label_categoria.setStyleSheet("color:rgb(218,0,55);"
+                                                    "font:87 20pt 'cooper black';")
+            except Exception as err:
+                #print(err)
+                mensaje=QMessageBox()
+                mensaje.setWindowTitle("Error")
+                mensaje.setIcon(QMessageBox.Warning)
+                mensaje.setText(str(err))
+                mensaje.exec_()
         else:
             self.calcular_values_dataframe(True)
         self.deshabilitar_entrenar() #listo
