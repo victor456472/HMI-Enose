@@ -1497,7 +1497,7 @@ font:87 20pt &quot;cooper black&quot;</string>
 font:87 8pt &quot;cooper black&quot;</string>
                              </property>
                              <property name="text">
-                              <string>precisión:</string>
+                              <string>Exactitud:</string>
                              </property>
                              <property name="alignment">
                               <set>Qt::AlignCenter</set>

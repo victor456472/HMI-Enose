@@ -1554,9 +1554,9 @@ class Application(QMainWindow):
     
     def feature_selection(self, df, action='predict', merge_ouput=False):
         if merge_ouput:
-            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])', 'categoria']]
+            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]','mean:dx(ALCOHOL_s1[PPM])','crvElevation:METANO_s1[PPM]','crvElevation:MONOXIDO DE CARBONO_S2[PPM]','mean:dx(METANO_s1[PPM])', 'categoria']]
         else:
-            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]', 'mean:dx(ALCOHOL_s1[PPM])', 'mean:dx(METANO_s1[PPM])']]
+            x=df[['crvElevation:ALCOHOL_s1[PPM]','prmElevation:ALCOHOL_s1[PPM]','mean:dx(ALCOHOL_s1[PPM])','crvElevation:METANO_s1[PPM]','crvElevation:MONOXIDO DE CARBONO_S2[PPM]','mean:dx(METANO_s1[PPM])']]
         
         if action=='predict':
             return x

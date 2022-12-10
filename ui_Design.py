@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Design.ui'
+# Form implementation generated from reading ui file 'c:\Users\User\Desktop\HMI-Enose\Design.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -122,7 +122,7 @@ class Ui_MainWindow(object):
         self.boton_minimizar.setMinimumSize(QtCore.QSize(38, 38))
         self.boton_minimizar.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("iconos/Imagen3.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\User\\Desktop\\HMI-Enose\\iconos/Imagen3.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.boton_minimizar.setIcon(icon)
         self.boton_minimizar.setIconSize(QtCore.QSize(36, 36))
         self.boton_minimizar.setObjectName("boton_minimizar")
@@ -131,7 +131,7 @@ class Ui_MainWindow(object):
         self.boton_maximizar.setMinimumSize(QtCore.QSize(38, 38))
         self.boton_maximizar.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("iconos/Imagen5.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("c:\\Users\\User\\Desktop\\HMI-Enose\\iconos/Imagen5.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.boton_maximizar.setIcon(icon1)
         self.boton_maximizar.setIconSize(QtCore.QSize(36, 36))
         self.boton_maximizar.setObjectName("boton_maximizar")
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.boton_normalizar.setMinimumSize(QtCore.QSize(38, 38))
         self.boton_normalizar.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("iconos/Imagen2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("c:\\Users\\User\\Desktop\\HMI-Enose\\iconos/Imagen2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.boton_normalizar.setIcon(icon2)
         self.boton_normalizar.setIconSize(QtCore.QSize(36, 36))
         self.boton_normalizar.setObjectName("boton_normalizar")
@@ -149,7 +149,7 @@ class Ui_MainWindow(object):
         self.boton_salir.setMinimumSize(QtCore.QSize(38, 38))
         self.boton_salir.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("iconos/Imagen1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("c:\\Users\\User\\Desktop\\HMI-Enose\\iconos/Imagen1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.boton_salir.setIcon(icon3)
         self.boton_salir.setIconSize(QtCore.QSize(36, 36))
         self.boton_salir.setObjectName("boton_salir")
@@ -319,7 +319,7 @@ class Ui_MainWindow(object):
         self.logo.setSizeIncrement(QtCore.QSize(0, 0))
         self.logo.setBaseSize(QtCore.QSize(0, 0))
         self.logo.setText("")
-        self.logo.setPixmap(QtGui.QPixmap("iconos/Imagen4.png"))
+        self.logo.setPixmap(QtGui.QPixmap("c:\\Users\\User\\Desktop\\HMI-Enose\\iconos/Imagen4.png"))
         self.logo.setScaledContents(True)
         self.logo.setAlignment(QtCore.Qt.AlignCenter)
         self.logo.setObjectName("logo")
